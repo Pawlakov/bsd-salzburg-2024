@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34804.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024", "BSDSalzburg2024\BSDSalzburg2024.csproj", "{8449F635-BA99-40C6-86D7-DB42A04062DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.Data", "BSDSalzburg2024.Data\BSDSalzburg2024.Data.csproj", "{E3E68BB4-726D-45E9-A25F-95FA2FDFA207}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8449F635-BA99-40C6-86D7-DB42A04062DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8449F635-BA99-40C6-86D7-DB42A04062DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8449F635-BA99-40C6-86D7-DB42A04062DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E68BB4-726D-45E9-A25F-95FA2FDFA207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E68BB4-726D-45E9-A25F-95FA2FDFA207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E68BB4-726D-45E9-A25F-95FA2FDFA207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E68BB4-726D-45E9-A25F-95FA2FDFA207}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

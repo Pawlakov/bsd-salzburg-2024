@@ -1,0 +1,37 @@
+﻿@page "/municipalities"
+
+@using Microsoft.EntityFrameworkCore
+
+@inject Data.BsdDatabaseContext context
+
+<PageTitle>Municipalities</PageTitle>
+
+@if (this.entities is not null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entity in this.entities)
+            {
+                <tr>
+                    <td>@entity.GemeindeName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Data.Entities.TblGemeinde> entities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.entities = await this.context.TblGemeindes.ToListAsync();
+
+        await base.OnInitializedAsync();
+    }
+}

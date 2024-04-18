@@ -1,8 +1,8 @@
 ﻿@page "/municipalities"
+@using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
+@using MediatR
 
-@using Microsoft.EntityFrameworkCore
-
-@inject Data.BsdDatabaseContext context
+@inject IMediator mediator
 
 <PageTitle>Municipalities</PageTitle>
 
@@ -26,11 +26,13 @@
 }
 
 @code {
-    private List<Data.Entities.Municipality> entities;
+    private List<MunicipalityListItem> entities;
 
     protected override async Task OnInitializedAsync()
     {
-        this.entities = await this.context.TblGemeindes.ToListAsync();
+        var request = new GetMunicipalityListQuery { PageIndex = 0, PageSize = 10 };
+
+        this.entities = await this.mediator.Send(request);
 
         await base.OnInitializedAsync();
     }

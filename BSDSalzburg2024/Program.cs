@@ -2,6 +2,7 @@
 // Copyright (c) Pawe³ Matusek. All rights reserved.
 // </copyright>
 
+using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 using BSDSalzburg2024.Data.HostBuilders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,10 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
+        builder.Services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssemblyContaining<GetMunicipalityListQuery>();
+        });
 
         builder.Host.AddDbContextLocal();
 

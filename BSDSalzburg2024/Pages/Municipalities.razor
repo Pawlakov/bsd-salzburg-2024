@@ -18,7 +18,7 @@
             @foreach (var entity in this.entities)
             {
                 <tr>
-                    <td>@entity.GemeindeName</td>
+                    <td>@entity.Name</td>
                 </tr>
             }
         </tbody>
@@ -26,7 +26,7 @@
 }
 
 @code {
-    private List<Data.Entities.TblGemeinde> entities;
+    private List<Data.Entities.Municipality> entities;
 
     protected override async Task OnInitializedAsync()
     {

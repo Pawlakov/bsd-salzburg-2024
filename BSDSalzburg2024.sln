@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34804.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024", "BSDSalzburg2024\BSDSalzburg2024.csproj", "{8449F635-BA99-40C6-86D7-DB42A04062DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.WebUI", "BSDSalzburg2024.WebUI\BSDSalzburg2024.WebUI.csproj", "{8449F635-BA99-40C6-86D7-DB42A04062DA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.Data", "BSDSalzburg2024.Data\BSDSalzburg2024.Data.csproj", "{E3E68BB4-726D-45E9-A25F-95FA2FDFA207}"
 EndProject

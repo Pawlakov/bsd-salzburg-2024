@@ -1,6 +1,7 @@
-// <copyright file="Program.cs" company="Pawe≥ Matusek">
-// Copyright (c) Pawe≥ Matusek. All rights reserved.
+Ôªø// <copyright file="Program.cs" company="Pawe≈Ç Matusek">
+// Copyright (c) Pawe≈Ç Matusek. All rights reserved.
 // </copyright>
+namespace BSDSalzburg2024.WebUI;
 
 using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 using BSDSalzburg2024.Data.HostBuilders;

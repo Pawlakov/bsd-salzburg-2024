@@ -7,7 +7,7 @@ namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityList
 using MediatR;
 
 public class GetMunicipalityListQuery 
-    : IRequest<List<MunicipalityListItem>>
+    : IRequest<GetMunicipalityListQueryResult>
 {
     public int PageIndex{ get; init; }
 

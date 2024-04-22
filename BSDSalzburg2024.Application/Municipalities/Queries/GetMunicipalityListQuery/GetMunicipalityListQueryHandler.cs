@@ -4,12 +4,13 @@
 
 namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 
+using BSDSalzburg2024.Application.Enums;
 using BSDSalzburg2024.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 public class GetMunicipalityListQueryHandler
-    : IRequestHandler<GetMunicipalityListQuery, List<MunicipalityListItem>>
+    : IRequestHandler<GetMunicipalityListQuery, GetMunicipalityListQueryResult>
 {
     private readonly BsdDatabaseContext context;
 
@@ -18,15 +19,30 @@ public class GetMunicipalityListQueryHandler
         this.context = context;
     }
 
-    public async Task<List<MunicipalityListItem>> Handle(GetMunicipalityListQuery request, CancellationToken cancellationToken)
+    public async Task<GetMunicipalityListQueryResult> Handle(GetMunicipalityListQuery request, CancellationToken cancellationToken)
     {
-        var entities = await this.context.TblGemeindes
+        var total = await this.context.Municipalities
+            .CountAsync();
+
+        var entities = await this.context.Municipalities
             .Skip(request.PageSize * request.PageIndex)
             .Take(request.PageSize)
             .ToListAsync();
 
-        return entities
-            .Select(x => new MunicipalityListItem(x))
+        var items = entities
+            .Select((entity, index) => new MunicipalityListItem
+            {
+                Index = (request.PageSize * request.PageIndex) + index + 1,
+                Country = Country.GetFromIso(entity.Country),
+                PostalCode = entity.PostalCode,
+                Name = entity.Name,
+            })
             .ToList();
+
+        return new GetMunicipalityListQueryResult
+        {
+            Items = items,
+            ItemsTotal = total,
+        };
     }
 }

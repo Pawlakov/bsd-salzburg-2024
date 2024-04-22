@@ -4,14 +4,15 @@
 
 namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 
-using BSDSalzburg2024.Data.Entities;
+using BSDSalzburg2024.Application.Enums;
 
 public class MunicipalityListItem
 {
-    public MunicipalityListItem(Municipality entity)
-    {
-        this.Name = entity.Name;
-    }
+    public int Index { get; init; }
+
+    public Country Country { get; init; }
+
+    public string PostalCode { get; init; }
 
     public string Name { get; init; }
 }

@@ -1,4 +1,5 @@
 ﻿@page "/municipalities"
+@using BSDSalzburg2024.Shared
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
 @using MediatR
 
@@ -6,34 +7,77 @@
 
 <PageTitle>Municipalities</PageTitle>
 
-@if (this.entities is not null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var entity in this.entities)
-            {
+<section class="section">
+    <h1 class="title">
+        Municipalities
+    </h1>
+</section>
+<section>
+    @if (this.listItems is not null)
+    {
+        <Pagination 
+            PageSize="this.pageSize" 
+            PageIndex="this.pageIndex" 
+            ItemsTotal="this.listItemsTotal"
+            OnPageChange="this.ChangePage">
+        </Pagination>
+        <table class="table is-striped is-hoverable is-fullwidth">
+            <thead>
                 <tr>
-                    <td>@entity.Name</td>
+                    <th></th>
+                    <th>Country</th>
+                    <th>Postal Code</th>
+                    <th>Name</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var item in this.listItems)
+                {
+                    <tr>
+                        <td>@item.Index</td>
+                        <td>@item.Country.FlagEmoji @item.Country.Name</td>
+                        <td>@item.PostalCode</td>
+                        <td>@item.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
 
 @code {
-    private List<MunicipalityListItem> entities;
+    private int pageIndex;
+    private int pageSize;
+
+    private List<MunicipalityListItem> listItems;
+    private int listItemsTotal;
+
+    private async Task LoadList()
+    {
+        var request = new GetMunicipalityListQuery
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+            };
+
+        var result = await this.mediator.Send(request);
+        this.listItems = result.Items.ToList();
+        this.listItemsTotal = result.ItemsTotal;
+    }
+
+    private async Task ChangePage(int pageIndex)
+    {
+        this.pageIndex = pageIndex;
+
+        await this.LoadList();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        var request = new GetMunicipalityListQuery { PageIndex = 0, PageSize = 10 };
+        this.pageIndex = 0;
+        this.pageSize = 10;
 
-        this.entities = await this.mediator.Send(request);
-
+        await this.LoadList();
         await base.OnInitializedAsync();
     }
 }

@@ -17,7 +17,7 @@ public partial class BsdDatabaseContext
 
     public virtual DbSet<TblEhrung> TblEhrungs { get; set; }
 
-    public virtual DbSet<Municipality> TblGemeindes { get; set; }
+    public virtual DbSet<Municipality> Municipalities { get; set; }
 
     public virtual DbSet<TblKrankheit> TblKrankheits { get; set; }
 

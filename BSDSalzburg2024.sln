@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024", "BSDSalzb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.Data", "BSDSalzburg2024.Data\BSDSalzburg2024.Data.csproj", "{E3E68BB4-726D-45E9-A25F-95FA2FDFA207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.Application", "BSDSalzburg2024.Application\BSDSalzburg2024.Application.csproj", "{23AF1F4A-C784-4F63-960B-36009078F8EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.Application", "BSDSalzburg2024.Application\BSDSalzburg2024.Application.csproj", "{23AF1F4A-C784-4F63-960B-36009078F8EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

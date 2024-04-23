@@ -1,16 +1,17 @@
 ﻿@page "/municipalities"
 @namespace BSDSalzburg2024.WebUI.Pages
+@using BSDSalzburg2024.Application.Enums
 @using BSDSalzburg2024.WebUI.Shared
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
-@using MediatR
 
 @inject IMediator mediator
+@inject IStringLocalizer<Municipalities> localizer
 
-<PageTitle>Municipalities</PageTitle>
+<PageTitle>@this.localizer.GetString("Title")</PageTitle>
 
 <section class="section">
     <h1 class="title">
-        Municipalities
+        @this.localizer.GetString("Title")
     </h1>
 </section>
 <section>
@@ -26,9 +27,9 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Country</th>
-                    <th>Postal Code</th>
-                    <th>Name</th>
+                    <th>@this.localizer.GetString("Country")</th>
+                    <th>@this.localizer.GetString("PostalCode")</th>
+                    <th>@this.localizer.GetString("Name")</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,8 +37,8 @@
                 {
                     <tr>
                         <td>@item.Index</td>
-                        <td>@item.Country.FlagEmoji @item.Country.Name</td>
-                        <td>@item.PostalCode</td>
+                        <td><CountryName Model="item.Country"></CountryName></td>
+                        <td>@item.Country.FormatPostalCode(item.PostalCode)</td>
                         <td>@item.Name</td>
                     </tr>
                 }

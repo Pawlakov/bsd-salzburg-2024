@@ -25,6 +25,7 @@ public class GetMunicipalityListQueryHandler
             .CountAsync();
 
         var entities = await this.context.Municipalities
+            .OrderBy(x => x.Name)
             .Skip(request.PageSize * request.PageIndex)
             .Take(request.PageSize)
             .ToListAsync();

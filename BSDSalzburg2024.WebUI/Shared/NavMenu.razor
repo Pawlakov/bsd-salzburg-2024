@@ -1,4 +1,6 @@
-﻿<nav class="navbar" role="navigation" aria-label="main navigation">
+﻿@inject IStringLocalizer<NavMenu> localizer
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a role="button" class="@this.burgerClass" aria-label="menu" aria-expanded="false" @onclick="this.ToggleNavMenu">
             <span aria-hidden="true"></span>
@@ -9,10 +11,10 @@
     <div class="@this.menuClass">
         <div class="navbar-start">
             <a class="navbar-item" href="">
-                Index
+                @this.localizer["Index"]
             </a>
             <a class="navbar-item" href="municipalities">
-                Municipalities
+                @this.localizer["Municipalities"]
             </a>
         </div>
     </div>

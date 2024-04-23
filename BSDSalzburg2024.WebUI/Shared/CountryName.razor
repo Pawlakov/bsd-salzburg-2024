@@ -1,0 +1,10 @@
+﻿@using BSDSalzburg2024.Application.Enums
+
+@inject IStringLocalizer<CountryName> localizer
+
+<span>@this.Model.FlagEmoji @this.localizer.GetString(this.Model.IsoCode)</span>
+
+@code {
+    [Parameter]
+    public Country Model { get; set; }
+}

@@ -3,15 +3,18 @@
 // </copyright>
 namespace BSDSalzburg2024.WebUI;
 
+using System.Globalization;
+using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 using BSDSalzburg2024.Data.HostBuilders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.JSInterop;
 
 public static class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddRazorPages();
@@ -19,6 +22,11 @@ public static class Program
         builder.Services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssemblyContaining<GetMunicipalityListQuery>();
+        });
+
+        builder.Services.AddLocalization(options =>
+        {
+            options.ResourcesPath = "Resources";
         });
 
         builder.Host.AddDbContextLocal();
@@ -36,10 +44,11 @@ public static class Program
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseRequestLocalization("en-US");
 
         app.MapBlazorHub();
         app.MapFallbackToPage("/_Host");
 
-        app.Run();
+        await app.RunAsync();
     }
 }

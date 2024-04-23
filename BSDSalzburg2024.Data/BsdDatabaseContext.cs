@@ -33,7 +33,7 @@ public partial class BsdDatabaseContext
 
     public virtual DbSet<TblMitarbeiterSpendeaktion> TblMitarbeiterSpendeaktions { get; set; }
 
-    public virtual DbSet<TblOrt> TblOrts { get; set; }
+    public virtual DbSet<Location> TblOrts { get; set; }
 
     public virtual DbSet<TblParameter> TblParameters { get; set; }
 
@@ -60,7 +60,7 @@ public partial class BsdDatabaseContext
         modelBuilder.Entity<TblLogPgmDetail>(TblLogPgmDetail.EntityBuildAction);
         modelBuilder.Entity<TblMitarbeiter>(TblMitarbeiter.EntityBuildAction);
         modelBuilder.Entity<TblMitarbeiterSpendeaktion>(TblMitarbeiterSpendeaktion.EntityBuildAction);
-        modelBuilder.Entity<TblOrt>(TblOrt.EntityBuildAction);
+        modelBuilder.Entity<Location>(Location.EntityBuildAction);
         modelBuilder.Entity<TblParameter>(TblParameter.EntityBuildAction);
         modelBuilder.Entity<TblPostleitzahl>(TblPostleitzahl.EntityBuildAction);
         modelBuilder.Entity<TblSpende>(TblSpende.EntityBuildAction);

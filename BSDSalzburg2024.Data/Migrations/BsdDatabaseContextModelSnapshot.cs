@@ -22,6 +22,57 @@ namespace BSDSalzburg2024.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BSDSalzburg2024.Data.Entities.Location", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(8)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(8)")
+                        .HasColumnName("OrtID");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(3)")
+                        .HasColumnName("OrtLand");
+
+                    b.Property<bool>("Hidden")
+                        .HasColumnType("bit")
+                        .HasColumnName("Unsichtbar");
+
+                    b.Property<int?>("MunicipalityId")
+                        .HasColumnType("int")
+                        .HasColumnName("GemeindeID");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("OrtName");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)")
+                        .HasColumnName("OrtPlz");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("OrtStrasse");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.HasFillFactor(b.HasKey("Id"), 90);
+
+                    b.ToTable("tblOrt", (string)null);
+                });
+
             modelBuilder.Entity("BSDSalzburg2024.Data.Entities.Municipality", b =>
                 {
                     b.Property<int>("Id")
@@ -31,19 +82,22 @@ namespace BSDSalzburg2024.Data.Migrations
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(3)")
                         .HasColumnName("GemeindeLand");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
                         .HasColumnName("GemeindeName");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)")
                         .HasColumnName("GemeindePLZ");
 
                     b.HasKey("Id");
@@ -454,52 +508,6 @@ namespace BSDSalzburg2024.Data.Migrations
                     SqlServerKeyBuilderExtensions.HasFillFactor(b.HasKey("SpendeaktionId", "MitarbeiterId"), 90);
 
                     b.ToTable("tblMitarbeiterSpendeaktion", (string)null);
-                });
-
-            modelBuilder.Entity("BSDSalzburg2024.Data.Entities.TblOrt", b =>
-                {
-                    b.Property<string>("OrtId")
-                        .HasMaxLength(8)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(8)")
-                        .HasColumnName("OrtID");
-
-                    b.Property<int?>("GemeindeId")
-                        .HasColumnType("int")
-                        .HasColumnName("GemeindeID");
-
-                    b.Property<string>("OrtLand")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(3)");
-
-                    b.Property<string>("OrtName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("OrtPlz")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
-
-                    b.Property<string>("OrtStrasse")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<bool>("Unsichtbar")
-                        .HasColumnType("bit");
-
-                    b.HasKey("OrtId");
-
-                    SqlServerKeyBuilderExtensions.HasFillFactor(b.HasKey("OrtId"), 90);
-
-                    b.ToTable("tblOrt", (string)null);
                 });
 
             modelBuilder.Entity("BSDSalzburg2024.Data.Entities.TblParameter", b =>

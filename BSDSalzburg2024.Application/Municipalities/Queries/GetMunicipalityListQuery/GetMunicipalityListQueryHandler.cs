@@ -4,6 +4,9 @@
 
 namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Enums;
 using BSDSalzburg2024.Data;
 using MediatR;
@@ -33,6 +36,7 @@ public class GetMunicipalityListQueryHandler
         var items = entities
             .Select((entity, index) => new MunicipalityListItem
             {
+                Id = entity.Id,
                 Index = (request.PageSize * request.PageIndex) + index + 1,
                 Country = Country.GetFromIso(entity.Country),
                 PostalCode = entity.PostalCode,

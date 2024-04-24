@@ -4,6 +4,7 @@
 
 namespace BSDSalzburg2024.Application.Enums;
 
+using System;
 using System.Linq;
 
 /// <summary>
@@ -30,6 +31,27 @@ public class Country
 
     public string FlagEmoji { get; init; }
 
+    /// <summary>
+    /// Reurns a <cref>Country</cref> corresponding to a ISO 3166 code.
+    /// </summary>
+    /// <param name="isoCode">3-character ISO 3166 country code. Case insensitive.</param>
+    /// <returns>A <cref>Country</cref> corresponding to the given ISO 3166 code. Null if no <cref>Country</cref> found.</returns>
+    public static Country GetFromIso(string isoCode)
+    {
+        if (isoCode is null)
+        {
+            return null;
+        }
+
+        return isoCode.ToUpper() switch
+        {
+            "AUT" => Austria,
+            "DEU" => Germany,
+            "POL" => Poland,
+            _ => null,
+        };
+    }
+
     public string FormatPostalCode(string rawCode)
     {
         var characterIndex = 4;
@@ -48,20 +70,5 @@ public class Country
         }
 
         return new string(charString.ToArray());
-    }
-
-    public static Country GetFromIso(string isoCode)
-    {
-        switch (isoCode.ToUpper())
-        {
-            case "AUT":
-                return Austria;
-            case "DEU":
-                return Germany;
-            case "POL":
-                return Poland;
-            default:
-                throw new Exception("Unknown country");
-        }
     }
 }

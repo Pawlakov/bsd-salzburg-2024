@@ -9,7 +9,7 @@ using MediatR;
 public class GetMunicipalityListQuery 
     : IRequest<GetMunicipalityListQueryResult>
 {
-    public int PageIndex{ get; init; }
+    public int PageIndex{ get; set; }
 
-    public int PageSize { get; init; }
+    public int PageSize { get; set; }
 }

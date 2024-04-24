@@ -8,6 +8,8 @@ using BSDSalzburg2024.Application.Enums;
 
 public class MunicipalityListItem
 {
+    public int Id { get; init; }
+
     public int Index { get; init; }
 
     public Country Country { get; init; }

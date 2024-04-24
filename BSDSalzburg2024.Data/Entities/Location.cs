@@ -13,13 +13,13 @@ public partial class Location
 
     public int? MunicipalityId { get; set; }
 
-    public string Country { get; set; }
+    public string? Country { get; set; }
 
-    public string PostalCode { get; set; }
+    public string? PostalCode { get; set; }
 
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    public string Street { get; set; }
+    public string? Street { get; set; }
 
     public bool Hidden { get; set; }
 

@@ -1,8 +1,12 @@
 ﻿@page "/municipalities"
 @namespace BSDSalzburg2024.WebUI.Pages
 @using BSDSalzburg2024.Application.Enums
-@using BSDSalzburg2024.WebUI.Shared
+@using BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand
+@using BSDSalzburg2024.Application.Municipalities.Commands.DeleteMunicipalityCommand
+@using BSDSalzburg2024.Application.Municipalities.Commands.UpdateMunicipalityCommand
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
+@using BSDSalzburg2024.WebUI.Shared
+@using Microsoft.AspNetCore.Components.Forms
 
 @inject IMediator mediator
 @inject IStringLocalizer<Municipalities> localizer
@@ -17,12 +21,14 @@
 <section>
     @if (this.listItems is not null)
     {
-        <Pagination 
-            PageSize="this.pageSize" 
-            PageIndex="this.pageIndex" 
-            ItemsTotal="this.listItemsTotal"
-            OnPageChange="this.ChangePage">
-        </Pagination>
+        <div class="buttons">
+            <button class="button" @onclick="() => this.CreateStart()">
+                <span class="icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>@this.localizer["AddMunicipality"]</span>
+            </button>
+        </div>
         <table class="table is-striped is-hoverable is-fullwidth">
             <thead>
                 <tr>
@@ -30,6 +36,7 @@
                     <th>@this.localizer.GetString("Country")</th>
                     <th>@this.localizer.GetString("PostalCode")</th>
                     <th>@this.localizer.GetString("Name")</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -37,17 +44,134 @@
                 {
                     <tr>
                         <td>@item.Index</td>
-                        <td><CountryName Model="item.Country"></CountryName></td>
-                        <td>@item.Country.FormatPostalCode(item.PostalCode)</td>
+                        <td>
+                            @if (item.Country is not null)
+                            {
+                                <CountryName Model="item.Country"></CountryName>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Country is not null)
+                            {
+                                <span>@item.Country.FormatPostalCode(item.PostalCode)</span>
+                            }
+                            else
+                            {
+                                <span>@item.PostalCode</span>
+                            }
+                        </td>
                         <td>@item.Name</td>
+                        <td>
+                            <div class="buttons has-addons">
+                                <button class="button is-small" aria-label="@this.localizer["EditMunicipality"]" @onclick="() => this.UpdateStart(item.Id)">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                </button>
+                                <button class="button is-small" aria-label="@this.localizer["DeleteMunicipality"]" @onclick="() => this.DeleteStart(item.Id)">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
+        <Pagination PageSize="this.pageSize"
+                    PageIndex="this.pageIndex"
+                    ItemsTotal="this.listItemsTotal"
+                    OnPageChange="this.ChangePage">
+        </Pagination>
     }
 </section>
+<div class="modal @(this.deleteActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@this.localizer["DeleteMunicipality"]</p>
+            <button class="delete" aria-label="close" @onclick="() => this.deleteActive = false"></button>
+        </header>
+        <section class="modal-card-body">
+            @this.localizer["DeleteConfirmation"]
+        </section>
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button is-danger" @onclick="() => this.DeleteConfirmed()">Delete</button>
+            </div>
+        </footer>
+    </div>
+</div>
+<div class="modal @(this.createActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@this.localizer["AddMunicipality"]</p>
+            <button class="delete" aria-label="close" @onclick="() => this.createActive = false"></button>
+        </header>
+        @if (this.createCommand is not null)
+        {
+            <section class="modal-card-body">
+                <div class="field">
+                    <label class="label">@this.localizer["Name"]</label>
+                    <div class="control">
+                        <input class="input" type="text" @bind-value="this.createCommand.Name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">@this.localizer["PostalCode"]</label>
+                    <div class="control">
+                        <input class="input" type="text" @bind-value="this.createCommand.PostalCode">
+                    </div>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <div class="buttons">
+                    @if (this.createCommand.IsValid)
+                    {
+                        <button class="button is-success" @onclick="() => this.CreateConfirmed()">Save</button>
+                    }
+                    else
+                    {
+                        <button class="button is-success" disabled>Save</button>
+                    }
+                </div>
+            </footer>
+        }
+    </div>
+</div>
+<div class="modal @(this.updateActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@this.localizer["EditMunicipality"]</p>
+            <button class="delete" aria-label="close" @onclick="() => this.updateActive = false"></button>
+        </header>
+        <section class="modal-card-body">
+            @if (this.updateCommand is not null)
+            {
+                
+            }
+        </section>
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button is-success" @onclick="() => this.UpdateConfirmed()">Save</button>
+            </div>
+        </footer>
+    </div>
+</div>
 
 @code {
+    private bool createActive;
+    private CreateMunicipalityCommand createCommand;
+
+    private bool updateActive;
+    private UpdateMunicipalityCommand updateCommand;
+
+    private bool deleteActive;
+    private DeleteMunicipalityCommand deleteCommand;
+
     private int pageIndex;
     private int pageSize;
 
@@ -70,6 +194,56 @@
     private async Task ChangePage(int pageIndex)
     {
         this.pageIndex = pageIndex;
+
+        await this.LoadList();
+    }
+
+    private void CreateStart()
+    {
+        this.createCommand = new CreateMunicipalityCommand();
+        this.createActive = true;
+    }
+
+    private async Task CreateConfirmed()
+    {
+        if (this.createCommand.IsValid)
+        {
+            if (string.IsNullOrEmpty(this.createCommand.PostalCode))
+            {
+                this.createCommand.PostalCode = null;
+            }
+
+            await this.mediator.Send(this.createCommand);
+            this.createActive = false;
+
+            await this.LoadList();
+        }
+    }
+
+    private void UpdateStart(int id)
+    {
+        this.updateCommand = new UpdateMunicipalityCommand { Id = id };
+        this.updateActive = true;
+    }
+
+    private async Task UpdateConfirmed()
+    {
+        await this.mediator.Send(this.updateCommand);
+        this.updateActive = false;
+
+        await this.LoadList();
+    }
+
+    private void DeleteStart(int id)
+    {
+        this.deleteCommand = new DeleteMunicipalityCommand { Id = id };
+        this.deleteActive = true;
+    }
+
+    private async Task DeleteConfirmed()
+    {
+        await this.mediator.Send(this.deleteCommand);
+        this.deleteActive = false;
 
         await this.LoadList();
     }

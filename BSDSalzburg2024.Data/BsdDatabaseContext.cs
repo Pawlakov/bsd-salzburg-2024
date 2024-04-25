@@ -1,4 +1,4 @@
-﻿// <copyright file="BsdDatenContext.cs" company="Paweł Matusek">
+﻿// <copyright file="BsdDatabaseContext.cs" company="Paweł Matusek">
 // Copyright (c) Paweł Matusek. All rights reserved.
 // </copyright>
 
@@ -7,17 +7,29 @@ namespace BSDSalzburg2024.Data;
 using BSDSalzburg2024.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-public partial class BsdDatabaseContext 
-    : DbContext
+/// <summary>
+/// The context providing access to the DB of BSD.
+/// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="BsdDatabaseContext"/> class.
+/// </remarks>
+/// <param name="options">The configuration of the DB.</param>
+public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> options)
+        : DbContext(options)
 {
-    public BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> options)
-        : base(options)
-    {
-    }
-
-    public virtual DbSet<TblEhrung> TblEhrungs { get; set; }
-
+    /// <summary>
+    /// Gets or sets the table of municipalities in the DB.
+    /// </summary>
     public virtual DbSet<Municipality> Municipalities { get; set; }
+
+    /// <summary>
+    /// Gets or sets the table of locations in the DB.
+    /// </summary>
+    public virtual DbSet<Location> Locations { get; set; }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1600 // Elements should be documented
+    public virtual DbSet<TblEhrung> TblEhrungs { get; set; }
 
     public virtual DbSet<TblKrankheit> TblKrankheits { get; set; }
 
@@ -33,8 +45,6 @@ public partial class BsdDatabaseContext
 
     public virtual DbSet<TblMitarbeiterSpendeaktion> TblMitarbeiterSpendeaktions { get; set; }
 
-    public virtual DbSet<Location> TblOrts { get; set; }
-
     public virtual DbSet<TblParameter> TblParameters { get; set; }
 
     public virtual DbSet<TblPostleitzahl> TblPostleitzahls { get; set; }
@@ -48,7 +58,10 @@ public partial class BsdDatabaseContext
     public virtual DbSet<TblSpendeaktionVerbrauch> TblSpendeaktionVerbrauches { get; set; }
 
     public virtual DbSet<TblSpender> TblSpenders { get; set; }
+#pragma warning restore SA1600 // Elements should be documented
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+    /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TblEhrung>(TblEhrung.EntityBuildAction);

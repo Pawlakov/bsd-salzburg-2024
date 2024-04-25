@@ -11,17 +11,17 @@ public partial class Location
 {
     public string Id { get; set; }
 
-    public int? MunicipalityId { get; set; }
+    public int MunicipalityId { get; set; }
 
-    public string? Country { get; set; }
+    public string PostalCode { get; set; }
 
-    public string? PostalCode { get; set; }
+    public string Name { get; set; }
 
-    public string? Name { get; set; }
-
-    public string? Street { get; set; }
+    public string Address { get; set; }
 
     public bool Hidden { get; set; }
+
+    public virtual Municipality Municipality { get; set; }
 
     internal static void EntityBuildAction(EntityTypeBuilder<Location> entity)
     {
@@ -35,19 +35,18 @@ public partial class Location
             .HasColumnName("OrtID");
         entity.Property(e => e.MunicipalityId)
             .HasColumnName("GemeindeID");
-        entity.Property(e => e.Country)
-            .HasMaxLength(3)
-            .IsUnicode(false)
-            .HasColumnName("OrtLand");
         entity.Property(e => e.Name)
+            .IsRequired()
             .HasMaxLength(30)
             .IsUnicode(false)
             .HasColumnName("OrtName");
         entity.Property(e => e.PostalCode)
+            .IsRequired()
             .HasMaxLength(5)
             .IsUnicode(false)
             .HasColumnName("OrtPlz");
-        entity.Property(e => e.Street)
+        entity.Property(e => e.Address)
+            .IsRequired()
             .HasMaxLength(50)
             .IsUnicode(false)
             .HasColumnName("OrtStrasse");

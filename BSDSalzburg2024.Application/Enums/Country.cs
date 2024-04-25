@@ -25,8 +25,6 @@ public class Country
 
     public static Country Germany { get; } = new Country("DEU", "🇩🇪", "XXXXX");
 
-    public static Country Poland { get; } = new Country("POL", "🇵🇱", "XX-XXX");
-
     public string IsoCode { get; init; }
 
     public string FlagEmoji { get; init; }
@@ -36,7 +34,7 @@ public class Country
     /// </summary>
     /// <param name="isoCode">3-character ISO 3166 country code. Case insensitive.</param>
     /// <returns>A <cref>Country</cref> corresponding to the given ISO 3166 code. Null if no <cref>Country</cref> found.</returns>
-    public static Country GetFromIso(string isoCode)
+    public static Country? GetFromIso(string isoCode)
     {
         if (isoCode is null)
         {
@@ -47,7 +45,6 @@ public class Country
         {
             "AUT" => Austria,
             "DEU" => Germany,
-            "POL" => Poland,
             _ => null,
         };
     }

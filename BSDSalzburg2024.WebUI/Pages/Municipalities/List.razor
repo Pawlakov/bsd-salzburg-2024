@@ -1,15 +1,18 @@
 ﻿@page "/municipalities"
 @namespace BSDSalzburg2024.WebUI.Pages
-@using BSDSalzburg2024.Application.Enums
+@using BSDSalzburg2024.Application.Models
 @using BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand
 @using BSDSalzburg2024.Application.Municipalities.Commands.DeleteMunicipalityCommand
 @using BSDSalzburg2024.Application.Municipalities.Commands.UpdateMunicipalityCommand
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
+@using BSDSalzburg2024.Application.Validation
+@using BSDSalzburg2024.WebUI.Pages.Municipalities
 @using BSDSalzburg2024.WebUI.Shared
+@using FluentValidation
 @using Microsoft.AspNetCore.Components.Forms
 
 @inject IMediator mediator
-@inject IStringLocalizer<Municipalities> localizer
+@inject IStringLocalizer<List> localizer
 
 <PageTitle>@this.localizer.GetString("Title")</PageTitle>
 
@@ -22,7 +25,7 @@
     @if (this.listItems is not null)
     {
         <div class="buttons">
-            <button class="button" @onclick="() => this.CreateStart()">
+            <button class="button" @onclick="() => this.createActive = true">
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -98,48 +101,17 @@
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-danger" @onclick="() => this.DeleteConfirmed()">Delete</button>
+                <button class="button is-danger" @onclick="() => this.DeleteSubmit()">Delete</button>
             </div>
         </footer>
     </div>
 </div>
 <div class="modal @(this.createActive ? "is-active" : "")">
     <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["AddMunicipality"]</p>
-            <button class="delete" aria-label="close" @onclick="() => this.createActive = false"></button>
-        </header>
-        @if (this.createCommand is not null)
-        {
-            <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">@this.localizer["Name"]</label>
-                    <div class="control">
-                        <input class="input" type="text" @bind-value="this.createCommand.Name">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">@this.localizer["PostalCode"]</label>
-                    <div class="control">
-                        <input class="input" type="text" @bind-value="this.createCommand.PostalCode">
-                    </div>
-                </div>
-            </section>
-            <footer class="modal-card-foot">
-                <div class="buttons">
-                    @if (this.createCommand.IsValid)
-                    {
-                        <button class="button is-success" @onclick="() => this.CreateConfirmed()">Save</button>
-                    }
-                    else
-                    {
-                        <button class="button is-success" disabled>Save</button>
-                    }
-                </div>
-            </footer>
-        }
-    </div>
+    @if (this.createActive)
+    {
+        <Create @bind-Active="this.createActive" />
+    }
 </div>
 <div class="modal @(this.updateActive ? "is-active" : "")">
     <div class="modal-background"></div>
@@ -151,12 +123,12 @@
         <section class="modal-card-body">
             @if (this.updateCommand is not null)
             {
-                
+
             }
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-success" @onclick="() => this.UpdateConfirmed()">Save</button>
+                <button class="button is-success" @onclick="() => this.UpdateSubmit()">Save</button>
             </div>
         </footer>
     </div>
@@ -164,7 +136,6 @@
 
 @code {
     private bool createActive;
-    private CreateMunicipalityCommand createCommand;
 
     private bool updateActive;
     private UpdateMunicipalityCommand updateCommand;
@@ -191,35 +162,13 @@
         await this.LoadList();
     }
 
-    private void CreateStart()
-    {
-        this.createCommand = new CreateMunicipalityCommand();
-        this.createActive = true;
-    }
-
-    private async Task CreateConfirmed()
-    {
-        if (this.createCommand.IsValid)
-        {
-            if (string.IsNullOrEmpty(this.createCommand.PostalCode))
-            {
-                this.createCommand.PostalCode = null;
-            }
-
-            await this.mediator.Send(this.createCommand);
-            this.createActive = false;
-
-            await this.LoadList();
-        }
-    }
-
     private void UpdateStart(int id)
     {
         this.updateCommand = new UpdateMunicipalityCommand { Id = id };
         this.updateActive = true;
     }
 
-    private async Task UpdateConfirmed()
+    private async Task UpdateSubmit()
     {
         await this.mediator.Send(this.updateCommand);
         this.updateActive = false;
@@ -233,7 +182,7 @@
         this.deleteActive = true;
     }
 
-    private async Task DeleteConfirmed()
+    private async Task DeleteSubmit()
     {
         await this.mediator.Send(this.deleteCommand);
         this.deleteActive = false;

@@ -2,7 +2,7 @@
 // Copyright (c) Paweł Matusek. All rights reserved.
 // </copyright>
 
-namespace BSDSalzburg2024.Application.Enums;
+namespace BSDSalzburg2024.Application.Models;
 
 using System;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Linq;
 /// </summary>
 public class Country
 {
-    private string postalCodeTemplate;
+    private readonly string postalCodeTemplate;
 
     private Country(string isoCode, string flagEmoji, string postalCodeTemplate)
     {
@@ -21,9 +21,9 @@ public class Country
         this.postalCodeTemplate = postalCodeTemplate;
     }
 
-    public static Country Austria { get; } = new Country("AUT", "🇦🇹", "XXXX");
+    public static Country Austria { get; } = new Country("AT", "🇦🇹", "XXXX");
 
-    public static Country Germany { get; } = new Country("DEU", "🇩🇪", "XXXXX");
+    public static Country Germany { get; } = new Country("DE", "🇩🇪", "XXXXX");
 
     public string IsoCode { get; init; }
 
@@ -43,8 +43,8 @@ public class Country
 
         return isoCode.ToUpper() switch
         {
-            "AUT" => Austria,
-            "DEU" => Germany,
+            "AT" => Austria,
+            "DE" => Germany,
             _ => null,
         };
     }

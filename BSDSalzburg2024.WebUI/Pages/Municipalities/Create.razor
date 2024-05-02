@@ -1,0 +1,77 @@
+﻿@using BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand
+@using BSDSalzburg2024.WebUI.Shared
+@using Microsoft.AspNetCore.Components.Forms
+
+@inject IMediator mediator
+@inject IStringLocalizer<Create> localizer
+
+<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="MunicipalityCreateForm">
+    <FluentValidationValidator TModel="CreateMunicipalityCommand" />
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@this.localizer["AddMunicipality"]</p>
+            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">@this.localizer["Id"]</label>
+                <div class="control">
+                    <InputNumber class="input" @bind-Value="this.command.Id" />
+                </div>
+                <ValidationMessage For="() => this.command.Id" />
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["Name"]</label>
+                <div class="control">
+                    <InputText class="input" @bind-Value="this.command.Name" />
+                </div>
+                <ValidationMessage For="() => this.command.Name" />
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["PostalCode"]</label>
+                <div class="control">
+                    <InputText class="input" @bind-Value="this.command.PostalCode" />
+                </div>
+                <ValidationMessage For="() => this.command.PostalCode" />
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["Country"]</label>
+                <div class="control">
+                    <InputText class="input" @bind-Value="this.command.Country" />
+                </div>
+                <ValidationMessage For="() => this.command.Country" />
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button is-success" type="submit">Save</button>
+            </div>
+        </footer>
+    </div>
+</EditForm>
+
+@code {
+    private bool active;
+    private CreateMunicipalityCommand command;
+    private EditForm form;
+
+    [Parameter]
+    public EventCallback<bool> ActiveChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.command = new CreateMunicipalityCommand();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Submit()
+    {
+        var valid = this.form.EditContext.Validate();
+        if (valid)
+        {
+            await this.mediator.Send(this.command);
+            await this.ActiveChanged.InvokeAsync(false);
+        }
+    }
+}

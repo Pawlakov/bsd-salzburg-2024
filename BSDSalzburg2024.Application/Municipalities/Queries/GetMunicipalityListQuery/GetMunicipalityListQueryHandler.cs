@@ -7,7 +7,7 @@ namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityList
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BSDSalzburg2024.Application.Enums;
+using BSDSalzburg2024.Application.Models;
 using BSDSalzburg2024.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -31,17 +31,18 @@ public class GetMunicipalityListQueryHandler
             .OrderBy(x => x.Name)
             .Skip(request.PageSize * request.PageIndex)
             .Take(request.PageSize)
+            .Select(x => new
+            {
+                x.Id,
+                x.Country,
+                x.PostalCode,
+                x.Name,
+                CanBeDeleted = x.Locations == null || x.Locations.Count == 0,
+            })
             .ToListAsync();
 
         var items = entities
-            .Select((entity, index) => new MunicipalityListItem
-            {
-                Id = entity.Id,
-                Index = (request.PageSize * request.PageIndex) + index + 1,
-                Country = Country.GetFromIso(entity.Country),
-                PostalCode = entity.PostalCode,
-                Name = entity.Name,
-            })
+            .Select((entity, index) => new MunicipalityListItem(entity.Id, (request.PageSize * request.PageIndex) + index + 1, Country.GetFromIso(entity.Country), entity.PostalCode, entity.Name, entity.CanBeDeleted))
             .ToList();
 
         return new GetMunicipalityListQueryResult

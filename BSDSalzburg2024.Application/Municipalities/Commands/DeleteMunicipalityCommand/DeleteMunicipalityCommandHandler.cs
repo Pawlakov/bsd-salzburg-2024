@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using BSDSalzburg2024.Data;
 using MediatR;
 
-public class DeleteMunicipalityCommandHandler : IRequestHandler<DeleteMunicipalityCommand>
+public class DeleteMunicipalityCommandHandler
+    : IRequestHandler<DeleteMunicipalityCommand>
 {
     private readonly BsdDatabaseContext context;
 

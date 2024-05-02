@@ -5,7 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-public class UpdateMunicipalityCommandHandler : IRequestHandler<UpdateMunicipalityCommand>
+public class UpdateMunicipalityCommandHandler
+    : IRequestHandler<UpdateMunicipalityCommand>
 {
     public Task Handle(UpdateMunicipalityCommand request, CancellationToken cancellationToken)
     {

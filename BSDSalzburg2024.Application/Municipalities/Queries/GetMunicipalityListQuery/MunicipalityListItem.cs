@@ -4,17 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 
-using BSDSalzburg2024.Application.Enums;
+using BSDSalzburg2024.Application.Models;
 
-public class MunicipalityListItem
-{
-    public int Id { get; init; }
-
-    public int Index { get; init; }
-
-    public Country Country { get; init; }
-
-    public string PostalCode { get; init; }
-
-    public string Name { get; init; }
-}
+public record MunicipalityListItem(int Index, int Id, Country Country, string PostalCode, string Name, bool CanBeDeleted);

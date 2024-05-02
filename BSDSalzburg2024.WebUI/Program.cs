@@ -3,14 +3,12 @@
 // </copyright>
 namespace BSDSalzburg2024.WebUI;
 
-using System.Globalization;
 using System.Threading.Tasks;
-using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
+using BSDSalzburg2024.Application.HostBuilders;
 using BSDSalzburg2024.Data.HostBuilders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.JSInterop;
 
 public static class Program
 {
@@ -19,17 +17,14 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
-        builder.Services.AddMediatR(configuration =>
-        {
-            configuration.RegisterServicesFromAssemblyContaining<GetMunicipalityListQuery>();
-        });
+
+        builder.Services.AddRequests();
+        builder.Host.AddDbContextLocal();
 
         builder.Services.AddLocalization(options =>
         {
             options.ResourcesPath = "Resources";
         });
-
-        builder.Host.AddDbContextLocal();
 
         var app = builder.Build();
 

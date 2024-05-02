@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -15,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.0-preview.3.24172.13" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
@@ -25,6 +26,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BSDSalzburg2024.Data\BSDSalzburg2024.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Locations\" />
   </ItemGroup>
 
 </Project>

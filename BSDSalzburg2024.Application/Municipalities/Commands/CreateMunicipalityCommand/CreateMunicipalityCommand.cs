@@ -4,43 +4,24 @@
 
 namespace BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand;
 
-using System.Linq;
 using MediatR;
 
-public class CreateMunicipalityCommand : IRequest<int>
+public record CreateMunicipalityCommand
+    : IRequest<int>
 {
+    public CreateMunicipalityCommand()
+    {
+        this.Id = 0;
+        this.Country = string.Empty;
+        this.PostalCode = string.Empty;
+        this.Name = string.Empty;
+    }
+
+    public int Id { get; set; }
+
     public string Country { get; set; }
 
     public string PostalCode { get; set; }
 
     public string Name { get; set; }
-
-    public bool IsValid
-    {
-        get
-        {
-            if (this.PostalCode != null)
-            {
-                if (this.PostalCode.Length != 0 && this.PostalCode.Length != 4 && this.PostalCode.Length != 5)
-                {
-                    return false;
-                }
-
-                if (this.PostalCode.Any(x => !char.IsDigit(x)))
-                {
-                    return false;
-                }
-            }
-
-            if (this.Country != null)
-            {
-                if (Enums.Country.GetFromIso(this.Country) == null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    }
 }

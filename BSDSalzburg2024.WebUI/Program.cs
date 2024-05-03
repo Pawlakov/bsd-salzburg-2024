@@ -19,6 +19,7 @@ public static class Program
         builder.Services.AddServerSideBlazor();
 
         builder.Services.AddRequests();
+        builder.Services.AddValidation();
         builder.Host.AddDbContextLocal();
 
         builder.Services.AddLocalization(options =>

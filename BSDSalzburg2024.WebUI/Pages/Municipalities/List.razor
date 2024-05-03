@@ -110,7 +110,7 @@
     <div class="modal-background"></div>
     @if (this.createActive)
     {
-        <Create @bind-Active="this.createActive" />
+        <Create ActiveChanged="(active) => this.createActive = active" />
     }
 </div>
 <div class="modal @(this.updateActive ? "is-active" : "")">

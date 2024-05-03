@@ -18,28 +18,28 @@
                 <div class="control">
                     <InputNumber class="input" @bind-Value="this.command.Id" />
                 </div>
-                <ValidationMessage For="() => this.command.Id" />
+                <TemplateValidationMessage For="() => this.command.Id" />
             </div>
             <div class="field">
                 <label class="label">@this.localizer["Name"]</label>
                 <div class="control">
                     <InputText class="input" @bind-Value="this.command.Name" />
                 </div>
-                <ValidationMessage For="() => this.command.Name" />
+                <TemplateValidationMessage For="() => this.command.Name" />
             </div>
             <div class="field">
                 <label class="label">@this.localizer["PostalCode"]</label>
                 <div class="control">
                     <InputText class="input" @bind-Value="this.command.PostalCode" />
                 </div>
-                <ValidationMessage For="() => this.command.PostalCode" />
+                <TemplateValidationMessage For="() => this.command.PostalCode" />
             </div>
             <div class="field">
                 <label class="label">@this.localizer["Country"]</label>
                 <div class="control">
                     <InputText class="input" @bind-Value="this.command.Country" />
                 </div>
-                <ValidationMessage For="() => this.command.Country" />
+                <TemplateValidationMessage For="() => this.command.Country" />
             </div>
         </section>
         <footer class="modal-card-foot">

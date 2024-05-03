@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
 public class FluentValidationValidator<TModel>
-    : ComponentBase
+    : ComponentBase, IDisposable
     where TModel : class
 {
     private ValidationMessageStore messages;
@@ -39,32 +39,52 @@ public class FluentValidationValidator<TModel>
 
     private void ValidateModel(object sender, ValidationRequestedEventArgs eventArgs)
     {
-        var context = new ValidationContext<TModel>(this.CurrentEditContext.Model as TModel);
-        var errors = this.Validators.SelectMany(validator => validator.Validate(context).Errors);
-
-        this.messages.Clear();
-        foreach (var error in errors)
+        if (this.Validators.Any())
         {
-            this.messages.Add(this.CurrentEditContext.Field(error.PropertyName), error.ErrorMessage);
-        }
+            var context = new ValidationContext<TModel>(this.CurrentEditContext.Model as TModel);
+            var errors = this.Validators.SelectMany(validator => validator.Validate(context).Errors).ToList();
 
-        this.CurrentEditContext.NotifyValidationStateChanged();
+            this.messages.Clear();
+            foreach (var error in errors)
+            {
+                this.messages.Add(this.CurrentEditContext.Field(error.PropertyName), error.ErrorMessage);
+            }
+
+            this.CurrentEditContext.NotifyValidationStateChanged();
+        }
     }
 
     private void ValidateField(object sender, FieldChangedEventArgs eventArgs)
     {
-        var fieldIdentifier = eventArgs.FieldIdentifier;
-        var properties = new[] { fieldIdentifier.FieldName };
-
-        var context = new ValidationContext<TModel>(this.CurrentEditContext.Model as TModel, new PropertyChain(), new MemberNameValidatorSelector(properties));
-        var errors = this.Validators.SelectMany(validator => validator.Validate(context).Errors);
-
-        this.messages.Clear(fieldIdentifier);
-        foreach (var error in errors)
+        if (this.Validators.Any())
         {
-            this.messages.Add(fieldIdentifier, error.ErrorMessage);
-        }
+            var fieldIdentifier = eventArgs.FieldIdentifier;
+            var properties = new[] { fieldIdentifier.FieldName };
 
+            var context = new ValidationContext<TModel>(this.CurrentEditContext.Model as TModel, new PropertyChain(), new MemberNameValidatorSelector(properties));
+            var errors = this.Validators.SelectMany(validator => validator.Validate(context).Errors);
+
+            this.messages.Clear(fieldIdentifier);
+            foreach (var error in errors)
+            {
+                this.messages.Add(fieldIdentifier, error.ErrorMessage);
+            }
+
+            this.CurrentEditContext.NotifyValidationStateChanged();
+        }
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+    }
+
+    void IDisposable.Dispose()
+    {
+        this.messages.Clear();
+        this.CurrentEditContext.OnFieldChanged -= this.ValidateField;
+        this.CurrentEditContext.OnValidationRequested -= this.ValidateModel;
         this.CurrentEditContext.NotifyValidationStateChanged();
+
+        this.Dispose(true);
     }
 }

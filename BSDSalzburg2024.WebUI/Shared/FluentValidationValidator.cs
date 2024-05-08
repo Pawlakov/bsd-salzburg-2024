@@ -10,6 +10,7 @@ using System.Linq;
 using BSDSalzburg2024.Application.Validation;
 using FluentValidation;
 using FluentValidation.Internal;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -24,6 +25,17 @@ public class FluentValidationValidator<TModel>
 
     [CascadingParameter]
     private EditContext CurrentEditContext { get; set; }
+
+    public void PopulateErrors(IEnumerable<ValidationFailure> errors)
+    {
+        this.messages.Clear();
+        foreach (var error in errors)
+        {
+            this.messages.Add(this.CurrentEditContext.Field(error.PropertyName), error.ErrorMessage);
+        }
+
+        this.CurrentEditContext.NotifyValidationStateChanged();
+    }
 
     protected override void OnInitialized()
     {

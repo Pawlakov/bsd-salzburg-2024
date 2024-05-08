@@ -1,26 +1,19 @@
-﻿// <copyright file="TemplateValidationMessage.cs" company="Paweł Matusek">
-// Copyright (c) Paweł Matusek. All rights reserved.
-// </copyright>
+﻿@implements IDisposable
+@typeparam TValue
 
-namespace BSDSalzburg2024.WebUI.Shared;
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Linq.Expressions
 
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
-
-public class TemplateValidationMessage<TValue>
-    : ComponentBase, IDisposable
+@foreach (var message in this.CurrentEditContext.GetValidationMessages(this.fieldIdentifier))
 {
+    <p class="help is-danger">@message</p>
+}
+
+@code {
     private readonly EventHandler<ValidationStateChangedEventArgs> validationStateChangedHandler;
     private EditContext previousEditContext;
     private Expression<Func<TValue>> previousFieldAccessor;
     private FieldIdentifier fieldIdentifier;
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public IReadOnlyDictionary<string, object> AdditionalAttributes { get; set; }
 
     [CascadingParameter]
     EditContext CurrentEditContext { get; set; }
@@ -58,18 +51,6 @@ public class TemplateValidationMessage<TValue>
             this.DetachValidationStateChangedListener();
             this.CurrentEditContext.OnValidationStateChanged += this.validationStateChangedHandler;
             this.previousEditContext = this.CurrentEditContext;
-        }
-    }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        foreach (var message in this.CurrentEditContext.GetValidationMessages(this.fieldIdentifier))
-        {
-            builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", "validation-message");
-            builder.AddMultipleAttributes(2, this.AdditionalAttributes);
-            builder.AddContent(3, message);
-            builder.CloseElement();
         }
     }
 

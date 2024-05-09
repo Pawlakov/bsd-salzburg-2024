@@ -6,7 +6,8 @@ namespace BSDSalzburg2024.Application.Municipalities.Commands.DeleteMunicipality
 
 using MediatR;
 
-public class DeleteMunicipalityCommand : IRequest
+public record DeleteMunicipalityCommand
+    : IRequest
 {
     public int Id { get; set; }
 }

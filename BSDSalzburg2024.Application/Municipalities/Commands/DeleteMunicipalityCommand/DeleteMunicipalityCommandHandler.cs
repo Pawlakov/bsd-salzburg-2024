@@ -22,11 +22,7 @@ public class DeleteMunicipalityCommandHandler
 
     public async Task Handle(DeleteMunicipalityCommand request, CancellationToken cancellationToken)
     {
-        var entity = await this.context.Municipalities.FindAsync(request.Id, cancellationToken);
-        if (entity == null)
-        {
-            throw new ArgumentException("Entity not found", nameof(request.Id));
-        }
+        var entity = await this.context.Municipalities.FindAsync([request.Id], cancellationToken: cancellationToken);
 
         this.context.Municipalities.Remove(entity);
 

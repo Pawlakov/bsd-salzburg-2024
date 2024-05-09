@@ -66,12 +66,12 @@
                         <td>@item.Name</td>
                         <td>
                             <div class="buttons has-addons">
-                                <button class="button is-small" aria-label="@this.localizer["EditMunicipality"]" @onclick="() => this.UpdateStart(item.Id)">
+                                <button class="button is-small" aria-label="@this.localizer["EditMunicipality"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
                                     <span class="icon is-small">
                                         <i class="fas fa-edit"></i>
                                     </span>
                                 </button>
-                                <button class="button is-small" aria-label="@this.localizer["DeleteMunicipality"]" @onclick="() => this.DeleteStart(item.Id)">
+                                <button class="button is-small" aria-label="@this.localizer["DeleteMunicipality"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }">
                                     <span class="icon is-small">
                                         <i class="fas fa-trash"></i>
                                     </span>
@@ -91,20 +91,10 @@
 </section>
 <div class="modal @(this.deleteActive ? "is-active" : "")">
     <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["DeleteMunicipality"]</p>
-            <button class="delete" aria-label="close" @onclick="() => this.deleteActive = false"></button>
-        </header>
-        <section class="modal-card-body">
-            @this.localizer["DeleteConfirmation"]
-        </section>
-        <footer class="modal-card-foot">
-            <div class="buttons">
-                <button class="button is-danger" @onclick="() => this.DeleteSubmit()">Delete</button>
-            </div>
-        </footer>
-    </div>
+    @if (this.deleteActive)
+    {
+        <Delete ActiveChanged="async (active) => { this.deleteActive = active; await this.LoadList(); }" Id="this.activeItemId" />
+    }
 </div>
 <div class="modal @(this.createActive ? "is-active" : "")">
     <div class="modal-background"></div>
@@ -115,31 +105,16 @@
 </div>
 <div class="modal @(this.updateActive ? "is-active" : "")">
     <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["EditMunicipality"]</p>
-            <button class="delete" aria-label="close" @onclick="() => this.updateActive = false"></button>
-        </header>
-        <section class="modal-card-body">
-            @if (this.updateCommand is not null)
-            {
-
-            }
-        </section>
-        <footer class="modal-card-foot">
-            <div class="buttons">
-                <button class="button is-success" @onclick="() => this.UpdateSubmit()">Save</button>
-            </div>
-        </footer>
-    </div>
+    @if (this.updateActive)
+    {
+        <span>DUPA</span>
+    }
 </div>
 
 @code {
+    private int activeItemId;
     private bool createActive;
-
     private bool updateActive;
-    private UpdateMunicipalityCommand updateCommand;
-
     private bool deleteActive;
     private DeleteMunicipalityCommand deleteCommand;
 
@@ -158,34 +133,6 @@
     private async Task ChangePage(int pageIndex)
     {
         this.listCommand.PageIndex = pageIndex;
-
-        await this.LoadList();
-    }
-
-    private void UpdateStart(int id)
-    {
-        this.updateCommand = new UpdateMunicipalityCommand { Id = id };
-        this.updateActive = true;
-    }
-
-    private async Task UpdateSubmit()
-    {
-        await this.mediator.Send(this.updateCommand);
-        this.updateActive = false;
-
-        await this.LoadList();
-    }
-
-    private void DeleteStart(int id)
-    {
-        this.deleteCommand = new DeleteMunicipalityCommand { Id = id };
-        this.deleteActive = true;
-    }
-
-    private async Task DeleteSubmit()
-    {
-        await this.mediator.Send(this.deleteCommand);
-        this.deleteActive = false;
 
         await this.LoadList();
     }

@@ -42,7 +42,7 @@ public class GetMunicipalityListQueryHandler
             .ToListAsync();
 
         var items = entities
-            .Select((entity, index) => new MunicipalityListItem(entity.Id, (request.PageSize * request.PageIndex) + index + 1, Country.GetFromIso(entity.Country), entity.PostalCode, entity.Name, entity.CanBeDeleted))
+            .Select((entity, index) => new MunicipalityListItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, Country.GetFromIso(entity.Country), entity.PostalCode, entity.Name, entity.CanBeDeleted))
             .ToList();
 
         return new GetMunicipalityListQueryResult

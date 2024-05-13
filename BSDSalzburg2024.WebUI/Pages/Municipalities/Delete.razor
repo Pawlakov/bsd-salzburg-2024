@@ -41,7 +41,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        this.command = new DeleteMunicipalityCommand() { Id = this.Id };
+        this.command = new DeleteMunicipalityCommand(this.Id);
 
         await base.OnInitializedAsync();
     }

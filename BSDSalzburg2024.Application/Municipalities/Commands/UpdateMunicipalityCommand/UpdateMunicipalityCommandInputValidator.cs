@@ -1,18 +1,18 @@
-﻿// <copyright file="CreateMunicipalityCommandValidator.cs" company="Paweł Matusek">
+﻿// <copyright file="UpdateMunicipalityCommandInputValidator.cs" company="Paweł Matusek">
 // Copyright (c) Paweł Matusek. All rights reserved.
 // </copyright>
 
-namespace BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand;
+namespace BSDSalzburg2024.Application.Municipalities.Commands.UpdateMunicipalityCommand;
 
 using System.Linq;
 using BSDSalzburg2024.Application.Models;
 using BSDSalzburg2024.Application.Validation;
 using FluentValidation;
 
-public class CreateMunicipalityCommandInputValidator
-    : AbstractInputValidator<CreateMunicipalityCommand>
+public class UpdateMunicipalityCommandInputValidator
+    : AbstractInputValidator<UpdateMunicipalityCommand>
 {
-    public CreateMunicipalityCommandInputValidator()
+    public UpdateMunicipalityCommandInputValidator()
     {
         this.RuleFor(command => command.Id)
             .NotEmpty()

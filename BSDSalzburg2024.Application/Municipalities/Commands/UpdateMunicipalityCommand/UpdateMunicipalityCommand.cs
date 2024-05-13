@@ -6,7 +6,19 @@ namespace BSDSalzburg2024.Application.Municipalities.Commands.UpdateMunicipality
 
 using MediatR;
 
-public class UpdateMunicipalityCommand : IRequest
+public record UpdateMunicipalityCommand
+    : IRequest
 {
-    public int Id { get; set; }
+    public UpdateMunicipalityCommand(int id)
+    {
+        this.Id = id;
+    }
+
+    public int Id { get; }
+
+    public string Country { get; set; }
+
+    public string PostalCode { get; set; }
+
+    public string Name { get; set; }
 }

@@ -9,5 +9,10 @@ using MediatR;
 public record DeleteMunicipalityCommand
     : IRequest
 {
-    public int Id { get; set; }
+    public DeleteMunicipalityCommand(int id)
+    {
+        this.Id = id;
+    }
+
+    public int Id { get; }
 }

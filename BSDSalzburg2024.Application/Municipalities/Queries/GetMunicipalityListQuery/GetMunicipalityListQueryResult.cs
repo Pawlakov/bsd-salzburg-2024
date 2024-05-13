@@ -6,9 +6,9 @@ namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityList
 
 using System.Collections.Generic;
 
-public class GetMunicipalityListQueryResult
+public record GetMunicipalityListQueryResult
 {
-    public IEnumerable<MunicipalityListItem> Items { get; init; }
+    public IReadOnlyCollection<GetMunicipalityListQueryResultItem> Items { get; init; }
 
     public int ItemsTotal { get; init; }
 }

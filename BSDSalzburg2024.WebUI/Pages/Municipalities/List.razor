@@ -71,7 +71,7 @@
                                         <i class="fas fa-edit"></i>
                                     </span>
                                 </button>
-                                <button class="button is-small" aria-label="@this.localizer["DeleteMunicipality"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }">
+                                <button class="button is-small" aria-label="@this.localizer["DeleteMunicipality"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
                                     <span class="icon is-small">
                                         <i class="fas fa-trash"></i>
                                     </span>
@@ -107,7 +107,7 @@
     <div class="modal-background"></div>
     @if (this.updateActive)
     {
-        <span>DUPA</span>
+        <Update ActiveChanged="async (active) => { this.updateActive = active; await this.LoadList(); }" Id="this.activeItemId" />
     }
 </div>
 
@@ -120,7 +120,7 @@
 
     private GetMunicipalityListQuery listCommand;
 
-    private List<MunicipalityListItem> listItems;
+    private List<GetMunicipalityListQueryResultItem> listItems;
     private int listItemsTotal;
 
     private async Task LoadList()

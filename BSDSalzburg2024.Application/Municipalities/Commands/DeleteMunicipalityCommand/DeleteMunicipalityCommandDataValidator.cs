@@ -15,11 +15,9 @@ public class DeleteMunicipalityCommandDataValidator
     public DeleteMunicipalityCommandDataValidator(BsdDatabaseContext context)
     {
         this.RuleFor(command => command.Id)
-            .Must(id => context.Municipalities.Where(x => x.Id == id).Any())
-            .WithMessage(command => $"Municipality with id={command.Id} not found.");
+            .Must(id => context.Municipalities.Where(x => x.Id == id).Any());
 
         this.RuleFor(command => command.Id)
-            .Must(id => !context.Locations.Where(x => x.MunicipalityId == id).Any())
-            .WithMessage(command => "There are locations associated with this municipality.");
+            .Must(id => !context.Locations.Where(x => x.MunicipalityId == id).Any());
     }
 }

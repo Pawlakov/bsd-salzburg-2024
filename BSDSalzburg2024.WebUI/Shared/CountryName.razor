@@ -2,7 +2,7 @@
 
 @inject IStringLocalizer<CountryName> localizer
 
-<span>@this.Model.FlagEmoji @this.localizer.GetString(this.Model.IsoCode)</span>
+<span>@* @this.Model.FlagEmoji  *@@this.localizer.GetString(this.Model.IsoCode)</span>
 
 @code {
     [Parameter]

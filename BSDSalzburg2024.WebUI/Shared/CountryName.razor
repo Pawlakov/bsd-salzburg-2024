@@ -5,6 +5,6 @@
 <span>@* @this.Model.FlagEmoji  *@@this.localizer.GetString(this.Model.IsoCode)</span>
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public Country Model { get; set; }
 }

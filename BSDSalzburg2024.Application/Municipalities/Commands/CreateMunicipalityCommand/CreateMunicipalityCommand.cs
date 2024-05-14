@@ -12,7 +12,7 @@ public record CreateMunicipalityCommand
     public CreateMunicipalityCommand()
     {
         this.Id = 0;
-        this.Country = string.Empty;
+        this.Country = Models.Country.Austria.IsoCode;
         this.PostalCode = string.Empty;
         this.Name = string.Empty;
     }

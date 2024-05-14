@@ -16,24 +16,30 @@ public class CreateMunicipalityCommandInputValidator
     {
         this.RuleFor(command => command.Id)
             .NotEmpty()
-            .NotEqual(0);
+            .WithMessage("Required");
 
         this.RuleFor(command => command.Country)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Required");
 
         this.RuleFor(command => command.Country)
-            .Must(c => Country.GetFromIso(c) != null);
+            .Must(c => Country.GetFromIso(c) != null)
+            .WithMessage("CountryInvalid");
 
         this.RuleFor(command => command.PostalCode)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Required");
 
         this.RuleFor(command => command.PostalCode)
-            .Must(c => c.All(x => char.IsDigit(x)));
+            .Must(c => c.All(x => char.IsDigit(x)))
+            .WithMessage("PostalCodeInvalidCharacter");
 
         this.RuleFor(command => command.PostalCode)
-            .Length(command => Country.GetFromIso(command.Country)?.PostalCodeDigitCount ?? 4);
+            .Length(command => Country.GetFromIso(command.Country)?.PostalCodeDigitCount ?? 4)
+            .WithMessage("PostalCodeInvalidLength");
 
         this.RuleFor(command => command.Name)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Required");
     }
 }

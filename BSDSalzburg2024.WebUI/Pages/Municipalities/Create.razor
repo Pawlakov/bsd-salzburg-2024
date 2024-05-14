@@ -1,4 +1,5 @@
-﻿@using BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand
+﻿@using BSDSalzburg2024.Application.Models
+@using BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand
 @using BSDSalzburg2024.WebUI.Shared
 @using FluentValidation
 @using Microsoft.AspNetCore.Components.Forms
@@ -10,21 +11,38 @@
     <FluentValidationValidator @ref="this.validator" TModel="CreateMunicipalityCommand" />
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["AddMunicipality"]</p>
+            <p class="modal-card-title">@this.localizer["Title"]</p>
             <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
         </header>
         <section class="modal-card-body">
             <div class="field">
                 <label class="label">@this.localizer["Id"]</label>
-                <TemplatedValidationMessage For="() => this.command.Id">
+                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputNumber class="@(inputClasses)" @bind-Value="this.command.Id" />
                     </InputTemplate>
                 </TemplatedValidationMessage>
             </div>
             <div class="field">
+                <label class="label">@this.localizer["Country"]</label>
+                <TemplatedValidationMessage For="() => this.command.Country" BaseClass="select" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <div class="@(inputClasses)">
+                            <InputSelect @bind-Value="this.command.Country">
+                                @foreach (var country in Country.Options)
+                                {
+                                    <option value="@country.IsoCode">
+                                        <CountryName Model="country"/>
+                                    </option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
                 <label class="label">@this.localizer["Name"]</label>
-                <TemplatedValidationMessage For="() => this.command.Name">
+                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
                     </InputTemplate>
@@ -32,24 +50,16 @@
             </div>
             <div class="field">
                 <label class="label">@this.localizer["PostalCode"]</label>
-                <TemplatedValidationMessage For="() => this.command.PostalCode">
+                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">@this.localizer["Country"]</label>
-                <TemplatedValidationMessage For="() => this.command.Country">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.Country" />
                     </InputTemplate>
                 </TemplatedValidationMessage>
             </div>
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-success" type="submit">Save</button>
+                <button class="button is-success" type="submit">@this.localizer["Submit"]</button>
             </div>
         </footer>
     </div>

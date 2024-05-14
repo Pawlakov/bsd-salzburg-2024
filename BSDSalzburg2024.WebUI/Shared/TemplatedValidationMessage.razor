@@ -1,15 +1,16 @@
 ﻿@implements IDisposable
 @typeparam TValue
+@typeparam TComponent
 
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Linq.Expressions
 
 <div class="control">
-    @this.InputTemplate($"input {(this.validationMessages.Any() ? "is-danger" : string.Empty)}")
+    @this.InputTemplate($"{this.BaseClass} {(this.validationMessages.Any() ? "is-danger" : string.Empty)}")
 </div>
 @foreach (var message in this.validationMessages)
 {
-    <p class="help is-danger">@message</p>
+    <p class="help is-danger">@this.Localizer[message]</p>
 }
 
 @code {
@@ -28,6 +29,12 @@
 
     [Parameter, EditorRequired]
     public RenderFragment<string> InputTemplate { get; set; }
+
+    [Parameter, EditorRequired]
+    public string BaseClass { get; set; }
+
+    [Parameter, EditorRequired]
+    public IStringLocalizer<TComponent> Localizer { get; set; }
 
     public TemplatedValidationMessage()
     {

@@ -15,6 +15,7 @@ public class CreateMunicipalityCommandDataValidator
     public CreateMunicipalityCommandDataValidator(BsdDatabaseContext context)
     {
         this.RuleFor(command => command.Id)
-            .Must(id => !context.Municipalities.Where(x => x.Id == id).Any());
+            .Must(id => !context.Municipalities.Where(x => x.Id == id).Any())
+            .WithMessage("IdCollision");
     }
 }

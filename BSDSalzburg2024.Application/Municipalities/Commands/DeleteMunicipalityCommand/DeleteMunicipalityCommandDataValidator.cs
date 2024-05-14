@@ -15,9 +15,11 @@ public class DeleteMunicipalityCommandDataValidator
     public DeleteMunicipalityCommandDataValidator(BsdDatabaseContext context)
     {
         this.RuleFor(command => command.Id)
-            .Must(id => context.Municipalities.Where(x => x.Id == id).Any());
+            .Must(id => context.Municipalities.Where(x => x.Id == id).Any())
+            .WithMessage("IdInvalid");
 
         this.RuleFor(command => command.Id)
-            .Must(id => !context.Locations.Where(x => x.MunicipalityId == id).Any());
+            .Must(id => !context.Locations.Where(x => x.MunicipalityId == id).Any())
+            .WithMessage("IdDependentLocations");
     }
 }

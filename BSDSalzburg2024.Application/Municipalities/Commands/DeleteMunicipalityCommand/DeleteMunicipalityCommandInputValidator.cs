@@ -14,6 +14,6 @@ public class DeleteMunicipalityCommandInputValidator
     {
         this.RuleFor(command => command.Id)
             .NotEmpty()
-            .NotEqual(0);
+            .WithMessage("Required");
     }
 }

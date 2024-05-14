@@ -1,4 +1,5 @@
-﻿@using BSDSalzburg2024.Application.Municipalities.Commands.UpdateMunicipalityCommand
+﻿@using BSDSalzburg2024.Application.Models
+@using BSDSalzburg2024.Application.Municipalities.Commands.UpdateMunicipalityCommand
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityQuery
 @using BSDSalzburg2024.WebUI.Shared
 @using FluentValidation
@@ -11,21 +12,38 @@
     <FluentValidationValidator @ref="this.validator" TModel="UpdateMunicipalityCommand" />
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["EditMunicipality"]</p>
+            <p class="modal-card-title">@this.localizer["Title"]</p>
             <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
         </header>
         <section class="modal-card-body">
             <div class="field">
                 <label class="label">@this.localizer["Id"]</label>
-                <TemplatedValidationMessage For="() => this.command.Id">
+                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <input type="number" class="@inputClasses" value="@this.Id" disabled />
                     </InputTemplate>
                 </TemplatedValidationMessage>
             </div>
             <div class="field">
+                <label class="label">@this.localizer["Country"]</label>
+                <TemplatedValidationMessage For="() => this.command.Country" BaseClass="select" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <div class="@(inputClasses)">
+                            <InputSelect @bind-Value="this.command.Country">
+                                @foreach (var country in Country.Options)
+                                {
+                                    <option value="@country.IsoCode">
+                                        <CountryName Model="country" />
+                                    </option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
                 <label class="label">@this.localizer["Name"]</label>
-                <TemplatedValidationMessage For="() => this.command.Name">
+                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
                     </InputTemplate>
@@ -33,24 +51,17 @@
             </div>
             <div class="field">
                 <label class="label">@this.localizer["PostalCode"]</label>
-                <TemplatedValidationMessage For="() => this.command.PostalCode">
+                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">@this.localizer["Country"]</label>
-                <TemplatedValidationMessage For="() => this.command.Country">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.Country" />
                     </InputTemplate>
                 </TemplatedValidationMessage>
             </div>
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-success" type="submit">Save</button>
+                <button class="button is-success" type="submit">@this.localizer["Submit"]</button>
+                <button class="button" type="reset" @onclick="() => this.Refresh()">@this.localizer["Refresh"]</button>
             </div>
         </footer>
     </div>
@@ -72,15 +83,15 @@
     protected override async Task OnInitializedAsync()
     {
         this.query = new GetMunicipalityQuery(this.Id);
-        this.command = new UpdateMunicipalityCommand(this.Id);
-
-        await this.Refrsh();
+        await this.Refresh();
 
         await base.OnInitializedAsync();
     }
 
-    private async Task Refrsh()
+    private async Task Refresh()
     {
+        this.command = new UpdateMunicipalityCommand(this.Id);
+
         var result = await this.mediator.Send(this.query);
         if (result.Item != null)
         {

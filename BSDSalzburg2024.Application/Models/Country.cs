@@ -5,6 +5,7 @@
 namespace BSDSalzburg2024.Application.Models;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
@@ -50,6 +51,8 @@ public class Country
             _ => null,
         };
     }
+
+    public static IReadOnlyCollection<Country> Options => [Austria, Germany];
 
     public string FormatPostalCode(string rawCode)
     {

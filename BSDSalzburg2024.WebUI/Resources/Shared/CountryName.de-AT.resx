@@ -117,13 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AUT" xml:space="preserve">
+  <data name="AT" xml:space="preserve">
     <value>Österreich</value>
   </data>
-  <data name="DEU" xml:space="preserve">
+  <data name="DE" xml:space="preserve">
     <value>Deutschland</value>
-  </data>
-  <data name="POL" xml:space="preserve">
-    <value>Polen</value>
   </data>
 </root>

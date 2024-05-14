@@ -15,8 +15,15 @@
         </header>
         <section class="modal-card-body">
             <div class="field">
+                <label class="label">@this.localizer["Id"]</label>
+                <TemplatedValidationMessage For="() => this.command.Id">
+                    <InputTemplate Context="inputClasses">
+                        <input type="number" class="@inputClasses" value="@this.Id" disabled />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
                 <label class="label">@this.localizer["DeleteConfirmation"]</label>
-                <TemplateValidationMessage For="() => this.command.Id" />
             </div>
         </section>
         <footer class="modal-card-foot">

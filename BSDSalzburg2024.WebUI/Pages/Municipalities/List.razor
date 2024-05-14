@@ -36,6 +36,7 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th>@this.localizer.GetString("Id")</th>
                     <th>@this.localizer.GetString("Country")</th>
                     <th>@this.localizer.GetString("PostalCode")</th>
                     <th>@this.localizer.GetString("Name")</th>
@@ -47,6 +48,7 @@
                 {
                     <tr>
                         <td>@item.Index</td>
+                        <td>@item.Id</td>
                         <td>
                             @if (item.Country is not null)
                             {

@@ -18,6 +18,12 @@ public class CreateMunicipalityCommandInputValidator
             .NotEmpty()
             .NotEqual(0);
 
+        this.RuleFor(command => command.Country)
+            .NotEmpty();
+
+        this.RuleFor(command => command.Country)
+            .Must(c => Country.GetFromIso(c) != null);
+
         this.RuleFor(command => command.PostalCode)
             .NotEmpty();
 
@@ -25,14 +31,7 @@ public class CreateMunicipalityCommandInputValidator
             .Must(c => c.All(x => char.IsDigit(x)));
 
         this.RuleFor(command => command.PostalCode)
-            .MinimumLength(4)
-            .MaximumLength(5);
-
-        this.RuleFor(command => command.Country)
-            .NotEmpty();
-
-        this.RuleFor(command => command.Country)
-            .Must(c => Country.GetFromIso(c) != null);
+            .Length(command => Country.GetFromIso(command.Country)?.PostalCodeDigitCount ?? 4);
 
         this.RuleFor(command => command.Name)
             .NotEmpty();

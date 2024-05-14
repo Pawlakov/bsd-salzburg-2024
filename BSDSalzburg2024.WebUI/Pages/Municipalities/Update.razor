@@ -17,31 +17,35 @@
         <section class="modal-card-body">
             <div class="field">
                 <label class="label">@this.localizer["Id"]</label>
-                <div class="control">
-                    <input type="number" class="input" value="@this.Id" disabled="true" />
-                </div>
-                <TemplateValidationMessage For="() => this.command.Id" />
+                <TemplatedValidationMessage For="() => this.command.Id">
+                    <InputTemplate Context="inputClasses">
+                        <input type="number" class="@inputClasses" value="@this.Id" disabled />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
             </div>
             <div class="field">
                 <label class="label">@this.localizer["Name"]</label>
-                <div class="control">
-                    <InputText class="input" @bind-Value="this.command.Name" />
-                </div>
-                <TemplateValidationMessage For="() => this.command.Name" />
+                <TemplatedValidationMessage For="() => this.command.Name">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
             </div>
             <div class="field">
                 <label class="label">@this.localizer["PostalCode"]</label>
-                <div class="control">
-                    <InputText class="input" @bind-Value="this.command.PostalCode" />
-                </div>
-                <TemplateValidationMessage For="() => this.command.PostalCode" />
+                <TemplatedValidationMessage For="() => this.command.PostalCode">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
             </div>
             <div class="field">
                 <label class="label">@this.localizer["Country"]</label>
-                <div class="control">
-                    <InputText class="input" @bind-Value="this.command.Country" />
-                </div>
-                <TemplateValidationMessage For="() => this.command.Country" />
+                <TemplatedValidationMessage For="() => this.command.Country">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.Country" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
             </div>
         </section>
         <footer class="modal-card-foot">

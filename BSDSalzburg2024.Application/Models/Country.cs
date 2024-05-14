@@ -29,6 +29,8 @@ public class Country
 
     public string FlagEmoji { get; init; }
 
+    public int PostalCodeDigitCount => this.postalCodeTemplate.Count(x => x == 'X');
+
     /// <summary>
     /// Reurns a <cref>Country</cref> corresponding to a ISO 3166 code.
     /// </summary>
@@ -51,18 +53,18 @@ public class Country
 
     public string FormatPostalCode(string rawCode)
     {
-        var characterIndex = 4;
+        var characterIndex = 0;
         var charString = Enumerable.Empty<char>();
-        foreach (var character in this.postalCodeTemplate.Reverse())
+        foreach (var character in this.postalCodeTemplate)
         {
             if (character == 'X')
             {
-                charString = charString.Prepend(rawCode[characterIndex]);
-                characterIndex -= 1;
+                charString = charString.Append(rawCode[characterIndex]);
+                characterIndex += 1;
             }
             else
             {
-                charString = charString.Prepend(character);
+                charString = charString.Append(character);
             }
         }
 

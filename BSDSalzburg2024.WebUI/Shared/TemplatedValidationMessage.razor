@@ -4,7 +4,10 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Linq.Expressions
 
-@foreach (var message in this.CurrentEditContext.GetValidationMessages(this.fieldIdentifier))
+<div class="control">
+    @this.InputTemplate($"input {(this.validationMessages.Any() ? "is-danger" : string.Empty)}")
+</div>
+@foreach (var message in this.validationMessages)
 {
     <p class="help is-danger">@message</p>
 }
@@ -15,18 +18,23 @@
     private Expression<Func<TValue>> previousFieldAccessor;
     private FieldIdentifier fieldIdentifier;
 
+    private IEnumerable<string> validationMessages;
+
     [CascadingParameter]
     EditContext CurrentEditContext { get; set; }
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public Expression<Func<TValue>> For { get; set; }
 
-    public TemplateValidationMessage()
+    [Parameter, EditorRequired]
+    public RenderFragment<string> InputTemplate { get; set; }
+
+    public TemplatedValidationMessage()
     {
         this.validationStateChangedHandler = (sender, eventArgs) => this.StateHasChanged();
     }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         if (this.CurrentEditContext == null)
         {
@@ -52,6 +60,10 @@
             this.CurrentEditContext.OnValidationStateChanged += this.validationStateChangedHandler;
             this.previousEditContext = this.CurrentEditContext;
         }
+
+        this.validationMessages = this.CurrentEditContext.GetValidationMessages(this.fieldIdentifier);
+
+        await base.OnParametersSetAsync();
     }
 
     protected virtual void Dispose(bool disposing)

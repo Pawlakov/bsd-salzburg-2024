@@ -1,5 +1,4 @@
 ﻿@page "/municipalities"
-@namespace BSDSalzburg2024.WebUI.Pages
 @using BSDSalzburg2024.Application.Models
 @using BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand
 @using BSDSalzburg2024.Application.Municipalities.Commands.DeleteMunicipalityCommand
@@ -14,11 +13,11 @@
 @inject IMediator mediator
 @inject IStringLocalizer<List> localizer
 
-<PageTitle>@this.localizer.GetString("Title")</PageTitle>
+<PageTitle>@this.localizer["Title"]</PageTitle>
 
 <section class="section">
     <h1 class="title">
-        @this.localizer.GetString("Title")
+        @this.localizer["Title"]
     </h1>
 </section>
 <section>
@@ -29,17 +28,17 @@
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span>@this.localizer["AddMunicipality"]</span>
+                <span>@this.localizer["Create"]</span>
             </button>
         </div>
         <table class="table is-striped is-hoverable is-fullwidth">
             <thead>
                 <tr>
                     <th></th>
-                    <th>@this.localizer.GetString("Id")</th>
-                    <th>@this.localizer.GetString("Country")</th>
-                    <th>@this.localizer.GetString("PostalCode")</th>
-                    <th>@this.localizer.GetString("Name")</th>
+                    <th>@this.localizer["Id"]</th>
+                    <th>@this.localizer["Country"]</th>
+                    <th>@this.localizer["PostalCode"]</th>
+                    <th>@this.localizer["Name"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -68,12 +67,12 @@
                         <td>@item.Name</td>
                         <td>
                             <div class="buttons has-addons">
-                                <button class="button is-small" aria-label="@this.localizer["EditMunicipality"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
+                                <button class="button is-small" aria-label="@this.localizer["Update"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
                                     <span class="icon is-small">
                                         <i class="fas fa-edit"></i>
                                     </span>
                                 </button>
-                                <button class="button is-small" aria-label="@this.localizer["DeleteMunicipality"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
+                                <button class="button is-small" aria-label="@this.localizer["Delete"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
                                     <span class="icon is-small">
                                         <i class="fas fa-trash"></i>
                                     </span>

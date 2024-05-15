@@ -28,8 +28,4 @@
     <ProjectReference Include="..\BSDSalzburg2024.Data\BSDSalzburg2024.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Locations\" />
-  </ItemGroup>
-
 </Project>

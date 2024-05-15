@@ -1,4 +1,4 @@
-﻿// <copyright file="MunicipalityListItem.cs" company="Paweł Matusek">
+﻿// <copyright file="GetMunicipalityListQueryResultItem.cs" company="Paweł Matusek">
 // Copyright (c) Paweł Matusek. All rights reserved.
 // </copyright>
 

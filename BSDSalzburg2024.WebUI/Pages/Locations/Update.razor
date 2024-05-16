@@ -1,5 +1,84 @@
-﻿<h3>Update</h3>
+﻿@using BSDSalzburg2024.Application.Models
+@using BSDSalzburg2024.Application.Locations.Commands.UpdateLocationCommand
+@using BSDSalzburg2024.Application.Locations.Queries.GetLocationQuery
+@using BSDSalzburg2024.WebUI.Shared
+@using FluentValidation
+@using Microsoft.AspNetCore.Components.Forms
+
+@inject IMediator mediator
+@inject IStringLocalizer<Update> localizer
+
+<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="LocationUpdateForm">
+    <FluentValidationValidator @ref="this.validator" TModel="UpdateLocationCommand" />
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@this.localizer["Title"]</p>
+            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">@this.localizer["Id"]</label>
+                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <input type="text" class="@inputClasses" value="@this.Id" disabled />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button is-success" type="submit">@this.localizer["Submit"]</button>
+                <button class="button" type="reset" @onclick="() => this.Refresh()">@this.localizer["Refresh"]</button>
+            </div>
+        </footer>
+    </div>
+</EditForm>
 
 @code {
+    private bool active;
+    private GetLocationQuery query;
+    private UpdateLocationCommand command;
+    private EditForm form;
+    private FluentValidationValidator<UpdateLocationCommand> validator;
 
+    [Parameter]
+    public EventCallback<bool> ActiveChanged { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.query = new GetLocationQuery(this.Id);
+        await this.Refresh();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Refresh()
+    {
+        this.command = new UpdateLocationCommand(this.Id);
+
+        var result = await this.mediator.Send(this.query);
+        if (result.Item != null)
+        {
+        }
+    }
+
+    private async Task Submit()
+    {
+        var valid = this.form.EditContext.Validate();
+        if (valid)
+        {
+            try
+            {
+                await this.mediator.Send(this.command);
+                await this.ActiveChanged.InvokeAsync(false);
+            }
+            catch (ValidationException exception)
+            {
+                this.validator.PopulateErrors(exception.Errors);
+            }
+        }
+    }
 }

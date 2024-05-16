@@ -7,6 +7,12 @@ namespace BSDSalzburg2024.Application.Locations.Commands.CreateLocationCommand;
 using MediatR;
 
 public record CreateLocationCommand
-    : IRequest<int>
+    : IRequest<string>
 {
+    public CreateLocationCommand()
+    {
+        this.Id = string.Empty;
+    }
+
+    public string Id { get; set; }
 }

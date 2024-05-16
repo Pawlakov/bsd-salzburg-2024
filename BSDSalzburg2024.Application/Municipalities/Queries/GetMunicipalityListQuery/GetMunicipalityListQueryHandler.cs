@@ -25,7 +25,7 @@ public class GetMunicipalityListQueryHandler
     public async Task<GetMunicipalityListQueryResult> Handle(GetMunicipalityListQuery request, CancellationToken cancellationToken)
     {
         var total = await this.context.Municipalities
-            .CountAsync();
+            .CountAsync(cancellationToken);
 
         var entities = await this.context.Municipalities
             .OrderBy(x => x.Name)
@@ -39,7 +39,7 @@ public class GetMunicipalityListQueryHandler
                 x.Name,
                 CanBeDeleted = x.Locations == null || x.Locations.Count == 0,
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var items = entities
             .Select((entity, index) => new GetMunicipalityListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, Country.GetFromIso(entity.Country), entity.PostalCode, entity.Name, entity.CanBeDeleted))

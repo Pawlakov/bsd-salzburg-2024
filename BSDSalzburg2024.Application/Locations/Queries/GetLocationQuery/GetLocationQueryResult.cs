@@ -4,8 +4,7 @@
 
 namespace BSDSalzburg2024.Application.Locations.Queries.GetLocationQuery;
 
-using MediatR;
-
 public record GetLocationQueryResult
 {
+    public GetLocationQueryResultItem? Item { get; init; }
 }

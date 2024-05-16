@@ -9,10 +9,10 @@ using MediatR;
 public record DeleteLocationCommand
     : IRequest
 {
-    public DeleteLocationCommand(int id)
+    public DeleteLocationCommand(string id)
     {
         this.Id = id;
     }
 
-    public int Id { get; }
+    public string Id { get; }
 }

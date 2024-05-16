@@ -9,10 +9,10 @@ using MediatR;
 public record UpdateLocationCommand
     : IRequest
 {
-    public UpdateLocationCommand(int id)
+    public UpdateLocationCommand(string id)
     {
         this.Id = id;
     }
 
-    public int Id { get; }
+    public string Id { get; }
 }

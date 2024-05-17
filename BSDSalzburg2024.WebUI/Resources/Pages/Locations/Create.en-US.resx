@@ -120,6 +120,15 @@
   <data name="Id" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="IdCollision" xml:space="preserve">
+    <value>This ID is already taken.</value>
+  </data>
+  <data name="IdTooLong" xml:space="preserve">
+    <value>This ID has more than 8 characters.</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Save</value>
   </data>

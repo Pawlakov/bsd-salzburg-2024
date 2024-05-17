@@ -123,6 +123,12 @@
   <data name="Id" xml:space="preserve">
     <value />
   </data>
+  <data name="IdInvalid" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value />
+  </data>
   <data name="Submit" xml:space="preserve">
     <value />
   </data>

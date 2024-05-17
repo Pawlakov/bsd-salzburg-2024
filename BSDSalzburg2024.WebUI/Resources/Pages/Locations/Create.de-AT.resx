@@ -120,6 +120,15 @@
   <data name="Id" xml:space="preserve">
     <value />
   </data>
+  <data name="IdCollision" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IdTooLong" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value />
+  </data>
   <data name="Submit" xml:space="preserve">
     <value />
   </data>

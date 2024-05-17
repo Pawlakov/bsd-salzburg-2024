@@ -123,6 +123,12 @@
   <data name="Id" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="IdInvalid" xml:space="preserve">
+    <value>This ID doesn't exist.</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Remove</value>
   </data>

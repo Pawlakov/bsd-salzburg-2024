@@ -23,6 +23,48 @@
                     </InputTemplate>
                 </TemplatedValidationMessage>
             </div>
+            <div class="field">
+                <label class="label">@this.localizer["MunicipalityId"]</label>
+                <TemplatedValidationMessage For="() => this.command.MunicipalityId" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["Name"]</label>
+                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["PostalCode"]</label>
+                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["Address"]</label>
+                <TemplatedValidationMessage For="() => this.command.Address" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.Address" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <TemplatedValidationMessage For="() => this.command.Hidden" BaseClass="checkbox" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <label class="@(inputClasses)">
+                            <InputCheckbox @bind-Value="this.command.Hidden" />
+                            @this.localizer["Hidden"]
+                        </label>
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">

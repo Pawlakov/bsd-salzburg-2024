@@ -132,6 +132,9 @@
   <data name="Name" xml:space="preserve">
     <value />
   </data>
+  <data name="NameTooLong" xml:space="preserve">
+    <value />
+  </data>
   <data name="PostalCode" xml:space="preserve">
     <value />
   </data>

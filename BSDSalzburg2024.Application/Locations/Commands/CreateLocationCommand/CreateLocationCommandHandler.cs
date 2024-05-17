@@ -25,6 +25,11 @@ public class CreateLocationCommandHandler
         var entity = new Location
         {
             Id = request.Id,
+            MunicipalityId = request.MunicipalityId,
+            PostalCode = request.PostalCode,
+            Name = request.Name,
+            Address = request.Address,
+            Hidden = request.Hidden,
         };
 
         this.context.Locations.Add(entity);

@@ -37,7 +37,7 @@ public class Country
     /// </summary>
     /// <param name="isoCode">3-character ISO 3166 country code. Case insensitive.</param>
     /// <returns>A <cref>Country</cref> corresponding to the given ISO 3166 code. Null if no <cref>Country</cref> found.</returns>
-    public static Country? GetFromIso(string isoCode)
+    public static Country? GetFromIso(string? isoCode)
     {
         if (isoCode is null)
         {

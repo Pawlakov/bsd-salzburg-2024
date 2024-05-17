@@ -41,5 +41,9 @@ public class CreateMunicipalityCommandInputValidator
         this.RuleFor(command => command.Name)
             .NotEmpty()
             .WithMessage("Required");
+
+        this.RuleFor(command => command.Name)
+            .MaximumLength(50)
+            .WithMessage("NameTooLong");
     }
 }

@@ -28,12 +28,17 @@ public class GetLocationQueryHandler
             .Select(x => new
             {
                 x.Id,
+                x.MunicipalityId,
+                x.Name,
+                x.PostalCode,
+                x.Address,
+                x.Hidden,
             })
             .FirstOrDefaultAsync(cancellationToken);
 
         return new GetLocationQueryResult
         {
-            Item = entity == null ? null : new GetLocationQueryResultItem(entity.Id),
+            Item = entity == null ? null : new GetLocationQueryResultItem(entity.Id, entity.MunicipalityId, entity.Name, entity.PostalCode, entity.Address, entity.Hidden),
         };
     }
 }

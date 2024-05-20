@@ -117,11 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AddressTooLong" xml:space="preserve">
+    <value>This address has more than 50 characters.</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="IdInvalid" xml:space="preserve">
     <value>This ID doesn't exist.</value>
+  </data>
+  <data name="MunicipalityId" xml:space="preserve">
+    <value>Municipality</value>
+  </data>
+  <data name="MunicipalityIdInvalid" xml:space="preserve">
+    <value>This municipality doesn't exist.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameTooLong" xml:space="preserve">
+    <value>This name has more than 30 characters.</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="PostalCodeInvalidCharacter" xml:space="preserve">
+    <value>This postal code contains non-digit characters.</value>
+  </data>
+  <data name="PostalCodeInvalidLength" xml:space="preserve">
+    <value>This postal code has invalid length.</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>This field is required.</value>

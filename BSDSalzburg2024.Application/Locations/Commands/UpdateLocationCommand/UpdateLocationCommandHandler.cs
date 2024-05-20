@@ -23,6 +23,12 @@ public class UpdateLocationCommandHandler
     {
         var entity = await this.context.Locations.FindAsync([request.Id], cancellationToken: cancellationToken);
 
+        entity.MunicipalityId = request.MunicipalityId;
+        entity.PostalCode = request.PostalCode;
+        entity.Name = request.Name;
+        entity.Address = request.Address;
+        entity.Hidden = request.Hidden;
+
         await this.context.SaveChangesAsync(cancellationToken);
     }
 }

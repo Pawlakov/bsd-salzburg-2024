@@ -66,7 +66,7 @@
     <div class="modal-background"></div>
     @if (this.deleteActive)
     {
-        <Delete ActiveChanged="async (active) => { this.deleteActive = active; await this.LoadList(); }" Id="this.activeItemId" />
+        <Delete ActiveChanged="async (active) => { this.deleteActive = active; await this.LoadList(); }" Id="@this.activeItemId" />
     }
 </div>
 <div class="modal @(this.createActive ? "is-active" : "")">
@@ -80,7 +80,7 @@
     <div class="modal-background"></div>
     @if (this.updateActive)
     {
-        <Update ActiveChanged="async (active) => { this.updateActive = active; await this.LoadList(); }" Id="this.activeItemId" />
+        <Update ActiveChanged="async (active) => { this.updateActive = active; await this.LoadList(); }" Id="@this.activeItemId" />
     }
 </div>
 

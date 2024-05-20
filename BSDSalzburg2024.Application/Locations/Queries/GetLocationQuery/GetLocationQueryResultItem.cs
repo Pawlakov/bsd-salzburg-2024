@@ -4,4 +4,4 @@
 
 namespace BSDSalzburg2024.Application.Locations.Queries.GetLocationQuery;
 
-public record GetLocationQueryResultItem(string Id);
+public record GetLocationQueryResultItem(string Id, int MunicipalityId, string Name, string PostalCode, string Address, bool Hidden);

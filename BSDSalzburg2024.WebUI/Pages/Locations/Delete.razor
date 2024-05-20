@@ -18,7 +18,7 @@
                 <label class="label">@this.localizer["Id"]</label>
                 <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
-                        <input type="number" class="@inputClasses" value="@this.Id" disabled />
+                        <input type="text" class="@inputClasses" value="@this.Id" disabled />
                     </InputTemplate>
                 </TemplatedValidationMessage>
             </div>

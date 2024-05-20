@@ -15,4 +15,14 @@ public record UpdateLocationCommand
     }
 
     public string Id { get; }
+
+    public int MunicipalityId { get; set; }
+
+    public string PostalCode { get; set; }
+
+    public string Name { get; set; }
+
+    public string Address { get; set; }
+
+    public bool Hidden { get; set; }
 }

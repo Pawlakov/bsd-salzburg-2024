@@ -92,13 +92,13 @@
 
     private GetLocationListQuery listCommand;
 
-    private List<GetLocationListQueryResultItem> listItems;
+    private IReadOnlyCollection<GetLocationListQueryResultItem> listItems;
     private int listItemsTotal;
 
     private async Task LoadList()
     {
         var result = await this.mediator.Send(listCommand);
-        this.listItems = result.Items.ToList();
+        this.listItems = result.Items;
         this.listItemsTotal = result.ItemsTotal;
     }
 

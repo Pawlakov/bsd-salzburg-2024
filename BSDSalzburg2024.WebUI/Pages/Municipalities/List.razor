@@ -1,14 +1,7 @@
 ﻿@page "/municipalities"
 @using BSDSalzburg2024.Application.Models
-@using BSDSalzburg2024.Application.Municipalities.Commands.CreateMunicipalityCommand
-@using BSDSalzburg2024.Application.Municipalities.Commands.DeleteMunicipalityCommand
-@using BSDSalzburg2024.Application.Municipalities.Commands.UpdateMunicipalityCommand
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
-@using BSDSalzburg2024.Application.Validation
-@using BSDSalzburg2024.WebUI.Pages.Municipalities
 @using BSDSalzburg2024.WebUI.Shared
-@using FluentValidation
-@using Microsoft.AspNetCore.Components.Forms
 
 @inject IMediator mediator
 @inject IStringLocalizer<List> localizer
@@ -43,40 +36,55 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in this.listItems)
+                @if (this.listItems.Count > 0)
+                {
+                    foreach (var item in this.listItems)
+                    {
+                        <tr>
+                            <td>@item.Index</td>
+                            <td>@item.Id</td>
+                            <td>
+                                @if (item.Country is not null)
+                                {
+                                    <CountryName Model="item.Country"></CountryName>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Country is not null)
+                                {
+                                    <span>@item.Country.FormatPostalCode(item.PostalCode)</span>
+                                }
+                                else
+                                {
+                                    <span>@item.PostalCode</span>
+                                }
+                            </td>
+                            <td>@item.Name</td>
+                            <td>
+                                <div class="buttons has-addons">
+                                    <button class="button is-small" aria-label="@this.localizer["Update"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                    </button>
+                                    <button class="button is-small" aria-label="@this.localizer["Delete"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td>@item.Index</td>
-                        <td>@item.Id</td>
-                        <td>
-                            @if (item.Country is not null)
-                            {
-                                <CountryName Model="item.Country"></CountryName>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Country is not null)
-                            {
-                                <span>@item.Country.FormatPostalCode(item.PostalCode)</span>
-                            }
-                            else
-                            {
-                                <span>@item.PostalCode</span>
-                            }
-                        </td>
-                        <td>@item.Name</td>
-                        <td>
-                            <div class="buttons has-addons">
-                                <button class="button is-small" aria-label="@this.localizer["Update"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                </button>
-                                <button class="button is-small" aria-label="@this.localizer["Delete"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-trash"></i>
-                                    </span>
-                                </button>
+                        <td colspan="6">
+                            <div class="level">
+                                <div class="level-item has-text-centered">
+                                        @this.localizer["NoData"]
+                                </div>
                             </div>
                         </td>
                     </tr>

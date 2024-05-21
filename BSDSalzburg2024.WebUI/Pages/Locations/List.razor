@@ -28,6 +28,11 @@
                 <tr>
                     <th></th>
                     <th>@this.localizer["Id"]</th>
+                    <th>@this.localizer["Name"]</th>
+                    <th>@this.localizer["PostalCode"]</th>
+                    <th>@this.localizer["Address"]</th>
+                    <th>@this.localizer["Municipality"]</th>
+                    <th>@this.localizer["Hidden"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -37,6 +42,13 @@
                     <tr>
                         <td>@item.Index</td>
                         <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.PostalCode</td>
+                        <td>@item.Address</td>
+                        <td>@item.Municipality</td>
+                        <td>
+                            <BoolDisplay Model="item.Hidden"></BoolDisplay>
+                        </td>
                         <td>
                             <div class="buttons has-addons">
                                 <button class="button is-small" aria-label="@this.localizer["Update"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">

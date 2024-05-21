@@ -33,11 +33,16 @@ public class GetLocationListQueryHandler
             .Select(x => new
             {
                 x.Id,
+                x.Name,
+                x.PostalCode,
+                x.Address,
+                x.Hidden,
+                Municipality = x.Municipality.Name,
             })
             .ToListAsync(cancellationToken);
 
         var items = entities
-            .Select((entity, index) => new GetLocationListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id))
+            .Select((entity, index) => new GetLocationListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, entity.Name, entity.PostalCode, entity.Address, entity.Municipality, entity.Hidden))
             .ToList();
 
         return new GetLocationListQueryResult

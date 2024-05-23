@@ -1,4 +1,5 @@
 ﻿@page "/municipalities"
+@using BSDSalzburg2024.Application.Base.Queries.ListQuery
 @using BSDSalzburg2024.Application.Models
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
 @using BSDSalzburg2024.WebUI.Shared
@@ -8,148 +9,42 @@
 
 <PageTitle>@this.localizer["Title"]</PageTitle>
 
-<section class="section">
-    <h1 class="title">
-        @this.localizer["Title"]
-    </h1>
-</section>
-<section>
-    @if (this.listItems is not null)
-    {
-        <div class="buttons">
-            <button class="button" @onclick="() => this.createActive = true">
-                <span class="icon">
-                    <i class="fas fa-plus"></i>
-                </span>
-                <span>@this.localizer["Create"]</span>
-            </button>
-        </div>
-        <table class="table is-striped is-hoverable is-fullwidth">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>@this.localizer["Id"]</th>
-                    <th>@this.localizer["Country"]</th>
-                    <th>@this.localizer["PostalCode"]</th>
-                    <th>@this.localizer["Name"]</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (this.listItems.Count > 0)
-                {
-                    foreach (var item in this.listItems)
-                    {
-                        <tr>
-                            <td>@item.Index</td>
-                            <td>@item.Id</td>
-                            <td>
-                                @if (item.Country is not null)
-                                {
-                                    <CountryName Model="item.Country"></CountryName>
-                                }
-                            </td>
-                            <td>
-                                @if (item.Country is not null)
-                                {
-                                    <span>@item.Country.FormatPostalCode(item.PostalCode)</span>
-                                }
-                                else
-                                {
-                                    <span>@item.PostalCode</span>
-                                }
-                            </td>
-                            <td>@item.Name</td>
-                            <td>
-                                <div class="buttons has-addons">
-                                    <button class="button is-small" aria-label="@this.localizer["Update"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
-                                        <span class="icon is-small">
-                                            <i class="fas fa-edit"></i>
-                                        </span>
-                                    </button>
-                                    <button class="button is-small" aria-label="@this.localizer["Delete"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
-                                        <span class="icon is-small">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="6">
-                            <div class="level">
-                                <div class="level-item has-text-centered">
-                                        @this.localizer["NoData"]
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <Pagination PageSize="this.listCommand.PageSize"
-                    PageIndex="this.listCommand.PageIndex"
-                    ItemsTotal="this.listItemsTotal"
-                    OnPageChange="this.ChangePage">
-        </Pagination>
-    }
-</section>
-<div class="modal @(this.deleteActive ? "is-active" : "")">
-    <div class="modal-background"></div>
-    @if (this.deleteActive)
-    {
-        <Delete ActiveChanged="async (active) => { this.deleteActive = active; await this.LoadList(); }" Id="this.activeItemId" />
-    }
-</div>
-<div class="modal @(this.createActive ? "is-active" : "")">
-    <div class="modal-background"></div>
-    @if (this.createActive)
-    {
-        <Create ActiveChanged="async (active) => { this.createActive = active; await this.LoadList(); }" />
-    }
-</div>
-<div class="modal @(this.updateActive ? "is-active" : "")">
-    <div class="modal-background"></div>
-    @if (this.updateActive)
-    {
-        <Update ActiveChanged="async (active) => { this.updateActive = active; await this.LoadList(); }" Id="this.activeItemId" />
-    }
-</div>
+<BSDSalzburg2024.WebUI.Pages.Generic.List Title="@this.localizer["Title"]" TListQueryResultItem="GetMunicipalityListQueryResultItem" TId="int">
+    <HeaderTemplate>
+        <th>@this.localizer["Id"]</th>
+        <th>@this.localizer["Country"]</th>
+        <th>@this.localizer["PostalCode"]</th>
+        <th>@this.localizer["Name"]</th>
+    </HeaderTemplate>
+    <RowTemplate Context="item">
+        <td>@item.Id</td>
+        <td>
+            @if (item.Country is not null)
+            {
+                <CountryName Model="item.Country"></CountryName>
+            }
+        </td>
+        <td>
+            @if (item.Country is not null)
+            {
+                <span>@item.Country.FormatPostalCode(item.PostalCode)</span>
+            }
+            else
+            {
+                <span>@item.PostalCode</span>
+            }
+        </td>
+        <td>@item.Name</td>
+    </RowTemplate>
+    <CreateTemplate Context="context">
+        <Create ActiveChanged="@context" />
+    </CreateTemplate>
+    <UpdateTemplate Context="context">
+        <Update ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </UpdateTemplate>
+    <DeleteTemplate Context="context">
+        <Delete ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </DeleteTemplate>
+</BSDSalzburg2024.WebUI.Pages.Generic.List>
 
-@code {
-    private int activeItemId;
-    private bool createActive;
-    private bool updateActive;
-    private bool deleteActive;
-
-    private GetMunicipalityListQuery listCommand;
-
-    private List<GetMunicipalityListQueryResultItem> listItems;
-    private int listItemsTotal;
-
-    private async Task LoadList()
-    {
-        var result = await this.mediator.Send(listCommand);
-        this.listItems = result.Items.ToList();
-        this.listItemsTotal = result.ItemsTotal;
-    }
-
-    private async Task ChangePage(int pageIndex)
-    {
-        this.listCommand.PageIndex = pageIndex;
-
-        await this.LoadList();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        this.listCommand = new GetMunicipalityListQuery { PageIndex = 0, PageSize = 10 };
-
-        await this.LoadList();
-        await base.OnInitializedAsync();
-    }
-}
+@code {}

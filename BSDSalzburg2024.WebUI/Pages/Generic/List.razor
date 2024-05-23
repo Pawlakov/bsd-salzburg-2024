@@ -1,0 +1,156 @@
+﻿@using BSDSalzburg2024.Application.Base.Queries.ListQuery
+@using BSDSalzburg2024.WebUI.Shared
+
+@typeparam TListQueryResultItem where TListQueryResultItem : IListQueryResultItem<TId>
+@typeparam TId
+
+@inject IMediator mediator
+@inject IStringLocalizer<List<TListQueryResultItem, TId>> localizer
+
+<section class="section">
+    <h1 class="title">
+        @this.Title
+    </h1>
+</section>
+<section>
+    @if (this.listItems is not null)
+    {
+        <div class="buttons">
+            <button class="button" @onclick="() => this.createActive = true">
+                <span class="icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>@this.localizer["Create"]</span>
+            </button>
+        </div>
+        <table class="table is-striped is-hoverable is-fullwidth">
+            <thead>
+                <tr>
+                    <th></th>
+                    @this.HeaderTemplate
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (this.listItems.Count > 0)
+                {
+                    foreach (var item in this.listItems)
+                    {
+                        <tr>
+                            <td>@item.Index</td>
+                            @this.RowTemplate(item)
+                            <td>
+                                <div class="buttons has-addons">
+                                    <button class="button is-small" aria-label="@this.localizer["Update"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                    </button>
+                                    <button class="button is-small" aria-label="@this.localizer["Delete"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8">
+                            <div class="level">
+                                <div class="level-item has-text-centered">
+                                    @this.localizer["NoData"]
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <Pagination PageSize="this.listCommand.PageSize"
+                    PageIndex="this.listCommand.PageIndex"
+                    ItemsTotal="this.listItemsTotal"
+                    OnPageChange="this.ChangePage">
+        </Pagination>
+    }
+</section>
+<div class="modal @(this.deleteActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    @if (this.deleteActive)
+    {
+        Action<bool> callback = async (active) => { this.deleteActive = active; await this.LoadList(); };
+        @this.DeleteTemplate((callback, this.activeItemId))
+    }
+</div>
+<div class="modal @(this.createActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    @if (this.createActive)
+    {
+        @this.CreateTemplate(async (active) => { this.createActive = active; await this.LoadList();})
+    }
+</div>
+<div class="modal @(this.updateActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    @if (this.updateActive)
+    {
+        Action<bool> callback = async (active) => { this.updateActive = active; await this.LoadList(); };
+        @this.UpdateTemplate((callback, this.activeItemId))
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment<TListQueryResultItem> RowTemplate { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment HeaderTemplate { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment<Action<bool>> CreateTemplate { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment<(Action<bool>, TId)> UpdateTemplate { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment<(Action<bool>, TId)> DeleteTemplate { get; set; }
+
+    private TId activeItemId;
+    private bool createActive;
+    private bool updateActive;
+    private bool deleteActive;
+
+    private ListQuery<TListQueryResultItem, TId> listCommand;
+
+    private IReadOnlyCollection<TListQueryResultItem> listItems;
+    private int listItemsTotal;
+
+    private async Task LoadList()
+    {
+        var result = await this.mediator.Send(listCommand);
+        this.listItems = result.Items;
+        this.listItemsTotal = result.ItemsTotal;
+
+        this.StateHasChanged();
+    }
+
+    private async Task ChangePage(int pageIndex)
+    {
+        this.listCommand.PageIndex = pageIndex;
+
+        await this.LoadList();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.listCommand = new ListQuery<TListQueryResultItem, TId> { PageIndex = 0, PageSize = 10 };
+
+        await this.LoadList();
+        await base.OnInitializedAsync();
+    }
+}

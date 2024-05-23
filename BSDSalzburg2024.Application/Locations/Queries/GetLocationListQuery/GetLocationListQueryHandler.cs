@@ -7,12 +7,13 @@ namespace BSDSalzburg2024.Application.Locations.Queries.GetLocationListQuery;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BSDSalzburg2024.Application.Base.Queries.ListQuery;
 using BSDSalzburg2024.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 public class GetLocationListQueryHandler
-    : IRequestHandler<GetLocationListQuery, GetLocationListQueryResult>
+    : IRequestHandler<ListQuery<GetLocationListQueryResultItem, string>, ListQueryResult<GetLocationListQueryResultItem, string>>
 {
     private readonly BsdDatabaseContext context;
 
@@ -21,7 +22,7 @@ public class GetLocationListQueryHandler
         this.context = context;
     }
 
-    public async Task<GetLocationListQueryResult> Handle(GetLocationListQuery request, CancellationToken cancellationToken)
+    public async Task<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
     {
         var total = await this.context.Locations
             .CountAsync(cancellationToken);
@@ -42,10 +43,10 @@ public class GetLocationListQueryHandler
             .ToListAsync(cancellationToken);
 
         var items = entities
-            .Select((entity, index) => new GetLocationListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, entity.Name, entity.PostalCode, entity.Address, entity.Municipality, entity.Hidden))
+            .Select((entity, index) => new GetLocationListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, entity.Name, entity.PostalCode, entity.Address, entity.Municipality, entity.Hidden, true))
             .ToList();
 
-        return new GetLocationListQueryResult
+        return new ListQueryResult<GetLocationListQueryResultItem, string>
         {
             Items = items,
             ItemsTotal = total,

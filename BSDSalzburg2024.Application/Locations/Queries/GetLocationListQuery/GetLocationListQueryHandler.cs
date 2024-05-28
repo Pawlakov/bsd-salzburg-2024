@@ -9,20 +9,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Base.Queries.ListQuery;
 using BSDSalzburg2024.Data;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 public class GetLocationListQueryHandler
-    : IRequestHandler<ListQuery<GetLocationListQueryResultItem, string>, ListQueryResult<GetLocationListQueryResultItem, string>>
+    : ListQueryHandler<GetLocationListQueryResultItem, string>
 {
-    private readonly BsdDatabaseContext context;
-
-    public GetLocationListQueryHandler(BsdDatabaseContext context)
+    public GetLocationListQueryHandler(BsdDatabaseContext context) : base(context)
     {
-        this.context = context;
     }
 
-    public async Task<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
+    public override async Task<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
     {
         var total = await this.context.Locations
             .CountAsync(cancellationToken);

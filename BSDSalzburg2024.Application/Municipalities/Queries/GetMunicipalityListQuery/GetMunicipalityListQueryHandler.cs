@@ -10,20 +10,17 @@ using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Base.Queries.ListQuery;
 using BSDSalzburg2024.Application.Models;
 using BSDSalzburg2024.Data;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 public class GetMunicipalityListQueryHandler
-    : IRequestHandler<ListQuery<GetMunicipalityListQueryResultItem, int>, ListQueryResult<GetMunicipalityListQueryResultItem, int>>
+    : ListQueryHandler<GetMunicipalityListQueryResultItem, int>
 {
-    private readonly BsdDatabaseContext context;
-
     public GetMunicipalityListQueryHandler(BsdDatabaseContext context)
+        : base(context)
     {
-        this.context = context;
     }
 
-    public async Task<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(ListQuery<GetMunicipalityListQueryResultItem, int> request, CancellationToken cancellationToken)
+    public override async Task<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(ListQuery<GetMunicipalityListQueryResultItem, int> request, CancellationToken cancellationToken)
     {
         var total = await this.context.Municipalities
             .CountAsync(cancellationToken);

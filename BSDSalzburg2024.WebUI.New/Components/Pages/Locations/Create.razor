@@ -1,0 +1,132 @@
+﻿@using BSDSalzburg2024.Application.Locations.Queries.GetMunicipalityOptionsQuery
+@using BSDSalzburg2024.Application.Models
+@using BSDSalzburg2024.Application.Locations.Commands.CreateLocationCommand
+@using BSDSalzburg2024.WebUI.New.Components.Validation
+@using FluentValidation
+@using Microsoft.AspNetCore.Components.Forms
+
+@inject IMediator mediator
+@inject IStringLocalizer<Create> localizer
+
+<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="LocationCreateForm">
+    <FluentValidationValidator @ref="this.validator" TModel="CreateLocationCommand" />
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@this.localizer["Title"]</p>
+            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">@this.localizer["Id"]</label>
+                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.Id" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            @if (this.municipalityOptions != null)
+            {
+                <div class="field">
+                    <label class="label">@this.localizer["MunicipalityId"]</label>
+                    <TemplatedValidationMessage For="() => this.command.MunicipalityId" BaseClass="select" Localizer="this.localizer">
+                        <InputTemplate Context="inputClasses">
+                            <div class="@(inputClasses)">
+                                <InputSelect @bind-Value="this.command.MunicipalityId">
+                                    @foreach (var option in this.municipalityOptions)
+                                    {
+                                        <option value="@option.Id">
+                                            @option.Label
+                                        </option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+            }
+            <div class="field">
+                <label class="label">@this.localizer["Name"]</label>
+                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["PostalCode"]</label>
+                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["Address"]</label>
+                <TemplatedValidationMessage For="() => this.command.Address" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputText class="@(inputClasses)" @bind-Value="this.command.Address" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <TemplatedValidationMessage For="() => this.command.Hidden" BaseClass="checkbox" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <label class="@(inputClasses)">
+                            <InputCheckbox @bind-Value="this.command.Hidden" />
+                            @this.localizer["Hidden"]
+                        </label>
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button is-success" type="submit">@this.localizer["Submit"]</button>
+            </div>
+        </footer>
+    </div>
+</EditForm>
+
+@code {
+    private bool active;
+    private GetMunicipalityOptionsQuery municipalityOptionsCommand;
+    private CreateLocationCommand command;
+    private IReadOnlyCollection<GetMunicipalityOptionsQueryResultItem> municipalityOptions;
+    private EditForm form;
+    private FluentValidationValidator<CreateLocationCommand> validator;
+
+    [Parameter]
+    public EventCallback<bool> ActiveChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.command = new CreateLocationCommand();
+        this.municipalityOptionsCommand = new GetMunicipalityOptionsQuery();
+
+        await this.LoadOptions();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadOptions()
+    {
+        var result = await this.mediator.Send(this.municipalityOptionsCommand);
+        this.municipalityOptions = result.Items;
+    }
+
+    private async Task Submit()
+    {
+        var valid = this.form.EditContext.Validate();
+        if (valid)
+        {
+            try
+            {
+                await this.mediator.Send(this.command);
+                await this.ActiveChanged.InvokeAsync(false);
+            }
+            catch (ValidationException exception)
+            {
+                this.validator.PopulateErrors(exception.Errors);
+            }
+        }
+    }
+}

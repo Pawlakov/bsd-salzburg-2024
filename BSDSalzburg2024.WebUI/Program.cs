@@ -1,27 +1,29 @@
-Ôªø// <copyright file="Program.cs" company="Pawe≈Ç Matusek">
-// Copyright (c) Pawe≈Ç Matusek. All rights reserved.
+// <copyright file="Program.cs" company="Pawe≥ Matusek">
+// Copyright (c) Pawe≥ Matusek. All rights reserved.
 // </copyright>
+
 namespace BSDSalzburg2024.WebUI;
 
-using System.Threading.Tasks;
 using BSDSalzburg2024.Application.HostBuilders;
 using BSDSalzburg2024.Data.HostBuilders;
+using BSDSalzburg2024.WebUI.Components;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-public static class Program
+public class Program
 {
-    public static async Task Main(string[] args)
+    public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddRazorPages();
-        builder.Services.AddServerSideBlazor();
+
+        // Add services to the container.
+        builder.Services.AddRazorComponents()
+            .AddInteractiveServerComponents();
 
         builder.Services.AddRequests();
         builder.Services.AddValidation();
         builder.Host.AddDbContextLocal();
-
         builder.Services.AddLocalization(options =>
         {
             options.ResourcesPath = "Resources";
@@ -29,8 +31,10 @@ public static class Program
 
         var app = builder.Build();
 
+        // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
+            app.UseExceptionHandler("/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
@@ -38,13 +42,12 @@ public static class Program
         app.UseHttpsRedirection();
 
         app.UseStaticFiles();
+        app.UseAntiforgery();
+        app.UseRequestLocalization("de-AT");
 
-        app.UseRouting();
-        app.UseRequestLocalization("en-US");
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode();
 
-        app.MapBlazorHub();
-        app.MapFallbackToPage("/_Host");
-
-        await app.RunAsync();
+        app.Run();
     }
 }

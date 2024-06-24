@@ -43,7 +43,7 @@ public class Program
 
         app.UseStaticFiles();
         app.UseAntiforgery();
-        app.UseRequestLocalization("de-AT");
+        app.UseRequestLocalization("en-US");
 
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();

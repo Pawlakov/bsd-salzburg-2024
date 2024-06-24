@@ -76,6 +76,17 @@
         </Pagination>
     }
 </section>
+<div class="modal @(this.loadingActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <section class="hero is-info">
+            <div class="hero-body">
+                <p class="title">@this.localizer["LoadingData"]</p>
+                <p class="subtitle">@this.localizer["PleaseWait"]</p>
+            </div>
+        </section>
+    </div>
+</div>
 <div class="modal @(this.deleteActive ? "is-active" : "")">
     <div class="modal-background"></div>
     @if (this.deleteActive)
@@ -120,6 +131,7 @@
     public RenderFragment<(Action<bool>, TId)> DeleteTemplate { get; set; }
 
     private TId activeItemId;
+    private bool loadingActive;
     private bool createActive;
     private bool updateActive;
     private bool deleteActive;
@@ -131,10 +143,14 @@
 
     private async Task LoadList()
     {
+        this.loadingActive = true;
+        this.StateHasChanged();
+
         var result = await this.mediator.Send(listCommand);
         this.listItems = result.Items;
         this.listItemsTotal = result.ItemsTotal;
 
+        this.loadingActive = false;
         this.StateHasChanged();
     }
 

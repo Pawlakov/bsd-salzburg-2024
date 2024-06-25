@@ -21,6 +21,7 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
+        builder.Services.AddControllers();
         builder.Services.AddRequests();
         builder.Services.AddValidation();
         builder.Host.AddDbContextLocal();
@@ -43,7 +44,14 @@ public class Program
 
         app.UseStaticFiles();
         app.UseAntiforgery();
-        app.UseRequestLocalization("en-US");
+
+        var supportedCultures = new[] { "en-US", "de-AT" };
+        var localizationOptions = new RequestLocalizationOptions()
+            .SetDefaultCulture(supportedCultures[1])
+            .AddSupportedCultures(supportedCultures)
+            .AddSupportedUICultures(supportedCultures);
+        app.UseRequestLocalization(localizationOptions);
+        app.MapControllers();
 
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();

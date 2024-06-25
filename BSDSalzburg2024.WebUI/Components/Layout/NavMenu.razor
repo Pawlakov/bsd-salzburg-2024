@@ -1,4 +1,6 @@
-﻿@inject IStringLocalizer<NavMenu> localizer
+﻿@using BSDSalzburg2024.WebUI.Components.Shared
+
+@inject IStringLocalizer<NavMenu> localizer
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
@@ -19,6 +21,11 @@
             <NavLink class="navbar-item" href="locations">
                 @this.localizer["Locations"]
             </NavLink>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <CultureSelector />
+            </div>
         </div>
     </div>
 </nav>

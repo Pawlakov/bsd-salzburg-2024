@@ -66,10 +66,6 @@ public partial class TblSpender
 
     public bool EinladungKeine { get; set; }
 
-    public string EhrungsId { get; set; }
-
-    public DateTime? EhrungLetzte { get; set; }
-
     public string Kommentar { get; set; }
 
     public string KompanieFirma { get; set; }
@@ -113,11 +109,6 @@ public partial class TblSpender
         entity.Property(e => e.Blutgruppe)
             .HasMaxLength(2)
             .IsUnicode(false);
-        entity.Property(e => e.EhrungLetzte).HasColumnType("smalldatetime");
-        entity.Property(e => e.EhrungsId)
-            .HasMaxLength(8)
-            .IsUnicode(false)
-            .HasColumnName("EhrungsID");
         entity.Property(e => e.EinladungNurSms).HasColumnName("EinladungNurSMS");
         entity.Property(e => e.EinladungSms).HasColumnName("EinladungSMS");
         entity.Property(e => e.Email)

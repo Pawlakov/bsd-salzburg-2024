@@ -27,6 +27,11 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
     /// </summary>
     public virtual DbSet<Location> Locations { get; set; }
 
+    /// <summary>
+    /// Gets or sets the table of donation events in the DB.
+    /// </summary>
+    public virtual DbSet<DonationEvent> DonationEvents { get; set; }
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable SA1600 // Elements should be documented
     public virtual DbSet<TblEhrung> TblEhrungs { get; set; }
@@ -52,8 +57,6 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
     public virtual DbSet<TblSpende> TblSpendes { get; set; }
 
     public virtual DbSet<TblSpendeHinderni> TblSpendeHindernis { get; set; }
-
-    public virtual DbSet<DonationEvent> TblSpendeaktions { get; set; }
 
     public virtual DbSet<TblSpendeaktionVerbrauch> TblSpendeaktionVerbrauches { get; set; }
 

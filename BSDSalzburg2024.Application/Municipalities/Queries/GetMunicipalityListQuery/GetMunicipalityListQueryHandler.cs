@@ -4,13 +4,13 @@
 
 namespace BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery;
 
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Base.Queries.ListQuery;
 using BSDSalzburg2024.Application.Models;
 using BSDSalzburg2024.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class GetMunicipalityListQueryHandler
     : ListQueryHandler<GetMunicipalityListQueryResultItem, int>

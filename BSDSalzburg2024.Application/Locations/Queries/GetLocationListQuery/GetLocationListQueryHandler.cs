@@ -4,12 +4,12 @@
 
 namespace BSDSalzburg2024.Application.Locations.Queries.GetLocationListQuery;
 
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Base.Queries.ListQuery;
 using BSDSalzburg2024.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class GetLocationListQueryHandler
     : ListQueryHandler<GetLocationListQueryResultItem, string>
@@ -36,11 +36,12 @@ public class GetLocationListQueryHandler
                 x.Address,
                 x.Hidden,
                 Municipality = x.Municipality.Name,
+                CanBeDeleted = x.DonationEvents == null || x.DonationEvents.Count == 0,
             })
             .ToListAsync(cancellationToken);
 
         var items = entities
-            .Select((entity, index) => new GetLocationListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, entity.Name, entity.PostalCode, entity.Address, entity.Municipality, entity.Hidden, true))
+            .Select((entity, index) => new GetLocationListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, entity.Name, entity.PostalCode, entity.Address, entity.Municipality, entity.Hidden, entity.CanBeDeleted))
             .ToList();
 
         return new ListQueryResult<GetLocationListQueryResultItem, string>

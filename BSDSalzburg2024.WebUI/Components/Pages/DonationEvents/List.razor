@@ -1,0 +1,28 @@
+﻿@page "/donation_events"
+@using BSDSalzburg2024.Application.DonationEvents.Queries.GetDonationEventListQuery
+@using BSDSalzburg2024.WebUI.Components.Display
+
+@inject IMediator mediator
+@inject IStringLocalizer<List> localizer
+
+<PageTitle>@this.localizer["Title"]</PageTitle>
+
+<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="@this.localizer["Title"]" TListQueryResultItem="GetDonationEventListQueryResultItem" TId="int">
+    <HeaderTemplate>
+        <th>@this.localizer["Id"]</th>
+    </HeaderTemplate>
+    <RowTemplate Context="item">
+        <td>@item.Id</td>
+    </RowTemplate>
+    <CreateTemplate Context="context">
+        <Create ActiveChanged="@context" />
+    </CreateTemplate>
+    <UpdateTemplate Context="context">
+        <Update ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </UpdateTemplate>
+    <DeleteTemplate Context="context">
+        <Delete ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </DeleteTemplate>
+</BSDSalzburg2024.WebUI.Components.Pages.Generic.List>
+
+@code {}

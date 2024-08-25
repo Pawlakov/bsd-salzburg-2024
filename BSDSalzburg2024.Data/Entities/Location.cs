@@ -6,6 +6,7 @@ namespace BSDSalzburg2024.Data.Entities;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Collections.Generic;
 
 /// <summary>
 /// DB entity representing a location.
@@ -49,6 +50,11 @@ public partial class Location
     public virtual Municipality? Municipality { get; set; }
 
     /// <summary>
+    /// Gets or sets the navigation property, linking to the events taking place in this location.
+    /// </summary>
+    public virtual ICollection<DonationEvent>? DonationEvents { get; set; }
+
+    /// <summary>
     /// Declarative mapping between this entity class and the DB table.
     /// </summary>
     /// <param name="entity">The builder.</param>
@@ -81,5 +87,10 @@ public partial class Location
             .HasColumnName("OrtStrasse");
         entity.Property(e => e.Hidden)
             .HasColumnName("Unsichtbar");
+
+        entity.HasMany(e => e.DonationEvents)
+            .WithOne(e => e.Location)
+            .HasForeignKey(e => e.LocationId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

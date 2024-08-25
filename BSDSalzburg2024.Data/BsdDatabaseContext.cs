@@ -53,7 +53,7 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
 
     public virtual DbSet<TblSpendeHinderni> TblSpendeHindernis { get; set; }
 
-    public virtual DbSet<TblSpendeaktion> TblSpendeaktions { get; set; }
+    public virtual DbSet<DonationEvent> TblSpendeaktions { get; set; }
 
     public virtual DbSet<TblSpendeaktionVerbrauch> TblSpendeaktionVerbrauches { get; set; }
 
@@ -78,7 +78,7 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
         modelBuilder.Entity<TblPostleitzahl>(TblPostleitzahl.EntityBuildAction);
         modelBuilder.Entity<TblSpende>(TblSpende.EntityBuildAction);
         modelBuilder.Entity<TblSpendeHinderni>(TblSpendeHinderni.EntityBuildAction);
-        modelBuilder.Entity<TblSpendeaktion>(TblSpendeaktion.EntityBuildAction);
+        modelBuilder.Entity<DonationEvent>(DonationEvent.EntityBuildAction);
         modelBuilder.Entity<TblSpendeaktionVerbrauch>(TblSpendeaktionVerbrauch.EntityBuildAction);
         modelBuilder.Entity<TblSpender>(TblSpender.EntityBuildAction);
     }

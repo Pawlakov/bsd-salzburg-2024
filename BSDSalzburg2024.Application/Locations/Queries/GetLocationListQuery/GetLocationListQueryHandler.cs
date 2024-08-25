@@ -14,7 +14,8 @@ using Microsoft.EntityFrameworkCore;
 public class GetLocationListQueryHandler
     : ListQueryHandler<GetLocationListQueryResultItem, string>
 {
-    public GetLocationListQueryHandler(BsdDatabaseContext context) : base(context)
+    public GetLocationListQueryHandler(BsdDatabaseContext context) 
+        : base(context)
     {
     }
 

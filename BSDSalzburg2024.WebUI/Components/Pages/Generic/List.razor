@@ -4,89 +4,42 @@
 @typeparam TId
 
 @inject IMediator mediator
-@inject IStringLocalizer<List<TListQueryResultItem, TId>> localizer
 
-<section class="section">
-    <h1 class="title">
-        @this.Title
-    </h1>
-</section>
-<section>
-    @if (this.listItems is not null)
-    {
-        <div class="buttons">
-            <button class="button" @onclick="() => this.createActive = true">
-                <span class="icon">
-                    <i class="fas fa-plus"></i>
-                </span>
-                <span>@this.localizer["Create"]</span>
-            </button>
-        </div>
-        <table class="table is-striped is-hoverable is-fullwidth">
-            <thead>
+<ListCore Title="@this.Title" LoadingActive="@this.loadingActive" CreateActiveChanged="@(value => this.createActive = value)" HeaderTemplate="@this.HeaderTemplate" HasData="@(() => this.listItems.Count > 0)">
+    <ListTemplate>
+        @if (this.listItems.Count > 0)
+        {
+            @foreach (var item in this.listItems)
+            {
                 <tr>
-                    <th></th>
-                    @this.HeaderTemplate
-                    <th></th>
+                    <td>@item.Index</td>
+                    @this.RowTemplate(item)
+                    <td>
+                        <div class="buttons has-addons">
+                            <button class="button is-small" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
+                                <span class="icon is-small">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                            </button>
+                            <button class="button is-small" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
+                                <span class="icon is-small">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @if (this.listItems.Count > 0)
-                {
-                    foreach (var item in this.listItems)
-                    {
-                        <tr>
-                            <td>@item.Index</td>
-                            @this.RowTemplate(item)
-                            <td>
-                                <div class="buttons has-addons">
-                                    <button class="button is-small" aria-label="@this.localizer["Update"]" @onclick="() => { this.activeItemId = item.Id; this.updateActive = true; }">
-                                        <span class="icon is-small">
-                                            <i class="fas fa-edit"></i>
-                                        </span>
-                                    </button>
-                                    <button class="button is-small" aria-label="@this.localizer["Delete"]" @onclick="() => { this.activeItemId = item.Id; this.deleteActive = true; }" disabled="@(!item.CanBeDeleted)">
-                                        <span class="icon is-small">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="8">
-                            <div class="level">
-                                <div class="level-item has-text-centered">
-                                    @this.localizer["NoData"]
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <Pagination PageSize="this.listCommand.PageSize"
-                    PageIndex="this.listCommand.PageIndex"
-                    ItemsTotal="this.listItemsTotal"
-                    OnPageChange="this.ChangePage">
+            }
+        }
+    </ListTemplate>
+    <PaginationTemplate>
+        <Pagination PageSize="@this.listCommand.PageSize"
+                    PageIndex="@this.listCommand.PageIndex"
+                    ItemsTotal="@this.listItemsTotal"
+                    OnPageChange="@this.ChangePage">
         </Pagination>
-    }
-</section>
-<div class="modal @(this.loadingActive ? "is-active" : "")">
-    <div class="modal-background"></div>
-    <div class="modal-content">
-        <section class="hero is-info">
-            <div class="hero-body">
-                <p class="title">@this.localizer["LoadingData"]</p>
-                <p class="subtitle">@this.localizer["PleaseWait"]</p>
-            </div>
-        </section>
-    </div>
-</div>
+    </PaginationTemplate>
+</ListCore>
 <div class="modal @(this.deleteActive ? "is-active" : "")">
     <div class="modal-background"></div>
     @if (this.deleteActive)

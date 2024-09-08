@@ -117,16 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Index" xml:space="preserve">
-    <value>Home Page</value>
+  <data name="Id" xml:space="preserve">
+    <value>ID</value>
   </data>
-  <data name="Municipalities" xml:space="preserve">
-    <value>Municipalities</value>
+  <data name="Create" xml:space="preserve">
+    <value />
   </data>
-  <data name="Locations" xml:space="preserve">
-    <value>Locations</value>
+  <data name="NoData" xml:space="preserve">
+    <value />
   </data>
-  <data name="DonationEvents" xml:space="preserve">
-    <value>Donation Events</value>
+  <data name="Delete" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value />
   </data>
 </root>

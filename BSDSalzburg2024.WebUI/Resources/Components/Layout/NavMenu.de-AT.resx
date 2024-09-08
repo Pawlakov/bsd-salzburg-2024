@@ -126,4 +126,7 @@
   <data name="Locations" xml:space="preserve">
     <value>Orte</value>
   </data>
+  <data name="DonationEvents" xml:space="preserve">
+    <value>Spendeaktionen</value>
+  </data>
 </root>

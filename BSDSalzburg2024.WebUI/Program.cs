@@ -7,7 +7,10 @@ namespace BSDSalzburg2024.WebUI;
 using BSDSalzburg2024.Application.HostBuilders;
 using BSDSalzburg2024.Data.HostBuilders;
 using BSDSalzburg2024.WebUI.Components;
+using BSDSalzburg2024.WebUI.Components.Account;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -21,10 +24,21 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
+        builder.Services.AddCascadingAuthenticationState();
+        builder.Services.AddScoped<IdentityUserAccessor>();
+        builder.Services.AddScoped<IdentityRedirectManager>();
+        builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = IdentityConstants.ApplicationScheme;
+            options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+        }).AddIdentityCookies();
+
         builder.Services.AddControllers();
         builder.Services.AddRequests();
         builder.Services.AddValidation();
-        builder.Host.AddDbContextLocal();
+        builder.Host.AddDbContextLocal(identityBuilder => identityBuilder.AddSignInManager().AddDefaultTokenProviders());
         builder.Services.AddLocalization(options =>
         {
             options.ResourcesPath = "Resources";

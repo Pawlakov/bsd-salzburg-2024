@@ -1,6 +1,9 @@
 ﻿@page "/donation_events"
 @using BSDSalzburg2024.Application.DonationEvents.Queries.GetDonationEventListQuery
 @using BSDSalzburg2024.WebUI.Components.Display
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 @inject IMediator mediator
 @inject IStringLocalizer<List> localizer

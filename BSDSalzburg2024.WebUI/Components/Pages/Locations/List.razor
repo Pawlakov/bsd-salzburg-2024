@@ -1,6 +1,9 @@
 ﻿@page "/locations"
 @using BSDSalzburg2024.Application.Locations.Queries.GetLocationListQuery
 @using BSDSalzburg2024.WebUI.Components.Display
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 @inject IMediator mediator
 @inject IStringLocalizer<List> localizer

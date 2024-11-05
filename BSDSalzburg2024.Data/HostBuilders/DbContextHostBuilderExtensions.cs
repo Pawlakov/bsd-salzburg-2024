@@ -5,6 +5,9 @@
 namespace BSDSalzburg2024.Data.HostBuilders;
 
 using System;
+using System.Linq.Expressions;
+using BSDSalzburg2024.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,13 +23,17 @@ public static class DbContextHostBuilderExtensions
     /// </summary>
     /// <param name="host">Host builder.</param>
     /// <returns>The same host builder.</returns>
-    public static IHostBuilder AddDbContextLocal(this IHostBuilder host)
+    public static IHostBuilder AddDbContextLocal(this IHostBuilder host, Func<IdentityBuilder, IdentityBuilder> identityBuilderExpression)
     {
         host.ConfigureServices((context, services) =>
         {
             var connectionString = context.Configuration.GetConnectionString("BSD");
 
             services.AddDbContext<BsdDatabaseContext>(o => o.UseSqlServer(connectionString));
+            var identityBuilder = services.AddIdentityCore<ApplicationUser>()
+                .AddEntityFrameworkStores<BsdDatabaseContext>();
+
+            identityBuilderExpression(identityBuilder);
         });
 
         return host;

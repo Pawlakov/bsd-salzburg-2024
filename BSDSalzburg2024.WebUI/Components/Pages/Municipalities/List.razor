@@ -3,6 +3,9 @@
 @using BSDSalzburg2024.Application.Models
 @using BSDSalzburg2024.Application.Municipalities.Queries.GetMunicipalityListQuery
 @using BSDSalzburg2024.WebUI.Components.Display
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 @inject IMediator mediator
 @inject IStringLocalizer<List> localizer
@@ -21,17 +24,17 @@
         <td>
             @if (item.Country is not null)
             {
-                <CountryName Model="item.Country"></CountryName>
+            <CountryName Model="item.Country"></CountryName>
             }
         </td>
         <td>
             @if (item.Country is not null)
             {
-                <span>@item.Country.FormatPostalCode(item.PostalCode)</span>
+            <span>@item.Country.FormatPostalCode(item.PostalCode)</span>
             }
             else
             {
-                <span>@item.PostalCode</span>
+            <span>@item.PostalCode</span>
             }
         </td>
         <td>@item.Name</td>

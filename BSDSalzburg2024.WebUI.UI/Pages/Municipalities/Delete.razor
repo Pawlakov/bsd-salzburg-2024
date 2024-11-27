@@ -1,0 +1,71 @@
+﻿@using BSDSalzburg2024.Application.Requests.Municipalities
+@using BSDSalzburg2024.WebUI.Components.Validation
+@using FluentValidation
+@using Microsoft.AspNetCore.Components.Forms
+
+@inject IMediator mediator
+@inject IStringLocalizer<Delete> localizer
+
+<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="MunicipalityDeleteForm">
+    <FluentValidationValidator @ref="this.validator" TModel="DeleteMunicipalityCommand" />
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@this.localizer["Title"]</p>
+            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">@this.localizer["Id"]</label>
+                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <input type="number" class="@inputClasses" value="@this.Id" disabled />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["DeleteConfirmation"]</label>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button is-danger" type="submit">@this.localizer["Submit"]</button>
+            </div>
+        </footer>
+    </div>
+</EditForm>
+
+@code {
+    private DeleteMunicipalityCommand command;
+    private EditForm form;
+    private FluentValidationValidator<DeleteMunicipalityCommand> validator;
+
+    [Parameter]
+    public EventCallback<bool> ActiveChanged { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.command = new DeleteMunicipalityCommand(this.Id);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Submit()
+    {
+        var valid = this.form.EditContext.Validate();
+        if (valid)
+        {
+            try
+            {
+                await this.mediator.Send(this.command);
+                await this.ActiveChanged.InvokeAsync(false);
+            }
+            catch (ValidationException exception)
+            {
+                this.validator.PopulateErrors(exception.Errors);
+            }
+        }
+    }
+}

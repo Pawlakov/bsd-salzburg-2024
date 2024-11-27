@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.WebUI", "BSDSalzburg2024.WebUI\BSDSalzburg2024.WebUI.csproj", "{833DB15B-FDD5-41D5-BBCB-B92B1C49E083}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.WebUI.Components", "BSDSalzburg2024.WebUI.UI\BSDSalzburg2024.WebUI.Components.csproj", "{858E7CF2-65A2-4BAA-BECA-E2139AB0623F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.Application.Requests", "BSDSalzburg2024.Application.Requests\BSDSalzburg2024.Application.Requests.csproj", "{98C1721E-33AC-4CAC-BBDB-2FC1A0A33856}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{833DB15B-FDD5-41D5-BBCB-B92B1C49E083}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{833DB15B-FDD5-41D5-BBCB-B92B1C49E083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{833DB15B-FDD5-41D5-BBCB-B92B1C49E083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{858E7CF2-65A2-4BAA-BECA-E2139AB0623F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858E7CF2-65A2-4BAA-BECA-E2139AB0623F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858E7CF2-65A2-4BAA-BECA-E2139AB0623F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858E7CF2-65A2-4BAA-BECA-E2139AB0623F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98C1721E-33AC-4CAC-BBDB-2FC1A0A33856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98C1721E-33AC-4CAC-BBDB-2FC1A0A33856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98C1721E-33AC-4CAC-BBDB-2FC1A0A33856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98C1721E-33AC-4CAC-BBDB-2FC1A0A33856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

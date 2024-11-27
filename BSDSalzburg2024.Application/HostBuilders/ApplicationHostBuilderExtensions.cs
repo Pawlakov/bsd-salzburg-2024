@@ -5,7 +5,7 @@
 namespace BSDSalzburg2024.Application.HostBuilders;
 
 using System.Linq;
-using System.Reflection;
+using BSDSalzburg2024.Application.Requests.Validation;
 using BSDSalzburg2024.Application.Validation;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +37,7 @@ public static class ApplicationHostBuilderExtensions
         {
             var interfaceType = item.GetInterface(inputValidatorInterfaceType.Name);
 
-            services.TryAddEnumerable(new ServiceDescriptor(interfaceType, item, ServiceLifetime.Scoped));
+            services.TryAddEnumerable(new ServiceDescriptor(interfaceType!, item, ServiceLifetime.Scoped));
             services.TryAdd(new ServiceDescriptor(item, item, ServiceLifetime.Scoped));
         }
 

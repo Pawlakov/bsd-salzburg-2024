@@ -68,6 +68,7 @@ public class Program
         app.MapControllers();
 
         app.MapRazorComponents<App>()
+            .AddAdditionalAssemblies(typeof(Components.Pages.Municipalities.List).Assembly)
             .AddInteractiveServerRenderMode();
 
         app.Run();

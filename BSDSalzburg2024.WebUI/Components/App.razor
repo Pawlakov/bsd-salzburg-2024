@@ -14,11 +14,11 @@
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="BSDSalzburg2024.WebUI.styles.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
-    <HeadOutlet @rendermode="RenderMode.InteractiveServer" />
+    <HeadOutlet @rendermode="this.PageRenderMode" />
 </head>
 
 <body>
-    <Routes @rendermode="RenderMode.InteractiveServer" />
+    <Routes @rendermode="this.PageRenderMode" />
     <script src="_framework/blazor.web.js"></script>
 </body>
 
@@ -26,7 +26,10 @@
 
 @code {
     [CascadingParameter]
-    public HttpContext HttpContext { get; set; }
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? PageRenderMode =>
+        HttpContext.AcceptsInteractiveRouting() ? RenderMode.InteractiveServer : null;
 
     protected override void OnInitialized()
     {
@@ -36,5 +39,7 @@
                 new RequestCulture(
                     CultureInfo.CurrentCulture,
                     CultureInfo.CurrentUICulture)));
+
+        base.OnInitialized();
     }
 }

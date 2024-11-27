@@ -1,0 +1,43 @@
+﻿@page "/locations"
+@using BSDSalzburg2024.Application.Requests.Locations
+@using BSDSalzburg2024.WebUI.Components.Display
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@inject IMediator mediator
+@inject IStringLocalizer<List> localizer
+
+<PageTitle>@this.localizer["Title"]</PageTitle>
+
+<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="@this.localizer["Title"]" TListQueryResultItem="GetLocationListQueryResultItem" TId="string">
+    <HeaderTemplate>
+        <th>@this.localizer["Id"]</th>
+        <th>@this.localizer["Name"]</th>
+        <th>@this.localizer["PostalCode"]</th>
+        <th>@this.localizer["Address"]</th>
+        <th>@this.localizer["Municipality"]</th>
+        <th>@this.localizer["Hidden"]</th>
+    </HeaderTemplate>
+    <RowTemplate Context="item">
+        <td>@item.Id</td>
+        <td>@item.Name</td>
+        <td>@item.PostalCode</td>
+        <td>@item.Address</td>
+        <td>@item.Municipality</td>
+        <td>
+            <BoolDisplay Model="item.Hidden"></BoolDisplay>
+        </td>
+    </RowTemplate>
+    <CreateTemplate Context="context">
+        <Create ActiveChanged="@context" />
+    </CreateTemplate>
+    <UpdateTemplate Context="context">
+        <Update ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </UpdateTemplate>
+    <DeleteTemplate Context="context">
+        <Delete ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </DeleteTemplate>
+</BSDSalzburg2024.WebUI.Components.Pages.Generic.List>
+
+@code {}

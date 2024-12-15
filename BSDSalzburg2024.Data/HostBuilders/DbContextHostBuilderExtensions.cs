@@ -23,17 +23,13 @@ public static class DbContextHostBuilderExtensions
     /// </summary>
     /// <param name="host">Host builder.</param>
     /// <returns>The same host builder.</returns>
-    public static IHostBuilder AddDbContextLocal(this IHostBuilder host, Func<IdentityBuilder, IdentityBuilder> identityBuilderExpression)
+    public static IHostBuilder AddDbContextLocal(this IHostBuilder host)
     {
         host.ConfigureServices((context, services) =>
         {
             var connectionString = context.Configuration.GetConnectionString("BSD");
 
             services.AddDbContext<BsdDatabaseContext>(o => o.UseSqlServer(connectionString));
-            var identityBuilder = services.AddIdentityCore<ApplicationUser>()
-                .AddEntityFrameworkStores<BsdDatabaseContext>();
-
-            identityBuilderExpression(identityBuilder);
         });
 
         return host;

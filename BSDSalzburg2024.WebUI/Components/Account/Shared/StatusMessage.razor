@@ -19,7 +19,7 @@
 
     protected override void OnInitialized()
     {
-        if (this.HttpContext is not null)
+        /*if (this.HttpContext is not null)
         {
             messageFromCookie = HttpContext.Request.Cookies[IdentityRedirectManager.StatusCookieName];
 
@@ -27,6 +27,6 @@
             {
                 HttpContext.Response.Cookies.Delete(IdentityRedirectManager.StatusCookieName);
             }
-        }
+        }*/
     }
 }

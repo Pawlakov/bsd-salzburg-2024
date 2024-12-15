@@ -4,13 +4,12 @@
 
 namespace BSDSalzburg2024.WebUI;
 
+using System;
 using BSDSalzburg2024.Application.HostBuilders;
 using BSDSalzburg2024.Data.HostBuilders;
 using BSDSalzburg2024.WebUI.Components;
-using BSDSalzburg2024.WebUI.Components.Account;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -25,20 +24,17 @@ public class Program
             .AddInteractiveServerComponents();
 
         builder.Services.AddCascadingAuthenticationState();
-        builder.Services.AddScoped<IdentityUserAccessor>();
-        builder.Services.AddScoped<IdentityRedirectManager>();
-        builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultScheme = IdentityConstants.ApplicationScheme;
-            options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-        }).AddIdentityCookies();
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(48);
+                options.SlidingExpiration = true;
+            });
 
         builder.Services.AddControllers();
         builder.Services.AddRequests();
         builder.Services.AddValidation();
-        builder.Host.AddDbContextLocal(identityBuilder => identityBuilder.AddSignInManager().AddDefaultTokenProviders());
+        builder.Host.AddDbContextLocal();
         builder.Services.AddLocalization(options =>
         {
             options.ResourcesPath = "Resources";
@@ -58,6 +54,9 @@ public class Program
 
         app.UseStaticFiles();
         app.UseAntiforgery();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         var supportedCultures = new[] { "en-US", "de-AT" };
         var localizationOptions = new RequestLocalizationOptions()

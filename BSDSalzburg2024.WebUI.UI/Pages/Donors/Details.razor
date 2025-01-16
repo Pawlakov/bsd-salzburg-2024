@@ -1,0 +1,138 @@
+﻿@page "/donors/{Id}"
+
+@inject IMediator mediator
+@inject IStringLocalizer<Details> localizer
+
+<PageTitle>@this.localizer["Title"]</PageTitle>
+
+<section class="section">
+    <h1 class="title">
+        Donor
+    </h1>
+    <h2 class="subtitle">
+        Brzęczyszczykiewicz Grzegorz
+    </h2>
+</section>
+<section>
+    @if (!this.loadingActive)
+    {
+        <section class="section">
+            <div class="columns">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-header-title">Personal</p>
+                            <button @onclick="@this.TogglePersonal" class="card-header-icon">
+                                <span class="icon">
+                                    @if (this.personalOpen)
+                                    {
+                                        <i class="fas fa-angle-down"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-angle-up"></i>
+                                    }
+                                </span>
+                            </button>
+                        </div>
+                        @if (this.personalOpen)
+                        {
+                            <div class="card-content">
+                                <div class="content">
+                                    <p class="title is-6">Family name</p>
+                                    <p class="subtitle is-6">Brzęczyszczykiewicz</p>
+                                    <br />
+                                    <p class="title is-6">Given name</p>
+                                    <p class="subtitle is-6">Grzegorz</p>
+                                    <hr />
+                                    <p class="title is-6">Date of birth</p>
+                                    <p class="subtitle is-6">11.1.1936</p>
+                                    <br />
+                                    <p class="title is-6">Sex</p>
+                                    <p class="subtitle is-6">M</p>
+                                    <hr />
+                                    <p class="title is-6">...</p>
+                                    <p class="subtitle is-6">...</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="javascript:void(0)" class="card-footer-item">@this.localizer["Edit"]</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-header-title">Contact</p>
+                            <button @onclick="@this.ToggleContact" class="card-header-icon">
+                                <span class="icon">
+                                    @if (this.contactOpen)
+                                    {
+                                        <i class="fas fa-angle-down"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-angle-up"></i>
+                                    }
+                                </span>
+                            </button>
+                        </div>
+                        @if (this.contactOpen)
+                        {
+                            <div class="card-content">
+
+                                <p class="title is-6">Phone (private)</p>
+                                <p class="subtitle is-6">+48 662 663 597</p>
+                                <br />
+                                <p class="title is-6">Phone (business)</p>
+                                <p class="subtitle is-6">+48 662 663 597</p>
+                                <hr />
+                                <p class="title is-6">Email</p>
+                                <p class="subtitle is-6">pmatusek@protonmail.com</p>
+                                <hr />
+                                <p class="title is-6">...</p>
+                                <p class="subtitle is-6">...</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="javascript:void(0)" class="card-footer-item">@this.localizer["Edit"]</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+</section>
+<div class="modal @(this.loadingActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <section class="hero is-info">
+            <div class="hero-body">
+                <p class="title">@this.localizer["LoadingData"]</p>
+                <p class="subtitle">@this.localizer["PleaseWait"]</p>
+            </div>
+        </section>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private bool personalOpen = false;
+    private bool contactOpen = false;
+    private bool loadingActive = false;
+
+    private void TogglePersonal()
+    {
+        this.personalOpen = !this.personalOpen;
+        this.contactOpen = false;
+    }
+
+    private void ToggleContact()
+    {
+        this.personalOpen = false;
+        this.contactOpen = !this.contactOpen;
+    }
+}

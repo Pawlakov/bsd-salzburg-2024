@@ -6,104 +6,166 @@
 <PageTitle>@this.localizer["Title"]</PageTitle>
 
 <section class="section">
-    <h1 class="title">
-        Donor
-    </h1>
-    <h2 class="subtitle">
-        Brzęczyszczykiewicz Grzegorz
-    </h2>
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <div>
+                    <h1 class="title">
+                        Donor
+                    </h1>
+                    <h2 class="subtitle">
+                        Brzęczyszczykiewicz Grzegorz
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <div class="notification">
+                    <strong>
+                        AB
+                    </strong>
+                </div>
+            </div>
+            <div class="level-item">
+                <div class="notification">
+                    <strong>
+                        Rh+
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <section>
     @if (!this.loadingActive)
     {
-        <section class="section">
-            <div class="columns">
-                <div class="column">
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="card-header-title">Personal</p>
-                            <button @onclick="@this.TogglePersonal" class="card-header-icon">
-                                <span class="icon">
-                                    @if (this.personalOpen)
-                                    {
-                                        <i class="fas fa-angle-down"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="fas fa-angle-up"></i>
-                                    }
-                                </span>
-                            </button>
-                        </div>
-                        @if (this.personalOpen)
-                        {
-                            <div class="card-content">
-                                <div class="content">
-                                    <p class="title is-6">Family name</p>
-                                    <p class="subtitle is-6">Brzęczyszczykiewicz</p>
-                                    <br />
-                                    <p class="title is-6">Given name</p>
-                                    <p class="subtitle is-6">Grzegorz</p>
-                                    <hr />
-                                    <p class="title is-6">Date of birth</p>
-                                    <p class="subtitle is-6">11.1.1936</p>
-                                    <br />
-                                    <p class="title is-6">Sex</p>
-                                    <p class="subtitle is-6">M</p>
-                                    <hr />
-                                    <p class="title is-6">...</p>
-                                    <p class="subtitle is-6">...</p>
+        <section class="section fixed-grid has-6-cols">
+            <div class="grid">
+                <div class="cell is-col-span-4 card">
+                    <div class="card-header">
+                        <p class="card-header-title">Personal</p>
+                        <button class="card-header-icon" @onclick="() => { this.updatePersonalActive = true; }">
+                            <span class="icon">
+                                <i class="fas fa-pencil"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="fixed-grid">
+                                <div class="grid">
+                                    <div class="cell">
+                                        <p class="title is-6">Family name</p>
+                                        <p class="subtitle is-6">Brzęczyszczykiewicz</p>
+                                    </div>
+                                    <div class="cell">
+                                        <p class="title is-6">Given name</p>
+                                        <p class="subtitle is-6">Grzegorz</p>
+                                    </div>
+                                    <div class="cell is-col-span-2">
+                                        <br />
+                                    </div>
+                                    <div class="cell">
+                                        <p class="title is-6">Date of birth</p>
+                                        <p class="subtitle is-6">11.1.1936</p>
+                                    </div>
+                                    <div class="cell">
+                                        <p class="title is-6">Sex</p>
+                                        <p class="subtitle is-6">M</p>
+                                    </div>
+                                    <div class="cell is-col-span-2">
+                                        <br />
+                                    </div>
+                                    <div class="cell">
+                                        <p class="title is-6">...</p>
+                                        <p class="subtitle is-6">...</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <a href="javascript:void(0)" class="card-footer-item">@this.localizer["Edit"]</a>
-                            </div>
-                        }
+                        </div>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="card-header-title">Contact</p>
-                            <button @onclick="@this.ToggleContact" class="card-header-icon">
-                                <span class="icon">
-                                    @if (this.contactOpen)
-                                    {
-                                        <i class="fas fa-angle-down"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="fas fa-angle-up"></i>
-                                    }
-                                </span>
-                            </button>
-                        </div>
-                        @if (this.contactOpen)
-                        {
-                            <div class="card-content">
-
-                                <p class="title is-6">Phone (private)</p>
-                                <p class="subtitle is-6">+48 662 663 597</p>
-                                <br />
-                                <p class="title is-6">Phone (business)</p>
-                                <p class="subtitle is-6">+48 662 663 597</p>
-                                <hr />
-                                <p class="title is-6">Email</p>
-                                <p class="subtitle is-6">pmatusek@protonmail.com</p>
-                                <hr />
-                                <p class="title is-6">...</p>
-                                <p class="subtitle is-6">...</p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="javascript:void(0)" class="card-footer-item">@this.localizer["Edit"]</a>
-                            </div>
-                        }
+                <div class="cell is-col-span-2 card">
+                    <div class="card-header">
+                        <p class="card-header-title">Contact</p>
+                        <button class="card-header-icon">
+                            <span class="icon">
+                                <i class="fas fa-pencil"></i>
+                            </span>
+                        </button>
                     </div>
+                    <div class="card-content">
+                        <p class="title is-6">Phone (private)</p>
+                        <p class="subtitle is-6">+48 662 663 597</p>
+                        <br />
+                        <p class="title is-6">Phone (business)</p>
+                        <p class="subtitle is-6">+48 662 663 597</p>
+                        <hr />
+                        <p class="title is-6">Email</p>
+                        <p class="subtitle is-6">pmatusek@protonmail.com</p>
+                        <hr />
+                        <p class="title is-6">...</p>
+                        <p class="subtitle is-6">...</p>
+                    </div>
+                </div>
+                <div class="cell is-col-span-3 message is-warning">
+                    <div class="message-header">
+                        <p>Warning</p>
+                    </div>
+                    <div class="message-body">
+                        Description
+                    </div>
+                </div>
+                <div class="cell is-col-span-3 message is-success">
+                    <div class="message-header">
+                        <p>Success</p>
+                    </div>
+                    <div class="message-body">
+                        Description
+                    </div>
+                </div>
+                <div class="cell is-col-span-6 panel">
+                    <p class="panel-tabs">
+                        <a class="is-active">
+                            Donations
+                        </a>
+                        <a>
+                            Impediments
+                        </a>
+                        <a>
+                            Laboratory results
+                        </a>
+                        <a>
+                            Previous illnesses
+                        </a>
+                    </p>
+                    <a class="panel-block">
+                        Donation 1
+                    </a>
+                    <a class="panel-block">
+                        Donation 2
+                    </a>
+                    <a class="panel-block">
+                        Donation 3
+                    </a>
                 </div>
             </div>
         </section>
     }
 </section>
+<div class="modal @(this.updatePersonalActive ? "is-active" : "")">
+    <div class="modal-background"></div>
+    @if (this.updatePersonalActive)
+    {
+        Action<bool> callback = async (active) =>
+        {
+            this.updatePersonalActive = active;
+            //await this.LoadList();
+        };
+        <UpdatePersonal ActiveChanged="@callback" Id="@this.id" />
+    }
+</div>
 <div class="modal @(this.loadingActive ? "is-active" : "")">
     <div class="modal-background"></div>
     <div class="modal-content">
@@ -118,21 +180,16 @@
 
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public string Id
+    {
+        get => this.id.ToString();
+        set
+        {
+            this.id = int.Parse(value);
+        }
+    }
 
-    private bool personalOpen = false;
-    private bool contactOpen = false;
+    private int id;
     private bool loadingActive = false;
-
-    private void TogglePersonal()
-    {
-        this.personalOpen = !this.personalOpen;
-        this.contactOpen = false;
-    }
-
-    private void ToggleContact()
-    {
-        this.personalOpen = false;
-        this.contactOpen = !this.contactOpen;
-    }
+    private bool updatePersonalActive = false;
 }

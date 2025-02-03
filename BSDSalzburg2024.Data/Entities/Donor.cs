@@ -1,4 +1,4 @@
-﻿// <copyright file="TblSpender.cs" company="Paweł Matusek">
+﻿// <copyright file="Donor.cs" company="Paweł Matusek">
 // Copyright (c) Paweł Matusek. All rights reserved.
 // </copyright>
 
@@ -8,17 +8,25 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-#pragma warning disable SA1600 // Elements should be documented
-#pragma warning disable SA1601 // Partial elements should be documented
-public partial class TblSpender
+/// <summary>
+/// DB entity representing a donor.
+/// </summary>
+public class Donor
 {
-    public int SpenderId { get; set; }
+    /// <summary>
+    /// Gets or sets the ID of the donor.
+    /// </summary>
+    public int Id { get; set; }
 
-    public string Vorname { get; set; }
+    /// <summary>
+    /// Gets or sets the family name (last name) of the donor. Up to 40 characters.
+    /// </summary>
+    public string? FamilyName { get; set; }
 
-    public string Nachname { get; set; }
+    /// <summary>
+    /// Gets or sets the given name (first name) of the donor. Up to 40 characters.
+    /// </summary>
+    public string? GivenName { get; set; }
 
     public string Titel { get; set; }
 
@@ -88,13 +96,24 @@ public partial class TblSpender
 
     public int? ProgesaId { get; set; }
 
-    internal static void EntityBuildAction(EntityTypeBuilder<TblSpender> entity)
+    internal static void EntityBuildAction(EntityTypeBuilder<Donor> entity)
     {
-        entity.HasKey(e => e.SpenderId).HasFillFactor(90);
+        entity.HasKey(e => e.Id).HasFillFactor(90);
 
         entity.ToTable("tblSpender");
 
-        entity.Property(e => e.SpenderId).ValueGeneratedNever();
+        entity.Property(e => e.Id)
+            .ValueGeneratedNever()
+            .HasColumnName("SpenderId");
+        entity.Property(e => e.FamilyName)
+            .HasMaxLength(40)
+            .IsUnicode(false)
+            .HasColumnName("Nachname");
+        entity.Property(e => e.GivenName)
+            .HasMaxLength(40)
+            .IsUnicode(false)
+            .HasColumnName("Vorname");
+
         entity.Property(e => e.AenderungDatum).HasColumnType("smalldatetime");
         entity.Property(e => e.AenderungMitarbeiterId)
             .HasMaxLength(12)
@@ -130,9 +149,6 @@ public partial class TblSpender
         entity.Property(e => e.Land)
             .HasMaxLength(3)
             .IsUnicode(false);
-        entity.Property(e => e.Nachname)
-            .HasMaxLength(40)
-            .IsUnicode(false);
         entity.Property(e => e.Ort)
             .HasMaxLength(50)
             .IsUnicode(false);
@@ -163,12 +179,5 @@ public partial class TblSpender
         entity.Property(e => e.Titel)
             .HasMaxLength(30)
             .IsUnicode(false);
-        entity.Property(e => e.Vorname)
-            .HasMaxLength(40)
-            .IsUnicode(false);
     }
 }
-#pragma warning restore SA1601 // Partial elements should be documented
-#pragma warning restore SA1600 // Elements should be documented
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

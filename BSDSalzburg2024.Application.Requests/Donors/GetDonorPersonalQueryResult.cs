@@ -2,4 +2,5 @@
 
 public record GetDonorPersonalQueryResult
 {
+    public GetDonorPersonalQueryResultItem? Item { get; init; }
 }

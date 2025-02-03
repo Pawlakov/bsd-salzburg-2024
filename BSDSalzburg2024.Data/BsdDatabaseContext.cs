@@ -32,6 +32,8 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
     /// </summary>
     public virtual DbSet<DonationEvent> DonationEvents { get; set; }
 
+    public virtual DbSet<Donor> Donors { get; set; }
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable SA1600 // Elements should be documented
     public virtual DbSet<TblEhrung> TblEhrungs { get; set; }
@@ -59,8 +61,6 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
     public virtual DbSet<TblSpendeHinderni> TblSpendeHindernis { get; set; }
 
     public virtual DbSet<TblSpendeaktionVerbrauch> TblSpendeaktionVerbrauches { get; set; }
-
-    public virtual DbSet<TblSpender> TblSpenders { get; set; }
 #pragma warning restore SA1600 // Elements should be documented
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
@@ -83,6 +83,6 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
         modelBuilder.Entity<TblSpendeHinderni>(TblSpendeHinderni.EntityBuildAction);
         modelBuilder.Entity<DonationEvent>(DonationEvent.EntityBuildAction);
         modelBuilder.Entity<TblSpendeaktionVerbrauch>(TblSpendeaktionVerbrauch.EntityBuildAction);
-        modelBuilder.Entity<TblSpender>(TblSpender.EntityBuildAction);
+        modelBuilder.Entity<Donor>(Donor.EntityBuildAction);
     }
 }

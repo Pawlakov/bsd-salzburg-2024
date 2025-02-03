@@ -11,4 +11,8 @@ public record UpdateDonorPersonalCommand
     }
 
     public int Id { get; }
+
+    public string? FamilyName { get; set; }
+
+    public string? GivenName { get; set; }
 }

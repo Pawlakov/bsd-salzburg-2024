@@ -26,11 +26,36 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Pages\Donors\UpdatePersonal.de-AT.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UpdatePersonal.de-AT.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\Donors\UpdatePersonal.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UpdatePersonal.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Resources\Pages\DonationEvents\Create.de-AT.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\DonationEvents\Create.resx">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Donors\UpdatePersonal.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UpdatePersonal.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Donors\UpdatePersonal.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UpdatePersonal.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\Donors\UpdatePersonal.de-AT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UpdatePersonal.de-AT.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Generic\ListCore.de-AT.resx">
       <SubType>Designer</SubType>

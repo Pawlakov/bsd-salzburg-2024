@@ -1,4 +1,5 @@
 ﻿@page "/donors/{Id}"
+@using BSDSalzburg2024.Application.Requests.Donors
 
 @inject IMediator mediator
 @inject IStringLocalizer<Details> localizer
@@ -13,9 +14,12 @@
                     <h1 class="title">
                         Donor
                     </h1>
-                    <h2 class="subtitle">
-                        Brzęczyszczykiewicz Grzegorz
-                    </h2>
+                    @if (this.personalData is not null)
+                    {
+                        <h2 class="subtitle">
+                            @(this.personalData.FamilyName) @(this.personalData.GivenName)
+                        </h2>
+                    }
                 </div>
             </div>
         </div>
@@ -55,32 +59,35 @@
                         <div class="content">
                             <div class="fixed-grid">
                                 <div class="grid">
-                                    <div class="cell">
-                                        <p class="title is-6">Family name</p>
-                                        <p class="subtitle is-6">Brzęczyszczykiewicz</p>
-                                    </div>
-                                    <div class="cell">
-                                        <p class="title is-6">Given name</p>
-                                        <p class="subtitle is-6">Grzegorz</p>
-                                    </div>
-                                    <div class="cell is-col-span-2">
-                                        <br />
-                                    </div>
-                                    <div class="cell">
-                                        <p class="title is-6">Date of birth</p>
-                                        <p class="subtitle is-6">11.1.1936</p>
-                                    </div>
-                                    <div class="cell">
-                                        <p class="title is-6">Sex</p>
-                                        <p class="subtitle is-6">M</p>
-                                    </div>
-                                    <div class="cell is-col-span-2">
-                                        <br />
-                                    </div>
-                                    <div class="cell">
-                                        <p class="title is-6">...</p>
-                                        <p class="subtitle is-6">...</p>
-                                    </div>
+                                    @if (this.personalData is not null)
+                                    {
+                                        <div class="cell">
+                                            <p class="title is-6">Family name</p>
+                                            <p class="subtitle is-6">@this.personalData.FamilyName</p>
+                                        </div>
+                                        <div class="cell">
+                                            <p class="title is-6">Given name</p>
+                                            <p class="subtitle is-6">@this.personalData.GivenName</p>
+                                        </div>
+                                        <div class="cell is-col-span-2">
+                                            <br />
+                                        </div>
+                                        <div class="cell">
+                                            <p class="title is-6">Date of birth</p>
+                                            <p class="subtitle is-6">11.1.1936</p>
+                                        </div>
+                                        <div class="cell">
+                                            <p class="title is-6">Sex</p>
+                                            <p class="subtitle is-6">M</p>
+                                        </div>
+                                        <div class="cell is-col-span-2">
+                                            <br />
+                                        </div>
+                                        <div class="cell">
+                                            <p class="title is-6">...</p>
+                                            <p class="subtitle is-6">...</p>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -161,7 +168,7 @@
         Action<bool> callback = async (active) =>
         {
             this.updatePersonalActive = active;
-            //await this.LoadList();
+            await this.Load();
         };
         <UpdatePersonal ActiveChanged="@callback" Id="@this.id" />
     }
@@ -192,4 +199,28 @@
     private int id;
     private bool loadingActive = false;
     private bool updatePersonalActive = false;
+
+    private GetDonorPersonalQuery personalCommand;
+
+    private GetDonorPersonalQueryResultItem personalData;
+
+    private async Task Load()
+    {
+        this.loadingActive = true;
+        this.StateHasChanged();
+
+        var result = await this.mediator.Send(personalCommand);
+        this.personalData = result.Item;
+
+        this.loadingActive = false;
+        this.StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.personalCommand = new GetDonorPersonalQuery(this.id);
+
+        await this.Load();
+        await base.OnInitializedAsync();
+    }
 }

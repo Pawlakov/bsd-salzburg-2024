@@ -129,4 +129,7 @@
   <data name="DonationEvents" xml:space="preserve">
     <value>Donation Events</value>
   </data>
+  <data name="Donors" xml:space="preserve">
+    <value>Donors</value>
+  </data>
 </root>

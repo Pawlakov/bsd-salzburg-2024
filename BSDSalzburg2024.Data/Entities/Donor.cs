@@ -28,11 +28,11 @@ public class Donor
     /// </summary>
     public string? GivenName { get; set; }
 
+    public DateTime? DateOfBirth { get; set; }
+
+    public string? Sex { get; set; }
+
     public string Titel { get; set; }
-
-    public DateTime? Geburtsdatum { get; set; }
-
-    public string Geschlecht { get; set; }
 
     public int? GemeindeId { get; set; }
 
@@ -113,6 +113,14 @@ public class Donor
             .HasMaxLength(40)
             .IsUnicode(false)
             .HasColumnName("Vorname");
+        entity.Property(e => e.DateOfBirth)
+            .HasColumnType("smalldatetime")
+            .HasColumnName("Geburtsdatum");
+        entity.Property(e => e.Sex)
+            .HasMaxLength(1)
+            .IsUnicode(false)
+            .IsFixedLength()
+            .HasColumnName("Geschlecht");
 
         entity.Property(e => e.AenderungDatum).HasColumnType("smalldatetime");
         entity.Property(e => e.AenderungMitarbeiterId)
@@ -135,11 +143,6 @@ public class Donor
             .IsUnicode(false)
             .HasColumnName("email");
         entity.Property(e => e.ExpZentraleDatum).HasColumnType("smalldatetime");
-        entity.Property(e => e.Geburtsdatum).HasColumnType("smalldatetime");
-        entity.Property(e => e.Geschlecht)
-            .HasMaxLength(1)
-            .IsUnicode(false)
-            .IsFixedLength();
         entity.Property(e => e.Kommentar)
             .HasMaxLength(50)
             .IsUnicode(false);

@@ -45,7 +45,7 @@ public static class Program
         app.UseAntiforgery();
 
         app.MapStaticAssets();
-        app.UseRequestLocalization("en-US");
+        app.UseRequestLocalization("de-AT");
         app.MapRazorComponents<App>()
             .AddAdditionalAssemblies(typeof(Components.Pages.Municipalities.List).Assembly)
             .AddInteractiveServerRenderMode();

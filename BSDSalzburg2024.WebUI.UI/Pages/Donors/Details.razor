@@ -12,7 +12,7 @@
             <div class="level-item">
                 <div>
                     <h1 class="title">
-                        Donor
+                        @this.localizer["Title"]
                     </h1>
                     @if (this.personalData is not null)
                     {
@@ -48,7 +48,7 @@
             <div class="grid">
                 <div class="cell is-col-span-4 card">
                     <div class="card-header">
-                        <p class="card-header-title">Personal</p>
+                        <p class="card-header-title">@this.localizer["Personal"]</p>
                         <button class="card-header-icon" @onclick="() => { this.updatePersonalActive = true; }">
                             <span class="icon">
                                 <i class="fas fa-pencil"></i>
@@ -62,23 +62,23 @@
                                     @if (this.personalData is not null)
                                     {
                                         <div class="cell">
-                                            <p class="title is-6">Family name</p>
+                                            <p class="title is-6">@this.localizer["FamilyName"]</p>
                                             <p class="subtitle is-6">@this.personalData.FamilyName</p>
                                         </div>
                                         <div class="cell">
-                                            <p class="title is-6">Given name</p>
+                                            <p class="title is-6">@this.localizer["GivenName"]</p>
                                             <p class="subtitle is-6">@this.personalData.GivenName</p>
                                         </div>
                                         <div class="cell is-col-span-2">
                                             <br />
                                         </div>
                                         <div class="cell">
-                                            <p class="title is-6">Date of birth</p>
-                                            <p class="subtitle is-6">11.1.1936</p>
+                                            <p class="title is-6">@this.localizer["DateOfBirth"]</p>
+                                            <p class="subtitle is-6">@this.personalData.DateOfBirth</p>
                                         </div>
                                         <div class="cell">
-                                            <p class="title is-6">Sex</p>
-                                            <p class="subtitle is-6">M</p>
+                                            <p class="title is-6">@this.localizer["Sex"]</p>
+                                            <p class="subtitle is-6">@this.personalData.Sex</p>
                                         </div>
                                         <div class="cell is-col-span-2">
                                             <br />
@@ -117,19 +117,13 @@
                     </div>
                 </div>
                 <div class="cell is-col-span-3 message is-warning">
-                    <div class="message-header">
-                        <p>Warning</p>
-                    </div>
                     <div class="message-body">
-                        Description
+                        <p>Warning</p>
                     </div>
                 </div>
                 <div class="cell is-col-span-3 message is-success">
-                    <div class="message-header">
-                        <p>Success</p>
-                    </div>
                     <div class="message-body">
-                        Description
+                        <p>Information</p>
                     </div>
                 </div>
                 <div class="cell is-col-span-6 panel">

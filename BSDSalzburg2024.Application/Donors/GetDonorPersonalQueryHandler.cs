@@ -28,12 +28,14 @@ public class GetDonorPersonalQueryHandler
                 x.Id,
                 x.FamilyName,
                 x.GivenName,
+                x.DateOfBirth,
+                x.Sex,
             })
             .FirstOrDefaultAsync(cancellationToken);
 
         return new GetDonorPersonalQueryResult
         {
-            Item = entity == null ? null : new GetDonorPersonalQueryResultItem(entity.Id, entity.FamilyName, entity.GivenName),
+            Item = entity == null ? null : new GetDonorPersonalQueryResultItem(entity.Id, entity.FamilyName, entity.GivenName, entity.DateOfBirth.Value, Sex.GetFromChar(entity.Sex)),
         };
     }
 }

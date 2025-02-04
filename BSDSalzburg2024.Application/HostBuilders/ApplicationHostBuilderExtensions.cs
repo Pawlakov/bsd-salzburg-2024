@@ -29,7 +29,7 @@ public static class ApplicationHostBuilderExtensions
         services.AddValidatorsFromAssembly(typeof(ApplicationHostBuilderExtensions).Assembly);
 
         var inputValidatorInterfaceType = typeof(IInputValidator<>);
-        var list = typeof(ApplicationHostBuilderExtensions).Assembly.GetTypes()
+        var list = inputValidatorInterfaceType.Assembly.GetTypes()
                 .Where(mytype => mytype.GetInterface(inputValidatorInterfaceType.Name) != null && !mytype.IsInterface && !mytype.IsAbstract)
                 .ToList();
 

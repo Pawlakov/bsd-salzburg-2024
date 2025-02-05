@@ -120,19 +120,13 @@
   <data name="PleaseWait" xml:space="preserve">
     <value>Please wait</value>
   </data>
-  <data name="Loading" xml:space="preserve">
+  <data name="LoadingData" xml:space="preserve">
     <value>Loading data</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
   <data name="NoData" xml:space="preserve">
     <value>No Data</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Edit</value>
   </data>
 </root>

@@ -32,6 +32,9 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
     /// </summary>
     public virtual DbSet<DonationEvent> DonationEvents { get; set; }
 
+    /// <summary>
+    /// Gets or sets the table of donors in the DB.
+    /// </summary>
     public virtual DbSet<Donor> Donors { get; set; }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -67,8 +70,11 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
     /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TblEhrung>(TblEhrung.EntityBuildAction);
         modelBuilder.Entity<Municipality>(Municipality.EntityBuildAction);
+        modelBuilder.Entity<Location>(Location.EntityBuildAction);
+        modelBuilder.Entity<DonationEvent>(DonationEvent.EntityBuildAction);
+        modelBuilder.Entity<Donor>(Donor.EntityBuildAction);
+        modelBuilder.Entity<TblEhrung>(TblEhrung.EntityBuildAction);
         modelBuilder.Entity<TblKrankheit>(TblKrankheit.EntityBuildAction);
         modelBuilder.Entity<TblLaborwert>(TblLaborwert.EntityBuildAction);
         modelBuilder.Entity<TblLaborwertName>(TblLaborwertName.EntityBuildAction);
@@ -76,13 +82,10 @@ public partial class BsdDatabaseContext(DbContextOptions<BsdDatabaseContext> opt
         modelBuilder.Entity<TblLogPgmDetail>(TblLogPgmDetail.EntityBuildAction);
         modelBuilder.Entity<TblMitarbeiter>(TblMitarbeiter.EntityBuildAction);
         modelBuilder.Entity<TblMitarbeiterSpendeaktion>(TblMitarbeiterSpendeaktion.EntityBuildAction);
-        modelBuilder.Entity<Location>(Location.EntityBuildAction);
         modelBuilder.Entity<TblParameter>(TblParameter.EntityBuildAction);
         modelBuilder.Entity<TblPostleitzahl>(TblPostleitzahl.EntityBuildAction);
         modelBuilder.Entity<TblSpende>(TblSpende.EntityBuildAction);
         modelBuilder.Entity<TblSpendeHinderni>(TblSpendeHinderni.EntityBuildAction);
-        modelBuilder.Entity<DonationEvent>(DonationEvent.EntityBuildAction);
         modelBuilder.Entity<TblSpendeaktionVerbrauch>(TblSpendeaktionVerbrauch.EntityBuildAction);
-        modelBuilder.Entity<Donor>(Donor.EntityBuildAction);
     }
 }

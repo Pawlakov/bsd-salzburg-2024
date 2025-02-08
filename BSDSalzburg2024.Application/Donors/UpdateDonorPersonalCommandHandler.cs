@@ -20,8 +20,16 @@ public class UpdateDonorPersonalCommandHandler
 
     public async Task Handle(UpdateDonorPersonalCommand request, CancellationToken cancellationToken)
     {
+        var dateOfBirth = request.DateOfBirth?.Date;
+
         await this.context.Donors
             .Where(x => x.Id == request.Id)
-            .ExecuteUpdateAsync(x => x.SetProperty(y => y.FamilyName, request.FamilyName).SetProperty(y => y.GivenName, request.GivenName), cancellationToken);
+            .ExecuteUpdateAsync(
+                x => x
+                .SetProperty(y => y.FamilyName, request.FamilyName)
+                .SetProperty(y => y.GivenName, request.GivenName)
+                .SetProperty(y => y.DateOfBirth, dateOfBirth)
+                .SetProperty(y => y.Sex, request.Sex),
+                cancellationToken);
     }
 }

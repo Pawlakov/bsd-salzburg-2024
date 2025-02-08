@@ -1,5 +1,6 @@
 ﻿namespace BSDSalzburg2024.Application.Requests.Donors;
 
+using System;
 using MediatR;
 
 public record UpdateDonorPersonalCommand
@@ -15,4 +16,8 @@ public record UpdateDonorPersonalCommand
     public string? FamilyName { get; set; }
 
     public string? GivenName { get; set; }
+
+    public DateTime? DateOfBirth { get; set; }
+
+    public string? Sex { get; set; }
 }

@@ -35,7 +35,7 @@ public class GetDonorPersonalQueryHandler
 
         return new GetDonorPersonalQueryResult
         {
-            Item = entity == null ? null : new GetDonorPersonalQueryResultItem(entity.Id, entity.FamilyName, entity.GivenName, entity.DateOfBirth.Value, Sex.GetFromChar(entity.Sex)),
+            Item = entity == null ? null : new GetDonorPersonalQueryResultItem(entity.Id, entity.FamilyName, entity.GivenName, entity.DateOfBirth, Sex.GetFromChar(entity.Sex)),
         };
     }
 }

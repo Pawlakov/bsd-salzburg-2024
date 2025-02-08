@@ -1,5 +1,6 @@
 ﻿@page "/donors/{Id}"
 @using BSDSalzburg2024.Application.Requests.Donors
+@using BSDSalzburg2024.WebUI.Components.Display
 
 @inject IMediator mediator
 @inject IStringLocalizer<Details> localizer
@@ -74,11 +75,16 @@
                                         </div>
                                         <div class="cell">
                                             <p class="title is-6">@this.localizer["DateOfBirth"]</p>
-                                            <p class="subtitle is-6">@this.personalData.DateOfBirth</p>
+                                            <p class="subtitle is-6">@this.personalData.DateOfBirth?.ToString("d MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture)</p>
                                         </div>
                                         <div class="cell">
                                             <p class="title is-6">@this.localizer["Sex"]</p>
-                                            <p class="subtitle is-6">@this.personalData.Sex</p>
+                                            <p class="subtitle is-6">
+                                                @if (this.personalData.Sex is not null)
+                                                {
+                                                    <SexDisplay Model="this.personalData.Sex" />
+                                                }
+                                            </p>
                                         </div>
                                         <div class="cell is-col-span-2">
                                             <br />

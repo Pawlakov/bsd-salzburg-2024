@@ -1,4 +1,8 @@
-﻿namespace BSDSalzburg2024.Application.Requests.Models;
+﻿// <copyright file="Sex.cs" company="Paweł Matusek">
+// Copyright (c) Paweł Matusek. All rights reserved.
+// </copyright>
+
+namespace BSDSalzburg2024.Application.Requests.Models;
 
 using System;
 using System.Collections.Generic;
@@ -18,6 +22,8 @@ public class Sex
     public static Sex Male { get; } = new Sex('M');
 
     public static Sex Female { get; } = new Sex('F');
+
+    public static IReadOnlyCollection<Sex> Options => [Male, Female];
 
     public static Sex? GetFromChar(string? isoCode)
     {

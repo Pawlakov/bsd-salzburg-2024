@@ -1,4 +1,6 @@
 ﻿@using BSDSalzburg2024.Application.Requests.Donors
+@using BSDSalzburg2024.Application.Requests.Models
+@using BSDSalzburg2024.WebUI.Components.Display
 @using BSDSalzburg2024.WebUI.Components.Validation
 @using FluentValidation
 
@@ -34,6 +36,32 @@
                 <TemplatedValidationMessage For="() => this.command.GivenName" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.GivenName" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["DateOfBirth"]</label>
+                <TemplatedValidationMessage For="() => this.command.DateOfBirth" BaseClass="input" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <InputDate class="@(inputClasses)" @bind-Value="this.command.DateOfBirth" />
+                    </InputTemplate>
+                </TemplatedValidationMessage>
+            </div>
+            <div class="field">
+                <label class="label">@this.localizer["Sex"]</label>
+                <TemplatedValidationMessage For="() => this.command.Sex" BaseClass="select" Localizer="this.localizer">
+                    <InputTemplate Context="inputClasses">
+                        <div class="@(inputClasses)">
+                            <InputSelect @bind-Value="this.command.Sex">
+                                <option value=""></option>
+                                @foreach (var sex in Sex.Options)
+                                {
+                                    <option value="@sex.Character.ToString()">
+                                        <SexDisplay Model="sex" />
+                                    </option>
+                                }
+                            </InputSelect>
+                        </div>
                     </InputTemplate>
                 </TemplatedValidationMessage>
             </div>
@@ -76,6 +104,8 @@
         {
             this.command.FamilyName = result.Item.FamilyName;
             this.command.GivenName = result.Item.GivenName;
+            this.command.DateOfBirth = result.Item.DateOfBirth;
+            this.command.Sex = result.Item.Sex?.Character.ToString();
         }
     }
 

@@ -4,9 +4,11 @@
 
 namespace BSDSalzburg2024.WebUI;
 
+using System;
 using BSDSalzburg2024.Application.HostBuilders;
 using BSDSalzburg2024.Data.HostBuilders;
 using BSDSalzburg2024.WebUI.Components;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +22,13 @@ public static class Program
         // Add services to the container.
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
+
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                options.SlidingExpiration = true;
+            });
 
         builder.Services.AddRequests();
         builder.Services.AddValidation();
@@ -41,8 +50,9 @@ public static class Program
 
         app.UseHttpsRedirection();
 
-
         app.UseAntiforgery();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapStaticAssets();
         app.UseRequestLocalization("en-US");

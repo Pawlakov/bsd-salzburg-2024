@@ -10,6 +10,7 @@ using BSDSalzburg2024.Data.HostBuilders;
 using BSDSalzburg2024.WebUI.Components;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -23,6 +24,8 @@ public static class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddCascadingAuthenticationState();
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
@@ -49,10 +52,15 @@ public static class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseCookiePolicy(new CookiePolicyOptions
+        {
+            MinimumSameSitePolicy = SameSiteMode.Strict,
+        });
 
         app.UseAntiforgery();
+        /* maybe not needed??? the official template doesn't use those
         app.UseAuthentication();
-        app.UseAuthorization();
+        app.UseAuthorization();*/
 
         app.MapStaticAssets();
         app.UseRequestLocalization("en-US");

@@ -1,0 +1,44 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject IHttpContextAccessor httpContextAccessor
+
+<AuthorizeView>
+    <Authorized>
+        User: <strong>@(context.User.Identity.Name)</strong>
+    </Authorized>
+    <NotAuthorized>
+        <div class="buttons">
+            <a class="button is-primary" @onclick="() => this.MockAuth()">
+                <strong>Log in</strong>
+            </a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private async void MockAuth()
+    {
+        if (this.httpContextAccessor.HttpContext is not null)
+        {
+            const string userId = "123";
+            const string userName = "ABC";
+            const string scheme = null;
+
+            var id = new ClaimsIdentity("XYZ", ClaimTypes.Name, ClaimTypes.Role);
+            id.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
+            id.AddClaim(new Claim(ClaimTypes.Name, userName));
+
+            var userPrincipal = new ClaimsPrincipal(id);
+
+            await this.httpContextAccessor.HttpContext.SignInAsync(scheme, userPrincipal);
+
+            this.httpContextAccessor.HttpContext.User = userPrincipal;
+        }
+        else
+        {
+            throw new Exception("DUPA");
+        }
+    }
+}

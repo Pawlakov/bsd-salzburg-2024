@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 
 internal class Program
 {
@@ -16,11 +15,6 @@ internal class Program
         builder.Services.AddAuthorizationCore();
         builder.Services.AddCascadingAuthenticationState();
         builder.Services.AddAuthenticationStateDeserialization();
-
-        builder.Services.AddLocalization(options =>
-        {
-            options.ResourcesPath = "Resources";
-        });
 
         var host = builder.Build();
 

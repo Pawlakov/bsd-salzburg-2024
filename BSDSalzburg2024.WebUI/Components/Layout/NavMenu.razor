@@ -1,7 +1,5 @@
 ﻿@using BSDSalzburg2024.WebUI.Components.Shared
 
-@inject IStringLocalizer<NavMenu> localizer
-
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a role="button" class="@this.burgerClass" aria-label="menu" aria-expanded="false" @onclick="this.ToggleNavMenu">
@@ -13,19 +11,19 @@
     <div class="@this.menuClass">
         <div class="navbar-start">
             <NavLink class="navbar-item" href="">
-                @this.localizer["Index"]
+                Index
             </NavLink>
             <NavLink class="navbar-item" href="municipalities">
-                @this.localizer["Municipalities"]
+                Municipalities
             </NavLink>
             <NavLink class="navbar-item" href="locations">
-                @this.localizer["Locations"]
+                Locations
             </NavLink>
             <NavLink class="navbar-item" href="donation_events">
-                @this.localizer["DonationEvents"]
+                DonationEvents
             </NavLink>
             <NavLink class="navbar-item" href="donors/1">
-                @this.localizer["Donors"]
+                Donors
             </NavLink>
         </div>
         <div class="navbar-end">

@@ -1,6 +1,5 @@
 ﻿@implements IDisposable
 @typeparam TValue
-@typeparam TComponent
 
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Linq.Expressions
@@ -10,7 +9,7 @@
 </div>
 @foreach (var message in this.validationMessages)
 {
-    <p class="help is-danger">@this.Localizer[message]</p>
+    <p class="help is-danger">message</p>
 }
 
 @code {
@@ -32,9 +31,6 @@
 
     [Parameter, EditorRequired]
     public string BaseClass { get; set; }
-
-    [Parameter, EditorRequired]
-    public IStringLocalizer<TComponent> Localizer { get; set; }
 
     public TemplatedValidationMessage()
     {

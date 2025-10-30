@@ -1,8 +1,6 @@
 ﻿@using BSDSalzburg2024.Application.Requests.Models
 
-@inject IStringLocalizer<SexDisplay> localizer
-
-<span>@this.localizer.GetString(this.Model.Character.ToString())</span>
+<span>@this.Model.Character.ToString()</span>
 
 @code {
     [Parameter, EditorRequired]

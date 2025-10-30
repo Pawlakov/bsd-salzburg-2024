@@ -3,18 +3,17 @@
 @using BSDSalzburg2024.WebUI.Components.Display
 
 @inject IMediator mediator
-@inject IStringLocalizer<List> localizer
 
-<PageTitle>@this.localizer["Title"]</PageTitle>
+<PageTitle>Title</PageTitle>
 
-<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="@this.localizer["Title"]" TListQueryResultItem="GetLocationListQueryResultItem" TId="string">
+<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="Title" TListQueryResultItem="GetLocationListQueryResultItem" TId="string">
     <HeaderTemplate>
-        <th>@this.localizer["Id"]</th>
-        <th>@this.localizer["Name"]</th>
-        <th>@this.localizer["PostalCode"]</th>
-        <th>@this.localizer["Address"]</th>
-        <th>@this.localizer["Municipality"]</th>
-        <th>@this.localizer["Hidden"]</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>PostalCode</th>
+        <th>Address</th>
+        <th>Municipality</th>
+        <th>Hidden</th>
     </HeaderTemplate>
     <RowTemplate Context="item">
         <td>@item.Id</td>

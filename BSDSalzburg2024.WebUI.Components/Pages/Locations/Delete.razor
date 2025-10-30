@@ -4,18 +4,17 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 @inject IMediator mediator
-@inject IStringLocalizer<Delete> localizer
 
 <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="LocationDeleteForm">
     <FluentValidationValidator @ref="this.validator" TModel="DeleteLocationCommand" />
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["Title"]</p>
+            <p class="modal-card-title">Title</p>
             <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
         </header>
         <section class="modal-card-body">
             <div class="field">
-                <label class="label">@this.localizer["Id"]</label>
+                <label class="label">Id</label>
                 <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <input type="text" class="@inputClasses" value="@this.Id" disabled />
@@ -23,12 +22,12 @@
                 </TemplatedValidationMessage>
             </div>
             <div class="field">
-                <label class="label">@this.localizer["DeleteConfirmation"]</label>
+                <label class="label">DeleteConfirmation</label>
             </div>
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-danger" type="submit">@this.localizer["Submit"]</button>
+                <button class="button is-danger" type="submit">Submit</button>
             </div>
         </footer>
     </div>

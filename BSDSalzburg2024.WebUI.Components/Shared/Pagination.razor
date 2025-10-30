@@ -1,28 +1,26 @@
-﻿@inject IStringLocalizer<Pagination> localizer
-
-<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+﻿<nav class="pagination is-centered" role="navigation" aria-label="pagination">
     @if (this.PreviousButtonEnabled)
     {
-        <button class="pagination-previous" @onclick="() => this.OnPageChange.InvokeAsync(this.PageIndex - 1)">@this.localizer["PreviousPage"]</button>
+        <button class="pagination-previous" @onclick="() => this.OnPageChange.InvokeAsync(this.PageIndex - 1)">PreviousPage</button>
     }
     else
     {
-        <button class="pagination-previous is-disabled">@this.localizer["PreviousPage"]</button>
+        <button class="pagination-previous is-disabled">PreviousPage</button>
     }
     @if (this.NextButtonEnabled)
     {
-        <button class="pagination-next" @onclick="() => this.OnPageChange.InvokeAsync(this.PageIndex + 1)">@this.localizer["NextPage"]</button>
+        <button class="pagination-next" @onclick="() => this.OnPageChange.InvokeAsync(this.PageIndex + 1)">NextPage</button>
     }
     else
     {
-        <button class="pagination-next is-disabled">@this.localizer["NextPage"]</button>
+        <button class="pagination-next is-disabled">NextPage</button>
     }
     <ul class="pagination-list">
         @if (this.FirstButtonEnabled)
         {
             <li>
                 <button class="pagination-link"
-                        aria-label="@this.localizer["GoToPage", 1]"
+                        aria-label="GoToPage1"
                         @onclick="() => this.OnPageChange.InvokeAsync(0)">
                     1
                 </button>
@@ -36,7 +34,7 @@
         {
             <li>
                 <button class="pagination-link"
-                        aria-label="@this.localizer["GoToPage", this.PageIndex]"
+                        aria-label="@($"GoToPage{this.PageIndex}")"
                         @onclick="() => this.OnPageChange.InvokeAsync(this.PageIndex - 1)">
                     @(this.PageIndex)
                 </button>
@@ -44,7 +42,7 @@
         }
         <li>
             <button class="pagination-link is-current"
-                    aria-label="@this.localizer["Page", this.PageIndex + 1]"
+                    aria-label="@($"Page{this.PageIndex + 1}")"
                     aria-current="page">
                 @(this.PageIndex + 1)
             </button>
@@ -53,7 +51,7 @@
         {
             <li>
                 <button href="#" class="pagination-link"
-                        aria-label="@this.localizer["GoToPage", this.PageIndex + 2]"
+                        aria-label="@($"GoToPage{this.PageIndex + 2}")"
                         @onclick="() => this.OnPageChange.InvokeAsync(this.PageIndex + 1)">
                     @(this.PageIndex + 2)
                 </button>
@@ -67,7 +65,7 @@
         {
             <li>
                 <button href="#" class="pagination-link"
-                        aria-label="@this.localizer["GoToPage", this.PagesTotal]"
+                        aria-label="@($"GoToPage{this.PagesTotal}")"
                         @onclick="() => this.OnPageChange.InvokeAsync(this.PagesTotal - 1)">
                     @(this.PagesTotal)
                 </button>

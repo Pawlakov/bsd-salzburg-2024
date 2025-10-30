@@ -5,19 +5,18 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 @inject IMediator mediator
-@inject IStringLocalizer<Create> localizer
 
 <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="DonationEventCreateForm">
     <FluentValidationValidator @ref="this.validator" TModel="CreateDonationEventCommand" />
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["Title"]</p>
+            <p class="modal-card-title">Title</p>
             <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
         </header>
         <section class="modal-card-body">
             <div class="field">
-                <label class="label">@this.localizer["Id"]</label>
-                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
+                <label class="label">Id</label>
+                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
                     <InputTemplate Context="inputClasses">
                         <InputNumber class="@(inputClasses)" @bind-Value="this.command.Id" />
                     </InputTemplate>
@@ -26,7 +25,7 @@
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-success" type="submit">@this.localizer["Submit"]</button>
+                <button class="button is-success" type="submit">Submit</button>
             </div>
         </footer>
     </div>

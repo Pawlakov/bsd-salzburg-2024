@@ -1,7 +1,6 @@
 ﻿@using BSDSalzburg2024.Application.Requests.Base
 
 @inject IMediator mediator
-@inject IStringLocalizer<ListCore> localizer
 
 <section class="section">
     <h1 class="title">
@@ -16,7 +15,7 @@
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span>@this.localizer["Create"]</span>
+                <span>Create</span>
             </button>
         </div>
         <table class="table is-striped is-hoverable is-fullwidth">
@@ -38,7 +37,7 @@
                         <td colspan="8">
                             <div class="level">
                                 <div class="level-item has-text-centered">
-                                    @this.localizer["NoData"]
+                                    NoData
                                 </div>
                             </div>
                         </td>
@@ -54,8 +53,8 @@
     <div class="modal-content">
         <section class="hero is-info">
             <div class="hero-body">
-                <p class="title">@this.localizer["LoadingData"]</p>
-                <p class="subtitle">@this.localizer["PleaseWait"]</p>
+                <p class="title">LoadingData</p>
+                <p class="subtitle">PleaseWait</p>
             </div>
         </section>
     </div>

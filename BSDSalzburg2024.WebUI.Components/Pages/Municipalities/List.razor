@@ -5,16 +5,15 @@
 @using BSDSalzburg2024.WebUI.Components.Display
 
 @inject IMediator mediator
-@inject IStringLocalizer<List> localizer
 
-<PageTitle>@this.localizer["Title"]</PageTitle>
+<PageTitle>Title</PageTitle>
 
-<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="@this.localizer["Title"]" TListQueryResultItem="GetMunicipalityListQueryResultItem" TId="int">
+<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="Title" TListQueryResultItem="GetMunicipalityListQueryResultItem" TId="int">
     <HeaderTemplate>
-        <th>@this.localizer["Id"]</th>
-        <th>@this.localizer["Country"]</th>
-        <th>@this.localizer["PostalCode"]</th>
-        <th>@this.localizer["Name"]</th>
+        <th>Id</th>
+        <th>Country</th>
+        <th>PostalCode</th>
+        <th>Name</th>
     </HeaderTemplate>
     <RowTemplate Context="item">
         <td>@item.Id</td>

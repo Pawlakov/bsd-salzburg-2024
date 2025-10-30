@@ -5,18 +5,17 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 @inject IMediator mediator
-@inject IStringLocalizer<Create> localizer
 
 <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="LocationCreateForm">
     <FluentValidationValidator @ref="this.validator" TModel="CreateLocationCommand" />
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">@this.localizer["Title"]</p>
+            <p class="modal-card-title">Title</p>
             <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
         </header>
         <section class="modal-card-body">
             <div class="field">
-                <label class="label">@this.localizer["Id"]</label>
+                <label class="label">Id</label>
                 <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.Id" />
@@ -26,7 +25,7 @@
             @if (this.municipalityOptions != null)
             {
                 <div class="field">
-                    <label class="label">@this.localizer["MunicipalityId"]</label>
+                    <label class="label">MunicipalityId</label>
                     <TemplatedValidationMessage For="() => this.command.MunicipalityId" BaseClass="select" Localizer="this.localizer">
                         <InputTemplate Context="inputClasses">
                             <div class="@(inputClasses)">
@@ -44,7 +43,7 @@
                 </div>
             }
             <div class="field">
-                <label class="label">@this.localizer["Name"]</label>
+                <label class="label">Name</label>
                 <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
@@ -52,7 +51,7 @@
                 </TemplatedValidationMessage>
             </div>
             <div class="field">
-                <label class="label">@this.localizer["PostalCode"]</label>
+                <label class="label">PostalCode</label>
                 <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
@@ -60,7 +59,7 @@
                 </TemplatedValidationMessage>
             </div>
             <div class="field">
-                <label class="label">@this.localizer["Address"]</label>
+                <label class="label">Address</label>
                 <TemplatedValidationMessage For="() => this.command.Address" BaseClass="input" Localizer="this.localizer">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.Address" />
@@ -72,7 +71,7 @@
                     <InputTemplate Context="inputClasses">
                         <label class="@(inputClasses)">
                             <InputCheckbox @bind-Value="this.command.Hidden" />
-                            @this.localizer["Hidden"]
+                            Hidden
                         </label>
                     </InputTemplate>
                 </TemplatedValidationMessage>
@@ -80,7 +79,7 @@
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-success" type="submit">@this.localizer["Submit"]</button>
+                <button class="button is-success" type="submit">Submit</button>
             </div>
         </footer>
     </div>

@@ -1,0 +1,10 @@
+﻿@using BSDSalzburg2024.WebUI.Client
+@using BSDSalzburg2024.WebUI.Components.Layout
+@using BSDSalzburg2024.WebUI.Components.Pages
+
+<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="[typeof(Home).Assembly]" NotFoundPage="typeof(NotFound)">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>

@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.Data", "BSD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSDSalzburg2024.Application", "BSDSalzburg2024.Application\BSDSalzburg2024.Application.csproj", "{23AF1F4A-C784-4F63-960B-36009078F8EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.WebUI.Components", "BSDSalzburg2024.WebUI.UI\BSDSalzburg2024.WebUI.Components.csproj", "{858E7CF2-65A2-4BAA-BECA-E2139AB0623F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.WebUI.Components", "BSDSalzburg2024.WebUI.Components\BSDSalzburg2024.WebUI.Components.csproj", "{858E7CF2-65A2-4BAA-BECA-E2139AB0623F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.Application.Requests", "BSDSalzburg2024.Application.Requests\BSDSalzburg2024.Application.Requests.csproj", "{98C1721E-33AC-4CAC-BBDB-2FC1A0A33856}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.WebUI", "BSDSalzburg2024.WebUI\BSDSalzburg2024.WebUI.csproj", "{A90E359D-44D1-44F0-80DB-E0FFF90C2F10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024", "BSDSalzburg2024\BSDSalzburg2024.csproj", "{A90E359D-44D1-44F0-80DB-E0FFF90C2F10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSDSalzburg2024.WebUI", "BSDSalzburg2024.WebUI\BSDSalzburg2024.WebUI.csproj", "{E5AF474B-06BD-4FDF-A3F4-EA90CDAADF47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A90E359D-44D1-44F0-80DB-E0FFF90C2F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A90E359D-44D1-44F0-80DB-E0FFF90C2F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A90E359D-44D1-44F0-80DB-E0FFF90C2F10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5AF474B-06BD-4FDF-A3F4-EA90CDAADF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AF474B-06BD-4FDF-A3F4-EA90CDAADF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AF474B-06BD-4FDF-A3F4-EA90CDAADF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AF474B-06BD-4FDF-A3F4-EA90CDAADF47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

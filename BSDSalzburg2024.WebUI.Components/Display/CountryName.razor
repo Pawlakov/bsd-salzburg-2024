@@ -1,0 +1,10 @@
+﻿@using BSDSalzburg2024.Application.Requests.Models
+
+@inject IStringLocalizer<CountryName> localizer
+
+<span>@* @this.Model.FlagEmoji  *@@this.localizer.GetString(this.Model.IsoCode)</span>
+
+@code {
+    [Parameter, EditorRequired]
+    public Country Model { get; set; }
+}

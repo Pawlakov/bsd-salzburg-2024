@@ -67,8 +67,7 @@ public static class Program
         app.MapStaticAssets();
         app.MapRazorComponents<App>()
             .AddInteractiveWebAssemblyRenderMode()
-            .AddAdditionalAssemblies(typeof(WebUI._Imports).Assembly)
-            .AddAdditionalAssemblies(typeof(WebUI.Components.Pages.Municipalities.List).Assembly);
+            .AddAdditionalAssemblies(typeof(WebUI._Imports).Assembly);
 
         app.Run();
     }

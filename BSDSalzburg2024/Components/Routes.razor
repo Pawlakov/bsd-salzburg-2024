@@ -1,0 +1,15 @@
+﻿@using BSDSalzburg2024.Components.Layout
+@using BSDSalzburg2024.Components.Pages
+@using BSDSalzburg2024.WebUI.Client
+@using BSDSalzburg2024.WebUI.Components.Pages
+
+<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="[typeof(Home).Assembly]" NotFoundPage="typeof(NotFound)">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)">
+            <NotAuthorized>
+                <NotFound />
+            </NotAuthorized>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>

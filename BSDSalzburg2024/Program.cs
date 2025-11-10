@@ -62,8 +62,6 @@ public static class Program
 
         app.UseAntiforgery();
 
-        app.UseRequestLocalization("en-US");
-
         app.MapStaticAssets();
         app.MapRazorComponents<App>()
             .AddInteractiveWebAssemblyRenderMode()

@@ -1,4 +1,6 @@
 ﻿@page "/municipalities"
+@rendermode InteractiveWebAssembly
+
 @using BSDSalzburg2024.Application.Requests.Base
 @using BSDSalzburg2024.Application.Requests.Models
 @using BSDSalzburg2024.Application.Requests.Municipalities
@@ -8,7 +10,7 @@
 
 <PageTitle>Title</PageTitle>
 
-<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="Title" TListQueryResultItem="GetMunicipalityListQueryResultItem" TId="int">
+<BSDSalzburg2024.WebUI.Components.Pages.Generic.List @rendermode="InteractiveWebAssembly" Title="Title" TListQueryResultItem="GetMunicipalityListQueryResultItem" TId="int">
     <HeaderTemplate>
         <th>Id</th>
         <th>Country</th>
@@ -45,5 +47,3 @@
         <Delete ActiveChanged="@context.Item1" Id="@context.Item2" />
     </DeleteTemplate>
 </BSDSalzburg2024.WebUI.Components.Pages.Generic.List>
-
-@code {}

@@ -8,9 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Newtonsoft.Json;
+
 /// <summary>
 /// Repensents a country following the ISO 3166 standard.
 /// </summary>
+[JsonConverter(typeof(CountryJsonConverter))]
 public class Country
 {
     private readonly string postalCodeTemplate;
@@ -62,8 +65,15 @@ public class Country
         {
             if (character == 'X')
             {
-                charString = charString.Append(rawCode[characterIndex]);
-                characterIndex += 1;
+                if (characterIndex < rawCode.Length)
+                {
+                    charString = charString.Append(rawCode[characterIndex]);
+                    characterIndex += 1;
+                }
+                else
+                {
+                    charString = charString.Append('?');
+                }
             }
             else
             {

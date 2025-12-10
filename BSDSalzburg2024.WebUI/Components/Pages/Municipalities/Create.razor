@@ -1,6 +1,4 @@
-﻿@rendermode InteractiveWebAssembly
-
-@using BSDSalzburg2024.Application.Requests.Models
+﻿@using BSDSalzburg2024.Application.Requests.Models
 @using BSDSalzburg2024.Application.Requests.Municipalities
 @using BSDSalzburg2024.WebUI.Components.Display
 @using BSDSalzburg2024.WebUI.Components.Validation
@@ -19,7 +17,7 @@
         <section class="modal-card-body">
             <div class="field">
                 <label class="label">Id</label>
-                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input" Localizer="this.localizer">
+                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
                     <InputTemplate Context="inputClasses">
                         <InputNumber class="@(inputClasses)" @bind-Value="this.command.Id" />
                     </InputTemplate>
@@ -27,7 +25,7 @@
             </div>
             <div class="field">
                 <label class="label">Country</label>
-                <TemplatedValidationMessage For="() => this.command.Country" BaseClass="select" Localizer="this.localizer">
+                <TemplatedValidationMessage For="() => this.command.Country" BaseClass="select">
                     <InputTemplate Context="inputClasses">
                         <div class="@(inputClasses)">
                             <InputSelect @bind-Value="this.command.Country">
@@ -44,7 +42,7 @@
             </div>
             <div class="field">
                 <label class="label">Name</label>
-                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input" Localizer="this.localizer">
+                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
                     </InputTemplate>
@@ -52,7 +50,7 @@
             </div>
             <div class="field">
                 <label class="label">PostalCode</label>
-                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input" Localizer="this.localizer">
+                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input">
                     <InputTemplate Context="inputClasses">
                         <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
                     </InputTemplate>

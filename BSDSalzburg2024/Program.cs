@@ -25,6 +25,8 @@ public static class Program
             .AddInteractiveWebAssemblyComponents()
             .AddAuthenticationStateSerialization();
 
+        builder.Services.AddControllers();
+
         builder.Services.AddCascadingAuthenticationState();
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
@@ -35,7 +37,7 @@ public static class Program
         builder.Services.AddAuthorization();
 
         builder.Services.AddRequests();
-        builder.Services.AddValidation();
+        builder.Services.AddDataValidation();
         builder.Host.AddDbContextLocal();
 
         var app = builder.Build();
@@ -59,6 +61,8 @@ public static class Program
         {
             MinimumSameSitePolicy = SameSiteMode.Strict,
         });
+
+        app.MapControllers();
 
         app.UseAntiforgery();
 

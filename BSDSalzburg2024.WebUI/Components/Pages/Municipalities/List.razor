@@ -1,16 +1,14 @@
 ﻿@page "/municipalities"
-@rendermode InteractiveWebAssembly
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
 
 @using BSDSalzburg2024.Application.Requests.Base
 @using BSDSalzburg2024.Application.Requests.Models
 @using BSDSalzburg2024.Application.Requests.Municipalities
 @using BSDSalzburg2024.WebUI.Components.Display
 
-@inject IMediator mediator
-
 <PageTitle>Title</PageTitle>
 
-<BSDSalzburg2024.WebUI.Components.Pages.Generic.List @rendermode="InteractiveWebAssembly" Title="Title" TListQueryResultItem="GetMunicipalityListQueryResultItem" TId="int">
+<BSDSalzburg2024.WebUI.Components.Pages.Generic.List Title="Title" TListQueryResultItem="GetMunicipalityListQueryResultItem" TId="int">
     <HeaderTemplate>
         <th>Id</th>
         <th>Country</th>

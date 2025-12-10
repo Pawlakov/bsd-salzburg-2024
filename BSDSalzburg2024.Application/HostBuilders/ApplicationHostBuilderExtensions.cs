@@ -5,9 +5,13 @@
 namespace BSDSalzburg2024.Application.HostBuilders;
 
 using System.Linq;
+
+using BSDSalzburg2024.Application.Municipalities;
 using BSDSalzburg2024.Application.Requests.Validation;
 using BSDSalzburg2024.Application.Validation;
+
 using FluentValidation;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -24,22 +28,9 @@ public static class ApplicationHostBuilderExtensions
         return services;
     }
 
-    public static IServiceCollection AddValidation(this IServiceCollection services)
+    public static IServiceCollection AddDataValidation(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(typeof(ApplicationHostBuilderExtensions).Assembly);
-
-        var inputValidatorInterfaceType = typeof(IInputValidator<>);
-        var list = inputValidatorInterfaceType.Assembly.GetTypes()
-                .Where(mytype => mytype.GetInterface(inputValidatorInterfaceType.Name) != null && !mytype.IsInterface && !mytype.IsAbstract)
-                .ToList();
-
-        foreach (var item in list)
-        {
-            var interfaceType = item.GetInterface(inputValidatorInterfaceType.Name);
-
-            services.TryAddEnumerable(new ServiceDescriptor(interfaceType!, item, ServiceLifetime.Scoped));
-            services.TryAdd(new ServiceDescriptor(item, item, ServiceLifetime.Scoped));
-        }
+        services.AddValidatorsFromAssembly(typeof(CreateMunicipalityCommandDataValidator).Assembly);
 
         return services;
     }

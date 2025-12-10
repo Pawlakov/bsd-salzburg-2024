@@ -1,13 +1,15 @@
 ﻿@using BSDSalzburg2024.Application.Requests.Base
+@using System.Text.Json
+@using System.Text
 
 @typeparam TListQueryResultItem where TListQueryResultItem : IListQueryResultItem<TId>
 @typeparam TId
 
 @inject IMediator mediator
 
-<ListCore Title="@this.Title" LoadingActive="@this.loadingActive" CreateActiveChanged="@(value => this.createActive = value)" HeaderTemplate="@this.HeaderTemplate" HasData="@(() => this.listItems.Count > 0)">
+<ListCore Title="@this.Title" LoadingActive="@this.loadingActive" CreateActiveChanged="@(value => this.createActive = value)" HeaderTemplate="@this.HeaderTemplate" HasData="@(() => this.listItems?.Count > 0)">
     <ListTemplate>
-        @if (this.listItems.Count > 0)
+        @if (this.listItems?.Count > 0)
         {
             @foreach (var item in this.listItems)
             {
@@ -99,7 +101,7 @@
         this.loadingActive = true;
         this.StateHasChanged();
 
-        var result = await this.mediator.Send(listCommand);
+        var result = await this.mediator.Send(this.listCommand);
         this.listItems = result.Items;
         this.listItemsTotal = result.ItemsTotal;
 

@@ -15,11 +15,11 @@ public class ValidationBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseRequest
 {
-    private readonly IEnumerable<IValidator<TRequest>> validators;
+    private readonly IValidator<TRequest>[] validators;
 
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
     {
-        this.validators = validators;
+        this.validators = validators.ToArray();
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)

@@ -7,4 +7,6 @@ namespace BSDSalzburg2024.Application.Requests.Municipalities;
 using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.Models;
 
-public record GetMunicipalityListQueryResultItem(int Index, int Id, Country Country, string PostalCode, string Name, bool CanBeDeleted) : IListQueryResultItem<int>;
+public record GetMunicipalityListQueryResultItem(int Index, int Id, Country Country, string PostalCode, string Name, bool CanBeDeleted) : IListQueryResultItem<int>
+{
+}

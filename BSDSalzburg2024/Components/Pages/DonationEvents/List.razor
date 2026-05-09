@@ -1,0 +1,28 @@
+﻿@page "/donation_events"
+@attribute [Authorize(Roles = "Admin")]
+
+@using BSDSalzburg2024.Application.Requests.DonationEvents
+
+@inject IMediator mediator
+
+<PageTitle>Title</PageTitle>
+
+<BSDSalzburg2024.Components.Pages.Generic.List Title="Title" TListQueryResultItem="GetDonationEventListQueryResultItem" TId="int">
+    <HeaderTemplate>
+        <th>Id</th>
+    </HeaderTemplate>
+    <RowTemplate Context="item">
+        <td>@item.Id</td>
+    </RowTemplate>
+    <CreateTemplate Context="context">
+        <Create ActiveChanged="@context" />
+    </CreateTemplate>
+    <UpdateTemplate Context="context">
+        <Update ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </UpdateTemplate>
+    <DeleteTemplate Context="context">
+        <Delete ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </DeleteTemplate>
+</BSDSalzburg2024.Components.Pages.Generic.List>
+
+@code {}

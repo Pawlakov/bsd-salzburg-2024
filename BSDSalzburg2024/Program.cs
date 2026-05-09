@@ -1,15 +1,21 @@
-// <copyright file="Program.cs" company="Pawe≥ Matusek">
-// Copyright (c) Pawe≥ Matusek. All rights reserved.
+// <copyright file="Program.cs" company="Pawe≈Ç Matusek">
+// Copyright (c) Pawe≈Ç Matusek. All rights reserved.
 // </copyright>
 
 namespace BSDSalzburg2024;
 
 using System;
+using Auth;
 using BSDSalzburg2024.Application.HostBuilders;
+using BSDSalzburg2024.Application.Requests.HostBuilders;
+using BSDSalzburg2024.Auth.Extensions;
 using BSDSalzburg2024.Components;
 using BSDSalzburg2024.Data.HostBuilders;
-using Microsoft.AspNetCore.Authentication.Cookies;
+
+using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,32 +28,28 @@ public static class Program
 
         // Add services to the container.
         builder.Services.AddRazorComponents()
-            .AddInteractiveWebAssemblyComponents()
-            .AddAuthenticationStateSerialization();
+            .AddInteractiveServerComponents();
 
-        builder.Services.AddControllers();
+        builder.Services.AddScoped<ProtectedLocalStorage>();
 
-        builder.Services.AddCascadingAuthenticationState();
-        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-                options.SlidingExpiration = true;
-            });
-        builder.Services.AddAuthorization();
+        builder.Services.AddAuthentication().AddScheme<DummyAuthSchemeOptions, DummyAuthSchemeHandler>("MyAuth", options => {});
+        builder.Services.AddAuthorizationCore();
+
+        builder.Services.AddScoped<MyAuthenticationStateProvider>();
+        builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<MyAuthenticationStateProvider>());
+
+        builder.Services.AddOriginalCascadingAuthenticationState();
+        builder.Services.AddMyCascadingAuthenticationState();
 
         builder.Services.AddRequests();
         builder.Services.AddDataValidation();
+        builder.Services.AddInputValidation();
         builder.Host.AddDbContextLocal();
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseWebAssemblyDebugging();
-        }
-        else
+        if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -55,21 +57,13 @@ public static class Program
         }
 
         app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
-
         app.UseHttpsRedirection();
-        app.UseCookiePolicy(new CookiePolicyOptions
-        {
-            MinimumSameSitePolicy = SameSiteMode.Strict,
-        });
-
-        app.MapControllers();
 
         app.UseAntiforgery();
 
         app.MapStaticAssets();
         app.MapRazorComponents<App>()
-            .AddInteractiveWebAssemblyRenderMode()
-            .AddAdditionalAssemblies(typeof(WebUI._Imports).Assembly);
+            .AddInteractiveServerRenderMode();
 
         app.Run();
     }

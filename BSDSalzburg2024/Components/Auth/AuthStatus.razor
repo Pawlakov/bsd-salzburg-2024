@@ -1,44 +1,138 @@
-﻿@using System.Security.Claims
-@using Microsoft.AspNetCore.Authentication
-@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using BSDSalzburg2024.Auth
 
-@inject IHttpContextAccessor httpContextAccessor
+@inject MyAuthenticationStateProvider AuthProvider
 
 <AuthorizeView>
-    <Authorized>
-        User: <strong>@(context.User.Identity.Name)</strong>
+    <Authorized Context="auth">
+        @(auth.User.Identity?.Name) (@(auth.User.Claims.Single(x => x.Type == ClaimTypes.Role).Value))
     </Authorized>
     <NotAuthorized>
-        <div class="buttons">
-            <a class="button is-primary" @onclick="() => this.MockAuth()">
-                <strong>Log in</strong>
-            </a>
-        </div>
+        Anonymous
     </NotAuthorized>
 </AuthorizeView>
+<div class="dropdown is-hoverable is-right">
+    <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </button>
+    </div>
+    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+            <MyAuthorizeView Roles="User">
+                <SimpleAuthorized>
+                    <a href="javascript:void(0)" class="dropdown-item" @onclick="this.OpenOverrideModal">Override</a>
+                </SimpleAuthorized>
+            </MyAuthorizeView>
+            <MyAuthorizeView>
+                <SimpleAuthorized>
+                    <a href="javascript:void(0)" class="dropdown-item" @onclick="this.Logout">Logout</a>
+                </SimpleAuthorized>
+                <OverrideAuthorized>
+                    <a href="javascript:void(0)" class="dropdown-item" @onclick="this.OverrideLogout">Logout</a>
+                </OverrideAuthorized>
+                <NotAuthorized>
+                    <a href="javascript:void(0)" class="dropdown-item" @onclick="this.OpenLoginModal">Login</a>
+                </NotAuthorized>
+            </MyAuthorizeView>
+        </div>
+    </div>
+</div>
+@if (this.showAuthModal)
+{
+    <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Login</p>
+                <button class="delete" aria-label="close" @onclick="this.CloseLoginModal"></button>
+            </header>
+            <section class="modal-card-body">
+                <!-- Content ... -->
+            </section>
+            <footer class="modal-card-foot">
+                <div class="buttons">
+                    <button class="button is-success" @onclick="this.LoginUser">As User</button>
+                    <button class="button is-success" @onclick="this.LoginAdmin">As Admin</button>
+                    <button class="button" @onclick="this.CloseLoginModal">Cancel</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+}
+@if (this.showOverrideModal)
+{
+    <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Override</p>
+                <button class="delete" aria-label="close" @onclick="this.CloseOverrideModal"></button>
+            </header>
+            <section class="modal-card-body">
+                <!-- Content ... -->
+            </section>
+            <footer class="modal-card-foot">
+                <div class="buttons">
+                    <button class="button is-success" @onclick="this.AdminOverride">As Admin</button>
+                    <button class="button" @onclick="this.CloseOverrideModal">Cancel</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+}
 
 @code {
-    private async void MockAuth()
+    private bool showAuthModal;
+    private bool showOverrideModal;
+
+    private async Task Logout()
     {
-        if (this.httpContextAccessor.HttpContext is not null)
-        {
-            const string userId = "123";
-            const string userName = "ABC";
-            const string scheme = null;
+        await this.AuthProvider.SignOut();
+    }
 
-            var id = new ClaimsIdentity("XYZ", ClaimTypes.Name, ClaimTypes.Role);
-            id.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
-            id.AddClaim(new Claim(ClaimTypes.Name, userName));
+    private async Task OverrideLogout()
+    {
+        await this.AuthProvider.OverrideSignOut();
+    }
 
-            var userPrincipal = new ClaimsPrincipal(id);
+    private async Task LoginAdmin()
+    {
+        await this.AuthProvider.SignIn("AdminUser", "Admin");
+        this.CloseLoginModal();
+    }
 
-            await this.httpContextAccessor.HttpContext.SignInAsync(scheme, userPrincipal);
+    private async Task LoginUser()
+    {
+        await this.AuthProvider.SignIn("NormalUser", "User");
+        this.CloseLoginModal();
+    }
 
-            this.httpContextAccessor.HttpContext.User = userPrincipal;
-        }
-        else
-        {
-            throw new Exception("DUPA");
-        }
+    private async Task AdminOverride()
+    {
+        await this.AuthProvider.OverrideSignIn("AdminUser", "Admin");
+        this.CloseOverrideModal();
+    }
+
+    private void OpenLoginModal()
+    {
+        this.showAuthModal = true;
+    }
+
+    private void CloseLoginModal()
+    {
+        this.showAuthModal = false;
+    }
+
+    private void OpenOverrideModal()
+    {
+        this.showOverrideModal = true;
+    }
+
+    private void CloseOverrideModal()
+    {
+        this.showOverrideModal = false;
     }
 }

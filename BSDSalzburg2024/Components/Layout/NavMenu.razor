@@ -1,0 +1,72 @@
+﻿@using BSDSalzburg2024.Components.Auth
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a role="button" class="@this.burgerClass" aria-label="menu" aria-expanded="false" @onclick="this.ToggleNavMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="@this.menuClass">
+        <div class="navbar-start">
+            <NavLink class="navbar-item" href="">
+                Index
+            </NavLink>
+            <AuthorizeView Roles="Admin">
+                <NavLink class="navbar-item" href="municipalities">
+                    Municipalities
+                </NavLink>
+                <NavLink class="navbar-item" href="locations">
+                    Locations
+                </NavLink>
+                <NavLink class="navbar-item" href="donation_events">
+                    DonationEvents
+                </NavLink>
+            </AuthorizeView>
+            <AuthorizeView>
+                <NavLink class="navbar-item" href="donors/1">
+                    Donors
+                </NavLink>
+            </AuthorizeView>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <AuthStatus/>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private const string DefaultBurgerClass = "navbar-burger";
+    private const string DefaultMenuClass = "navbar-menu";
+
+    private bool isActive;
+    private string burgerClass;
+    private string menuClass;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        this.isActive = false;
+        this.burgerClass = DefaultBurgerClass;
+        this.menuClass = DefaultMenuClass;
+
+        await base.OnParametersSetAsync();
+    }
+
+    private void ToggleNavMenu()
+    {
+        if (this.isActive)
+        {
+            this.isActive = false;
+            this.burgerClass = DefaultBurgerClass;
+            this.menuClass = DefaultMenuClass;
+        }
+        else
+        {
+            this.isActive = true;
+            this.burgerClass = $"{DefaultBurgerClass} is-active";
+            this.menuClass = $"{DefaultMenuClass} is-active";
+        }
+    }
+}

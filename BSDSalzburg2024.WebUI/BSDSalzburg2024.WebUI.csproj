@@ -20,4 +20,25 @@
     <ProjectReference Include="..\BSDSalzburg2024.Application.Requests\BSDSalzburg2024.Application.Requests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Display\BoolDisplay.razor" />
+    <_ContentIncludedByDefault Remove="Components\Display\CountryName.razor" />
+    <_ContentIncludedByDefault Remove="Components\Display\SexDisplay.razor" />
+    <_ContentIncludedByDefault Remove="Components\Validation\TemplatedValidationMessage.razor" />
+    <_ContentIncludedByDefault Remove="Components\Shared\Pagination.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Donors\Details.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Donors\UpdatePersonal.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Generic\List.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Generic\ListCore.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Locations\Create.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Locations\Delete.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Locations\List.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Locations\Update.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Municipalities\Create.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Municipalities\Delete.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Municipalities\List.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Municipalities\Update.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\Home.razor" />
+  </ItemGroup>
+
 </Project>

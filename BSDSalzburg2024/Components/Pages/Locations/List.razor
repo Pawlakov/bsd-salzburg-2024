@@ -1,0 +1,41 @@
+﻿@page "/locations"
+@attribute [Authorize(Roles = "Admin")]
+
+@using BSDSalzburg2024.Application.Requests.Locations
+@using BSDSalzburg2024.Components.Display
+
+@inject IMediator mediator
+
+<PageTitle>Title</PageTitle>
+
+<BSDSalzburg2024.Components.Pages.Generic.List Title="Title" TListQueryResultItem="GetLocationListQueryResultItem" TId="string">
+    <HeaderTemplate>
+        <th>Id</th>
+        <th>Name</th>
+        <th>PostalCode</th>
+        <th>Address</th>
+        <th>Municipality</th>
+        <th>Hidden</th>
+    </HeaderTemplate>
+    <RowTemplate Context="item">
+        <td>@item.Id</td>
+        <td>@item.Name</td>
+        <td>@item.PostalCode</td>
+        <td>@item.Address</td>
+        <td>@item.Municipality</td>
+        <td>
+            <BoolDisplay Model="item.Hidden"></BoolDisplay>
+        </td>
+    </RowTemplate>
+    <CreateTemplate Context="context">
+        <Create ActiveChanged="@context" />
+    </CreateTemplate>
+    <UpdateTemplate Context="context">
+        <Update ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </UpdateTemplate>
+    <DeleteTemplate Context="context">
+        <Delete ActiveChanged="@context.Item1" Id="@context.Item2" />
+    </DeleteTemplate>
+</BSDSalzburg2024.Components.Pages.Generic.List>
+
+@code {}

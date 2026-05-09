@@ -10,6 +10,27 @@
     </ItemGroup>
 
     <ItemGroup>
+        <AdditionalFiles Include="Components\Display\BoolDisplay.razor" />
+        <AdditionalFiles Include="Components\Display\CountryName.razor" />
+        <AdditionalFiles Include="Components\Display\SexDisplay.razor" />
+        <AdditionalFiles Include="Components\Pages\DonationEvents\Create.razor" />
+        <AdditionalFiles Include="Components\Pages\DonationEvents\Delete.razor" />
+        <AdditionalFiles Include="Components\Pages\DonationEvents\List.razor" />
+        <AdditionalFiles Include="Components\Pages\DonationEvents\Update.razor" />
+        <AdditionalFiles Include="Components\Pages\Donors\Details.razor" />
+        <AdditionalFiles Include="Components\Pages\Donors\UpdatePersonal.razor" />
+        <AdditionalFiles Include="Components\Pages\Generic\List.razor" />
+        <AdditionalFiles Include="Components\Pages\Generic\ListCore.razor" />
+        <AdditionalFiles Include="Components\Pages\Locations\Create.razor" />
+        <AdditionalFiles Include="Components\Pages\Locations\Delete.razor" />
+        <AdditionalFiles Include="Components\Pages\Locations\List.razor" />
+        <AdditionalFiles Include="Components\Pages\Locations\Update.razor" />
+        <AdditionalFiles Include="Components\Pages\Municipalities\Create.razor" />
+        <AdditionalFiles Include="Components\Pages\Municipalities\Delete.razor" />
+        <AdditionalFiles Include="Components\Pages\Municipalities\List.razor" />
+        <AdditionalFiles Include="Components\Pages\Municipalities\Update.razor" />
+        <AdditionalFiles Include="Components\Shared\Pagination.razor" />
+        <AdditionalFiles Include="Components\Validation\TemplatedValidationMessage.razor" />
         <AdditionalFiles Include="stylecop.json" />
     </ItemGroup>
 
@@ -27,7 +48,10 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BSDSalzburg2024.Application\BSDSalzburg2024.Application.csproj" />
-        <ProjectReference Include="..\BSDSalzburg2024.WebUI\BSDSalzburg2024.WebUI.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\Auth\AuthStatus.razor" />
     </ItemGroup>
 
 </Project>

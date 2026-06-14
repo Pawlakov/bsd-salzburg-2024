@@ -16,7 +16,9 @@ public class MyAuthenticationStateProvider
 
     private readonly ProtectedLocalStorage storage;
     private readonly IJSRuntime js;
-    private readonly DotNetObjectReference<MyAuthenticationStateProvider> reference;
+
+    private DotNetObjectReference<MyAuthenticationStateProvider> reference;
+    private IJSObjectReference? module;
 
     private ClaimsPrincipal currentUser = new ClaimsPrincipal(new ClaimsIdentity());
     private ClaimsPrincipal? supersededUser = null;
@@ -27,9 +29,17 @@ public class MyAuthenticationStateProvider
     {
         this.storage = storage;
         this.js = js;
-        this.reference = DotNetObjectReference.Create(this);
+    }
 
-        this.js.InvokeVoidAsync("authSync.register", reference);
+    public async Task RegisterJS()
+    {
+        if (this.reference == null && this.module == null)
+        {
+            this.reference = DotNetObjectReference.Create(this);
+            this.module = await this.js.InvokeAsync<IJSObjectReference>("import", "./authSync.js");
+
+            await this.module.InvokeVoidAsync("register", this.reference);
+        }
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -146,6 +156,13 @@ public class MyAuthenticationStateProvider
 
     public async ValueTask DisposeAsync()
     {
-        this.reference.Dispose();
+        if (this.reference != null && this.module != null)
+        {
+            this.reference.Dispose();
+            await this.module.DisposeAsync();
+
+            this.reference = null;
+            this.module = null;
+        }
     }
 }

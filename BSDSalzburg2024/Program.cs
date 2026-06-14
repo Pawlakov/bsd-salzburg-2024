@@ -5,9 +5,9 @@
 namespace BSDSalzburg2024;
 
 using System;
-using Auth;
 using BSDSalzburg2024.Application.HostBuilders;
 using BSDSalzburg2024.Application.Requests.HostBuilders;
+using BSDSalzburg2024.Auth;
 using BSDSalzburg2024.Auth.Extensions;
 using BSDSalzburg2024.Components;
 using BSDSalzburg2024.Data.HostBuilders;

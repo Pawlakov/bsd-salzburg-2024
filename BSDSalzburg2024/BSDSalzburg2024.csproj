@@ -3,7 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
-    </PropertyGroup>
+      <UserSecretsId>ed8db950-9e77-41dd-80f1-4e2aa539f873</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <Content Remove="stylecop.json" />

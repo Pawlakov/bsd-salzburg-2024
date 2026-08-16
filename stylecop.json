@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "orderingRules": {
+      "blankLinesBetweenUsingGroups": "require"
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "omit"
+    },
+    "documentationRules": {
+      "companyName": "Paweł Matusek"
+    }
+  }
+}

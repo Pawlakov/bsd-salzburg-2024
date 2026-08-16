@@ -7,14 +7,17 @@ namespace BSDSalzburg2024.Application.Municipalities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Models;
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
+
 using Microsoft.EntityFrameworkCore;
 
 public class GetMunicipalityQueryHandler
-    : IRequestHandler<GetMunicipalityQuery, GetMunicipalityQueryResult>
+    : IQueryHandler<GetMunicipalityQuery, GetMunicipalityQueryResult>
 {
     private readonly BsdDatabaseContext context;
 
@@ -23,7 +26,7 @@ public class GetMunicipalityQueryHandler
         this.context = context;
     }
 
-    public async Task<GetMunicipalityQueryResult> Handle(GetMunicipalityQuery request, CancellationToken cancellationToken)
+    public async ValueTask<GetMunicipalityQueryResult> Handle(GetMunicipalityQuery request, CancellationToken cancellationToken)
     {
         var entity = await this.context.Municipalities
             .Where(x => x.Id == request.Id)
@@ -36,9 +39,23 @@ public class GetMunicipalityQueryHandler
             })
             .FirstOrDefaultAsync(cancellationToken);
 
+        if (entity == null)
+        {
+            return new GetMunicipalityQueryResult
+            {
+                Item = null,
+            };
+        }
+
         return new GetMunicipalityQueryResult
         {
-            Item = entity == null ? null : new GetMunicipalityQueryResultItem(entity.Id, Country.GetFromIso(entity.Country), entity.PostalCode, entity.Name),
+            Item = new GetMunicipalityQueryResultItem()
+            {
+                Id = entity.Id,
+                Country = Country.GetFromIso(entity.Country),
+                PostalCode = entity.PostalCode,
+                Name = entity.Name,
+            },
         };
     }
 }

@@ -4,15 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Requests.Municipalities;
 
-using MediatR;
+using Mediator;
 
-public record DeleteMunicipalityCommand
-    : IRequest
-{
-    public DeleteMunicipalityCommand(int id)
-    {
-        this.Id = id;
-    }
-
-    public int Id { get; }
-}
+public sealed record class DeleteMunicipalityCommand(int Id) : ICommand;

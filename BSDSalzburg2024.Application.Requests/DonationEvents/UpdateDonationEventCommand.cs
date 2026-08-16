@@ -4,15 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Requests.DonationEvents;
 
-using MediatR;
+using Mediator;
 
-public class UpdateDonationEventCommand
-    : IRequest
-{
-    public UpdateDonationEventCommand(int id)
-    {
-        this.Id = id;
-    }
-
-    public int Id { get; }
-}
+public sealed record class UpdateDonationEventCommand(int Id) : ICommand;

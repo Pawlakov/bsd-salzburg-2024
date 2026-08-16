@@ -7,10 +7,12 @@ namespace BSDSalzburg2024.Application.Locations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Data;
+using BSDSalzburg2024.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 public class GetLocationListQueryHandler
@@ -21,7 +23,7 @@ public class GetLocationListQueryHandler
     {
     }
 
-    public override async Task<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
+    public override async ValueTask<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
     {
         var total = await this.Context.Locations
             .CountAsync(cancellationToken);
@@ -43,7 +45,17 @@ public class GetLocationListQueryHandler
             .ToListAsync(cancellationToken);
 
         var items = entities
-            .Select((entity, index) => new GetLocationListQueryResultItem(request.PageSize * request.PageIndex + index + 1, entity.Id, entity.Name, entity.PostalCode, entity.Address, entity.Municipality, entity.Hidden, entity.CanBeDeleted))
+            .Select((entity, index) => new GetLocationListQueryResultItem()
+            {
+                Index = (request.PageSize * request.PageIndex) + index + 1,
+                Id = entity.Id,
+                Name = entity.Name,
+                PostalCode = entity.PostalCode,
+                Address = entity.Address,
+                Municipality = entity.Municipality,
+                Hidden = entity.Hidden,
+                CanBeDeleted = entity.CanBeDeleted,
+            })
             .ToList();
 
         return new ListQueryResult<GetLocationListQueryResultItem, string>

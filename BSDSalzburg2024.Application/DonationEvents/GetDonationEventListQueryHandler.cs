@@ -7,10 +7,11 @@ namespace BSDSalzburg2024.Application.DonationEvents;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.DonationEvents;
-using BSDSalzburg2024.Data;
+
 using Microsoft.EntityFrameworkCore;
 
 public class GetDonationEventListQueryHandler
@@ -21,7 +22,7 @@ public class GetDonationEventListQueryHandler
     {
     }
 
-    public override async Task<ListQueryResult<GetDonationEventListQueryResultItem, int>> Handle(ListQuery<GetDonationEventListQueryResultItem, int> request, CancellationToken cancellationToken)
+    public override async ValueTask<ListQueryResult<GetDonationEventListQueryResultItem, int>> Handle(ListQuery<GetDonationEventListQueryResultItem, int> request, CancellationToken cancellationToken)
     {
         var total = await this.Context.DonationEvents
             .CountAsync(cancellationToken);
@@ -38,7 +39,12 @@ public class GetDonationEventListQueryHandler
             .ToListAsync(cancellationToken);
 
         var items = entities
-            .Select((entity, index) => new GetDonationEventListQueryResultItem((request.PageSize * request.PageIndex) + index + 1, entity.Id, entity.CanBeDeleted))
+            .Select((entity, index) => new GetDonationEventListQueryResultItem()
+            {
+                Index = (request.PageSize * request.PageIndex) + index + 1,
+                Id = entity.Id,
+                CanBeDeleted = entity.CanBeDeleted,
+            })
             .ToList();
 
         return new ListQueryResult<GetDonationEventListQueryResultItem, int>

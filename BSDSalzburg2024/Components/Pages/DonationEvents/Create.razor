@@ -2,44 +2,47 @@
 @using BSDSalzburg2024.Components.Validation
 @using FluentValidation
 
-@inject IMediator mediator
+@inject ISender mediator
 
-<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="DonationEventCreateForm">
-    <FluentValidationValidator @ref="this.validator" TModel="CreateDonationEventCommand" />
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">Title</p>
-            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
-        </header>
-        <section class="modal-card-body">
-            <div class="field">
-                <label class="label">Id</label>
-                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputNumber class="@(inputClasses)" @bind-Value="this.command.Id" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-        </section>
-        <footer class="modal-card-foot">
-            <div class="buttons">
-                <button class="button is-success" type="submit">Submit</button>
-            </div>
-        </footer>
-    </div>
-</EditForm>
+@if (command != null)
+{
+    <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="DonationEventCreateForm">
+        <FluentValidationValidator @ref="this.validator" TModel="CreateDonationEventCommand"/>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Title</p>
+                <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="field">
+                    <label class="label">Id</label>
+                    <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <InputNumber class="@(inputClasses)" @bind-Value="this.command.Id"/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <div class="buttons">
+                    <button class="button is-success" type="submit">Submit</button>
+                </div>
+            </footer>
+        </div>
+    </EditForm>
+}
 
 @code {
-    private CreateDonationEventCommand command;
-    private EditForm form;
-    private FluentValidationValidator<CreateDonationEventCommand> validator;
+    private CreateDonationEventCommand? command;
+    private EditForm? form;
+    private FluentValidationValidator<CreateDonationEventCommand>? validator;
 
     [Parameter]
     public EventCallback<bool> ActiveChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        this.command = new CreateDonationEventCommand();
+        this.command = new CreateDonationEventCommand(0);
 
         await base.OnInitializedAsync();
     }

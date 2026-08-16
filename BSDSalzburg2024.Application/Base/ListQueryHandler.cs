@@ -7,11 +7,11 @@ namespace BSDSalzburg2024.Application.Base;
 using System.Threading;
 using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Requests.Base;
-using BSDSalzburg2024.Data;
-using MediatR;
+
+using Mediator;
 
 public abstract class ListQueryHandler<TListQueryResultItem, TId>
-    : IRequestHandler<ListQuery<TListQueryResultItem, TId>, ListQueryResult<TListQueryResultItem, TId>>
+    : IQueryHandler<ListQuery<TListQueryResultItem, TId>, ListQueryResult<TListQueryResultItem, TId>>
     where TListQueryResultItem : IListQueryResultItem<TId>
 {
     private readonly BsdDatabaseContext context;
@@ -23,5 +23,5 @@ public abstract class ListQueryHandler<TListQueryResultItem, TId>
 
     protected BsdDatabaseContext Context => this.context;
 
-    public abstract Task<ListQueryResult<TListQueryResultItem, TId>> Handle(ListQuery<TListQueryResultItem, TId> request, CancellationToken cancellationToken);
+    public abstract ValueTask<ListQueryResult<TListQueryResultItem, TId>> Handle(ListQuery<TListQueryResultItem, TId> request, CancellationToken cancellationToken);
 }

@@ -7,11 +7,13 @@ namespace BSDSalzburg2024.Application.Municipalities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.Models;
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Data;
+using BSDSalzburg2024.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 public class GetMunicipalityListQueryHandler
@@ -22,7 +24,7 @@ public class GetMunicipalityListQueryHandler
     {
     }
 
-    public override async Task<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(ListQuery<GetMunicipalityListQueryResultItem, int> request, CancellationToken cancellationToken)
+    public override async ValueTask<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(ListQuery<GetMunicipalityListQueryResultItem, int> request, CancellationToken cancellationToken)
     {
         var total = await this.Context.Municipalities
             .CountAsync(cancellationToken);
@@ -42,7 +44,15 @@ public class GetMunicipalityListQueryHandler
             .ToListAsync(cancellationToken);
 
         var items = entities
-            .Select((entity, index) => new GetMunicipalityListQueryResultItem(request.PageSize * request.PageIndex + index + 1, entity.Id, Country.GetFromIso(entity.Country), entity.PostalCode, entity.Name, entity.CanBeDeleted))
+            .Select((entity, index) => new GetMunicipalityListQueryResultItem()
+            {
+                Index = request.PageSize * request.PageIndex + index + 1,
+                Id = entity.Id,
+                Country = Country.GetFromIso(entity.Country),
+                PostalCode = entity.PostalCode,
+                Name = entity.Name,
+                CanBeDeleted = entity.CanBeDeleted,
+            })
             .ToList();
 
         return new ListQueryResult<GetMunicipalityListQueryResultItem, int>

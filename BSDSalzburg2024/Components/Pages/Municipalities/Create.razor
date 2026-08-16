@@ -4,77 +4,80 @@
 @using BSDSalzburg2024.Components.Validation
 @using FluentValidation
 
-@inject IMediator mediator
+@inject ISender mediator
 
-<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="MunicipalityCreateForm">
-    <FluentValidationValidator @ref="this.validator" TModel="CreateMunicipalityCommand" />
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">Title</p>
-            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
-        </header>
-        <section class="modal-card-body">
-            <div class="field">
-                <label class="label">Id</label>
-                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputNumber class="@(inputClasses)" @bind-Value="this.command.Id" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">Country</label>
-                <TemplatedValidationMessage For="() => this.command.Country" BaseClass="select">
-                    <InputTemplate Context="inputClasses">
-                        <div class="@(inputClasses)">
-                            <InputSelect @bind-Value="this.command.Country">
-                                @foreach (var country in Country.Options)
-                                {
-                                    <option value="@country.IsoCode">
-                                        <CountryName Model="country"/>
-                                    </option>
-                                }
-                            </InputSelect>
-                        </div>
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">Name</label>
-                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">PostalCode</label>
-                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-        </section>
-        <footer class="modal-card-foot">
-            <div class="buttons">
-                <button class="button is-success" type="submit">Submit</button>
-            </div>
-        </footer>
-    </div>
-</EditForm>
+@if (command != null)
+{
+    <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="MunicipalityCreateForm">
+        <FluentValidationValidator @ref="this.validator" TModel="CreateMunicipalityCommand"/>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Title</p>
+                <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="field">
+                    <label class="label">Id</label>
+                    <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <InputNumber class="@(inputClasses)" @bind-Value="this.command.Id"/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+                <div class="field">
+                    <label class="label">Country</label>
+                    <TemplatedValidationMessage For="() => this.command.Country" BaseClass="select">
+                        <InputTemplate Context="inputClasses">
+                            <div class="@(inputClasses)">
+                                <InputSelect @bind-Value="this.command.Country">
+                                    @foreach (var country in Country.Options)
+                                    {
+                                        <option value="@country.IsoCode">
+                                            <CountryName Model="country"/>
+                                        </option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+                <div class="field">
+                    <label class="label">Name</label>
+                    <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <InputText class="@(inputClasses)" @bind-Value="this.command.Name"/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+                <div class="field">
+                    <label class="label">PostalCode</label>
+                    <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode"/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <div class="buttons">
+                    <button class="button is-success" type="submit">Submit</button>
+                </div>
+            </footer>
+        </div>
+    </EditForm>
+}
 
 @code {
-    private CreateMunicipalityCommand command;
-    private EditForm form;
-    private FluentValidationValidator<CreateMunicipalityCommand> validator;
+    private CreateMunicipalityCommand? command;
+    private EditForm? form;
+    private FluentValidationValidator<CreateMunicipalityCommand>? validator;
 
     [Parameter]
     public EventCallback<bool> ActiveChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        this.command = new CreateMunicipalityCommand();
+        this.command = new CreateMunicipalityCommand(0, string.Empty, string.Empty, string.Empty);
 
         await base.OnInitializedAsync();
     }

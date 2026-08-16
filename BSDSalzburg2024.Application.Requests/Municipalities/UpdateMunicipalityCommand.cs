@@ -4,17 +4,20 @@
 
 namespace BSDSalzburg2024.Application.Requests.Municipalities;
 
-using MediatR;
+using Mediator;
 
-public record UpdateMunicipalityCommand
-    : IRequest
+public record class UpdateMunicipalityCommand
+    : ICommand
 {
-    public UpdateMunicipalityCommand(int id)
+    public UpdateMunicipalityCommand(int id, string? country, string? postalCode, string? name)
     {
         this.Id = id;
+        this.Country = country;
+        this.PostalCode = postalCode;
+        this.Name = name;
     }
 
-    public int Id { get; }
+    public int Id { get; set; }
 
     public string? Country { get; set; }
 

@@ -6,12 +6,13 @@ namespace BSDSalzburg2024.Application.Municipalities;
 
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Data;
-using MediatR;
+
+using Mediator;
 
 public class UpdateMunicipalityCommandHandler
-    : IRequestHandler<UpdateMunicipalityCommand>
+    : ICommandHandler<UpdateMunicipalityCommand>
 {
     private readonly BsdDatabaseContext context;
 
@@ -20,7 +21,7 @@ public class UpdateMunicipalityCommandHandler
         this.context = context;
     }
 
-    public async Task Handle(UpdateMunicipalityCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateMunicipalityCommand request, CancellationToken cancellationToken)
     {
         var entity = await this.context.Municipalities.FindAsync([request.Id], cancellationToken: cancellationToken);
 
@@ -29,5 +30,7 @@ public class UpdateMunicipalityCommandHandler
         entity.PostalCode = request.PostalCode;
 
         await this.context.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

@@ -4,17 +4,22 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-using MediatR;
+using Mediator;
 
-public record UpdateLocationCommand
-    : IRequest
+public sealed record class UpdateLocationCommand
+    : ICommand
 {
-    public UpdateLocationCommand(string id)
+    public UpdateLocationCommand(string id, int municipalityId, string? postalCode, string? name, string? address, bool hidden)
     {
         this.Id = id;
+        this.MunicipalityId = municipalityId;
+        this.PostalCode = postalCode;
+        this.Name = name;
+        this.Address = address;
+        this.Hidden = hidden;
     }
 
-    public string Id { get; }
+    public string Id { get; set; }
 
     public int MunicipalityId { get; set; }
 

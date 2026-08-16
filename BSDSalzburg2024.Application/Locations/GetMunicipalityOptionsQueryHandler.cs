@@ -7,13 +7,16 @@ namespace BSDSalzburg2024.Application.Locations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
+
 using Microsoft.EntityFrameworkCore;
 
 public class GetMunicipalityOptionsQueryHandler
-    : IRequestHandler<GetMunicipalityOptionsQuery, GetMunicipalityOptionsQueryResult>
+    : IQueryHandler<GetMunicipalityOptionsQuery, GetMunicipalityOptionsQueryResult>
 {
     private readonly BsdDatabaseContext context;
 
@@ -22,7 +25,7 @@ public class GetMunicipalityOptionsQueryHandler
         this.context = context;
     }
 
-    public async Task<GetMunicipalityOptionsQueryResult> Handle(GetMunicipalityOptionsQuery request, CancellationToken cancellationToken)
+    public async ValueTask<GetMunicipalityOptionsQueryResult> Handle(GetMunicipalityOptionsQuery request, CancellationToken cancellationToken)
     {
         var entities = await this.context.Municipalities
             .OrderBy(x => x.Name)
@@ -34,7 +37,11 @@ public class GetMunicipalityOptionsQueryHandler
             .ToListAsync(cancellationToken);
 
         var items = entities
-            .Select((entity, index) => new GetMunicipalityOptionsQueryResultItem(entity.Id, entity.Name))
+            .Select((entity, index) => new GetMunicipalityOptionsQueryResultItem()
+            {
+                Id = entity.Id,
+                Label = entity.Name,
+            })
             .ToList();
 
         return new GetMunicipalityOptionsQueryResult

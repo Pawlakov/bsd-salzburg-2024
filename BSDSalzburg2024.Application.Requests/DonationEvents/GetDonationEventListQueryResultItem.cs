@@ -6,4 +6,12 @@ namespace BSDSalzburg2024.Application.Requests.DonationEvents;
 
 using BSDSalzburg2024.Application.Requests.Base;
 
-public record class GetDonationEventListQueryResultItem(int Index, int Id, bool CanBeDeleted) : IListQueryResultItem<int>;
+public class GetDonationEventListQueryResultItem
+    : IListQueryResultItem<int>
+{
+    required public int Index { get; set; }
+
+    required public int Id { get; set; }
+
+    required public bool CanBeDeleted { get; set; }
+}

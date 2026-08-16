@@ -1,14 +1,5 @@
 ﻿namespace BSDSalzburg2024.Application.Requests.Donors;
 
-using MediatR;
+using Mediator;
 
-public record GetDonorPersonalQuery
-: IRequest<GetDonorPersonalQueryResult>
-{
-    public GetDonorPersonalQuery(int id)
-    {
-        this.Id = id;
-    }
-
-    public int Id { get; set; }
-}
+public sealed record class GetDonorPersonalQuery(int Id) : IQuery<GetDonorPersonalQueryResult>;

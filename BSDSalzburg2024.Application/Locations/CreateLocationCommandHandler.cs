@@ -6,13 +6,15 @@ namespace BSDSalzburg2024.Application.Locations;
 
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Data;
-using BSDSalzburg2024.Data.Entities;
-using MediatR;
+using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
+
+using Mediator;
 
 public class CreateLocationCommandHandler
-    : IRequestHandler<CreateLocationCommand, string>
+    : ICommandHandler<CreateLocationCommand, string>
 {
     private readonly BsdDatabaseContext context;
 
@@ -21,7 +23,7 @@ public class CreateLocationCommandHandler
         this.context = context;
     }
 
-    public async Task<string> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
+    public async ValueTask<string> Handle(CreateLocationCommand request, CancellationToken cancellationToken)
     {
         var entity = new Location
         {

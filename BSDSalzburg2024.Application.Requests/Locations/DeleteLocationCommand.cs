@@ -4,15 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-using MediatR;
+using Mediator;
 
-public record DeleteLocationCommand
-    : IRequest
-{
-    public DeleteLocationCommand(string id)
-    {
-        this.Id = id;
-    }
-
-    public string Id { get; }
-}
+public sealed record class DeleteLocationCommand(string Id) : ICommand;

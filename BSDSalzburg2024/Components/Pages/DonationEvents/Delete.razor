@@ -2,40 +2,43 @@
 @using BSDSalzburg2024.Components.Validation
 @using FluentValidation
 
-@inject IMediator mediator
+@inject ISender mediator
 
-<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="DonationEventDeleteForm">
-    <FluentValidationValidator @ref="this.validator" TModel="DeleteDonationEventCommand" />
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">Title</p>
-            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
-        </header>
-        <section class="modal-card-body">
-            <div class="field">
-                <label class="label">Id</label>
-                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <input type="text" class="@inputClasses" value="@this.Id" disabled />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">DeleteConfirmation</label>
-            </div>
-        </section>
-        <footer class="modal-card-foot">
-            <div class="buttons">
-                <button class="button is-danger" type="submit">Submit</button>
-            </div>
-        </footer>
-    </div>
-</EditForm>
+@if (this.command != null)
+{
+    <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="DonationEventDeleteForm">
+        <FluentValidationValidator @ref="this.validator" TModel="DeleteDonationEventCommand"/>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Title</p>
+                <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="field">
+                    <label class="label">Id</label>
+                    <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <input type="text" class="@inputClasses" value="@this.Id" disabled/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+                <div class="field">
+                    <label class="label">DeleteConfirmation</label>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <div class="buttons">
+                    <button class="button is-danger" type="submit">Submit</button>
+                </div>
+            </footer>
+        </div>
+    </EditForm>
+}
 
 @code {
-    private DeleteDonationEventCommand command;
-    private EditForm form;
-    private FluentValidationValidator<DeleteDonationEventCommand> validator;
+    private DeleteDonationEventCommand? command;
+    private EditForm? form;
+    private FluentValidationValidator<DeleteDonationEventCommand>? validator;
 
     [Parameter]
     public EventCallback<bool> ActiveChanged { get; set; }

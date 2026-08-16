@@ -6,13 +6,15 @@ namespace BSDSalzburg2024.Application.Municipalities;
 
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Data;
-using BSDSalzburg2024.Data.Entities;
-using MediatR;
+using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
+
+using Mediator;
 
 public class CreateMunicipalityCommandHandler
-    : IRequestHandler<CreateMunicipalityCommand, int>
+    : ICommandHandler<CreateMunicipalityCommand, int>
 {
     private readonly BsdDatabaseContext context;
 
@@ -21,7 +23,7 @@ public class CreateMunicipalityCommandHandler
         this.context = context;
     }
 
-    public async Task<int> Handle(CreateMunicipalityCommand request, CancellationToken cancellationToken)
+    public async ValueTask<int> Handle(CreateMunicipalityCommand request, CancellationToken cancellationToken)
     {
         var entity = new Municipality
         {

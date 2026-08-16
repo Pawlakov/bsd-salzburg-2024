@@ -4,17 +4,18 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-using MediatR;
+using Mediator;
 
-public record CreateLocationCommand
-    : IRequest<string>
+public sealed record class CreateLocationCommand : ICommand<string>
 {
-    public CreateLocationCommand()
+    public CreateLocationCommand(string id, int municipalityId, string postalCode, string name, string address, bool hidden)
     {
-        this.Id = string.Empty;
-        this.PostalCode = string.Empty;
-        this.Name = string.Empty;
-        this.Address = string.Empty;
+        this.Id = id;
+        this.MunicipalityId = municipalityId;
+        this.PostalCode = postalCode;
+        this.Name = name;
+        this.Address = address;
+        this.Hidden = hidden;
     }
 
     public string Id { get; set; }

@@ -4,4 +4,9 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-public record GetMunicipalityOptionsQueryResultItem(int Id, string Label);
+public class GetMunicipalityOptionsQueryResultItem
+{
+    required public int Id { get; set; }
+
+    required public string Label { get; set; }
+}

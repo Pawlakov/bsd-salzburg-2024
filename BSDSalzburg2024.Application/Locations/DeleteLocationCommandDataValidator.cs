@@ -7,13 +7,13 @@ namespace BSDSalzburg2024.Application.Locations;
 using System.Linq;
 using BSDSalzburg2024.Application.Requests.Locations;
 using BSDSalzburg2024.Application.Validation;
-using BSDSalzburg2024.Data;
+using BSDSalzburg2024.Domain;
 using FluentValidation;
 
-public class DeleteLocationCommandDataValidator
+internal class DeleteLocationCommandDataValidator
     : AbstractDataValidator<DeleteLocationCommand>
 {
-    public DeleteLocationCommandDataValidator(BsdDatabaseContext context)
+    internal DeleteLocationCommandDataValidator(BsdDatabaseContext context)
     {
         this.RuleFor(command => command.Id)
             .Must(id => context.Locations.Where(x => x.Id == id).Any())

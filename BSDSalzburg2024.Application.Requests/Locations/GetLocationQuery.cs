@@ -4,15 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-using MediatR;
+using Mediator;
 
-public record GetLocationQuery
-    : IRequest<GetLocationQueryResult>
-{
-    public GetLocationQuery(string id)
-    {
-        this.Id = id;
-    }
-
-    public string Id { get; set; }
-}
+public record GetLocationQuery(string Id) : IQuery<GetLocationQueryResult>;

@@ -3,14 +3,17 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Donors;
 using BSDSalzburg2024.Application.Requests.Models;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
+
 using Microsoft.EntityFrameworkCore;
 
 public class GetDonorPersonalQueryHandler
-    : IRequestHandler<GetDonorPersonalQuery, GetDonorPersonalQueryResult>
+    : IQueryHandler<GetDonorPersonalQuery, GetDonorPersonalQueryResult>
 {
     private readonly BsdDatabaseContext context;
 
@@ -19,7 +22,7 @@ public class GetDonorPersonalQueryHandler
         this.context = context;
     }
 
-    public async Task<GetDonorPersonalQueryResult> Handle(GetDonorPersonalQuery request, CancellationToken cancellationToken)
+    public async ValueTask<GetDonorPersonalQueryResult> Handle(GetDonorPersonalQuery request, CancellationToken cancellationToken)
     {
         var entity = await this.context.Donors
             .Where(x => x.Id == request.Id)
@@ -33,9 +36,24 @@ public class GetDonorPersonalQueryHandler
             })
             .FirstOrDefaultAsync(cancellationToken);
 
+        if (entity == null)
+        {
+            return new GetDonorPersonalQueryResult
+            {
+                Item = null,
+            };
+        }
+
         return new GetDonorPersonalQueryResult
         {
-            Item = entity == null ? null : new GetDonorPersonalQueryResultItem(entity.Id, entity.FamilyName, entity.GivenName, entity.DateOfBirth, Sex.GetFromChar(entity.Sex)),
+            Item = new GetDonorPersonalQueryResultItem()
+            {
+                Id = entity.Id,
+                FamilyName = entity.FamilyName,
+                GivenName = entity.GivenName,
+                DateOfBirth = entity.DateOfBirth,
+                Sex = Sex.GetFromChar(entity.Sex),
+            },
         };
     }
 }

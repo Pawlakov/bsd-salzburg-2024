@@ -6,7 +6,7 @@ namespace BSDSalzburg2024.Application.Requests.Locations;
 
 using System.Collections.Generic;
 
-public record GetMunicipalityOptionsQueryResult
+public class GetMunicipalityOptionsQueryResult
 {
-    public required IReadOnlyCollection<GetMunicipalityOptionsQueryResultItem> Items { get; init; }
+    required public IReadOnlyCollection<GetMunicipalityOptionsQueryResultItem> Items { get; init; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BSDSalzburg2024.Application.Requests.Donors;
 
-public record GetDonorPersonalQueryResult
+public class GetDonorPersonalQueryResult
 {
-    public GetDonorPersonalQueryResultItem? Item { get; init; }
+    required public GetDonorPersonalQueryResultItem? Item { get; init; }
 }

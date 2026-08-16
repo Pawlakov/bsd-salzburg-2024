@@ -8,13 +8,13 @@ using System.Linq;
 using BSDSalzburg2024.Application.Requests.Locations;
 using BSDSalzburg2024.Application.Requests.Models;
 using BSDSalzburg2024.Application.Validation;
-using BSDSalzburg2024.Data;
+using BSDSalzburg2024.Domain;
 using FluentValidation;
 
-public class UpdateLocationCommandDataValidator
+internal class UpdateLocationCommandDataValidator
     : AbstractDataValidator<UpdateLocationCommand>
 {
-    public UpdateLocationCommandDataValidator(BsdDatabaseContext context)
+    internal UpdateLocationCommandDataValidator(BsdDatabaseContext context)
     {
         this.RuleFor(command => command.Id)
             .Must(id => context.Locations.Where(x => x.Id == id).Any())

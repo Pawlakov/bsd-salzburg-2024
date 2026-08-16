@@ -4,15 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Requests.Municipalities;
 
-using MediatR;
+using Mediator;
 
-public record GetMunicipalityQuery
-    : IRequest<GetMunicipalityQueryResult>
-{
-    public GetMunicipalityQuery(int id)
-    {
-        this.Id = id;
-    }
-
-    public int Id { get; set; }
-}
+public sealed record class GetMunicipalityQuery(int Id) : IQuery<GetMunicipalityQueryResult>;

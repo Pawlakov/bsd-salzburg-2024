@@ -4,7 +4,7 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-public record GetLocationQueryResult
+public class GetLocationQueryResult
 {
-    public GetLocationQueryResultItem? Item { get; init; }
+    required public GetLocationQueryResultItem? Item { get; init; }
 }

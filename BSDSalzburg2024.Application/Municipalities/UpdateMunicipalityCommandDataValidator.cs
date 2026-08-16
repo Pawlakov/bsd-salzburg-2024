@@ -7,13 +7,13 @@ namespace BSDSalzburg2024.Application.Municipalities;
 using System.Linq;
 using BSDSalzburg2024.Application.Requests.Municipalities;
 using BSDSalzburg2024.Application.Validation;
-using BSDSalzburg2024.Data;
+using BSDSalzburg2024.Domain;
 using FluentValidation;
 
-public class UpdateMunicipalityCommandDataValidator
+internal class UpdateMunicipalityCommandDataValidator
     : AbstractDataValidator<UpdateMunicipalityCommand>
 {
-    public UpdateMunicipalityCommandDataValidator(BsdDatabaseContext context)
+    internal UpdateMunicipalityCommandDataValidator(BsdDatabaseContext context)
     {
         this.RuleFor(command => command.Id)
             .Must(id => context.Municipalities.Where(x => x.Id == id).Any())

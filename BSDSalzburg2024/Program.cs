@@ -10,13 +10,11 @@ using BSDSalzburg2024.Application.Requests.HostBuilders;
 using BSDSalzburg2024.Auth;
 using BSDSalzburg2024.Auth.Extensions;
 using BSDSalzburg2024.Components;
-using BSDSalzburg2024.Data.HostBuilders;
+using BSDSalzburg2024.HostBuilders;
 
-using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

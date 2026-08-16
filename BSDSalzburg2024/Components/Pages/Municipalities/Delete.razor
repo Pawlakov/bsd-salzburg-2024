@@ -2,7 +2,7 @@
 @using BSDSalzburg2024.Components.Validation
 @using FluentValidation
 
-@inject IMediator mediator
+@inject ISender mediator
 
 <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="MunicipalityDeleteForm">
     <FluentValidationValidator @ref="this.validator" TModel="DeleteMunicipalityCommand" />

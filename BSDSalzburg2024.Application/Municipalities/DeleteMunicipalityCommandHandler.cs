@@ -7,11 +7,12 @@ namespace BSDSalzburg2024.Application.Municipalities;
 using System.Threading;
 using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
 
 public class DeleteMunicipalityCommandHandler
-    : IRequestHandler<DeleteMunicipalityCommand>
+    : ICommandHandler<DeleteMunicipalityCommand>
 {
     private readonly BsdDatabaseContext context;
 
@@ -20,12 +21,14 @@ public class DeleteMunicipalityCommandHandler
         this.context = context;
     }
 
-    public async Task Handle(DeleteMunicipalityCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(DeleteMunicipalityCommand request, CancellationToken cancellationToken)
     {
         var entity = await this.context.Municipalities.FindAsync([request.Id], cancellationToken: cancellationToken);
 
         this.context.Municipalities.Remove(entity);
 
         await this.context.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

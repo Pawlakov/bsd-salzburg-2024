@@ -4,9 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-using MediatR;
+using Mediator;
 
-public record GetMunicipalityOptionsQuery
-    : IRequest<GetMunicipalityOptionsQueryResult>
-{
-}
+public sealed record class GetMunicipalityOptionsQuery : IQuery<GetMunicipalityOptionsQueryResult>;

@@ -4,17 +4,17 @@
 
 namespace BSDSalzburg2024.Application.Requests.Municipalities;
 
-using MediatR;
+using Mediator;
 
-public record CreateMunicipalityCommand
-    : IRequest<int>
+public sealed record class CreateMunicipalityCommand
+    : ICommand<int>
 {
-    public CreateMunicipalityCommand()
+    public CreateMunicipalityCommand(int id, string country, string postalCode, string name)
     {
-        this.Id = 0;
-        this.Country = Requests.Models.Country.Austria.IsoCode;
-        this.PostalCode = string.Empty;
-        this.Name = string.Empty;
+        this.Id = id;
+        this.Country = country;
+        this.PostalCode = postalCode;
+        this.Name = name;
     }
 
     public int Id { get; set; }

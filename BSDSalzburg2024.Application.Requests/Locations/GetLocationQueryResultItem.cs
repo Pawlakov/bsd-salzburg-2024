@@ -4,4 +4,17 @@
 
 namespace BSDSalzburg2024.Application.Requests.Locations;
 
-public record GetLocationQueryResultItem(string Id, int MunicipalityId, string Name, string PostalCode, string Address, bool Hidden);
+public class GetLocationQueryResultItem
+{
+    required public string Id { get; set; }
+
+    required public int MunicipalityId { get; set; }
+
+    required public string Name { get; set; }
+
+    required public string PostalCode { get; set; }
+
+    required public string Address { get; set; }
+
+    required public bool Hidden { get; set; }
+}

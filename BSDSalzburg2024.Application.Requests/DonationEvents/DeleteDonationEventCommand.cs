@@ -4,15 +4,15 @@
 
 namespace BSDSalzburg2024.Application.Requests.DonationEvents;
 
-using MediatR;
+using Mediator;
 
 public class DeleteDonationEventCommand
-    : IRequest
+    : ICommand
 {
     public DeleteDonationEventCommand(int id)
     {
         this.Id = id;
     }
 
-    public int Id { get; }
+    public int Id { get; set; }
 }

@@ -1,17 +1,22 @@
 ﻿namespace BSDSalzburg2024.Application.Requests.Donors;
 
 using System;
-using MediatR;
 
-public record UpdateDonorPersonalCommand
-    : IRequest
+using Mediator;
+
+public sealed record class UpdateDonorPersonalCommand
+    : ICommand
 {
-    public UpdateDonorPersonalCommand(int id)
+    public UpdateDonorPersonalCommand(int id, string? familyName, string? givenName, DateTime? dateOfBirth, string? sex)
     {
         this.Id = id;
+        this.FamilyName = familyName;
+        this.GivenName = givenName;
+        this.DateOfBirth = dateOfBirth;
+        this.Sex = sex;
     }
 
-    public int Id { get; }
+    public int Id { get; set; }
 
     public string? FamilyName { get; set; }
 

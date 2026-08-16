@@ -4,7 +4,7 @@
 
 namespace BSDSalzburg2024.Application.Requests.Municipalities;
 
-public record GetMunicipalityQueryResult
+public class GetMunicipalityQueryResult
 {
-    public GetMunicipalityQueryResultItem? Item { get; init; }
+    required public GetMunicipalityQueryResultItem? Item { get; init; }
 }

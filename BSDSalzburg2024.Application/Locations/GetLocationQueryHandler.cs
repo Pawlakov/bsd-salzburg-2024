@@ -7,13 +7,16 @@ namespace BSDSalzburg2024.Application.Locations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
+
 using Microsoft.EntityFrameworkCore;
 
 public class GetLocationQueryHandler
-    : IRequestHandler<GetLocationQuery, GetLocationQueryResult>
+    : IQueryHandler<GetLocationQuery, GetLocationQueryResult>
 {
     private readonly BsdDatabaseContext context;
 
@@ -22,7 +25,7 @@ public class GetLocationQueryHandler
         this.context = context;
     }
 
-    public async Task<GetLocationQueryResult> Handle(GetLocationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<GetLocationQueryResult> Handle(GetLocationQuery request, CancellationToken cancellationToken)
     {
         var entity = await this.context.Locations
             .Where(x => x.Id == request.Id)
@@ -37,9 +40,25 @@ public class GetLocationQueryHandler
             })
             .FirstOrDefaultAsync(cancellationToken);
 
+        if (entity == null)
+        {
+            return new GetLocationQueryResult
+            {
+                Item = null,
+            };
+        }
+
         return new GetLocationQueryResult
         {
-            Item = entity == null ? null : new GetLocationQueryResultItem(entity.Id, entity.MunicipalityId, entity.Name, entity.PostalCode, entity.Address, entity.Hidden),
+            Item = new GetLocationQueryResultItem()
+            {
+                Id = entity.Id,
+                MunicipalityId = entity.MunicipalityId,
+                Name = entity.Name,
+                PostalCode = entity.PostalCode,
+                Address = entity.Address,
+                Hidden = entity.Hidden,
+            },
         };
     }
 }

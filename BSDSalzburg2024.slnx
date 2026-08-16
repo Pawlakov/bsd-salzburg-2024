@@ -1,6 +1,10 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="stylecop.json" />
+  </Folder>
   <Project Path="BSDSalzburg2024.Application.Requests/BSDSalzburg2024.Application.Requests.csproj" />
   <Project Path="BSDSalzburg2024.Application/BSDSalzburg2024.Application.csproj" />
-  <Project Path="BSDSalzburg2024.Data/BSDSalzburg2024.Data.csproj" />
+  <Project Path="BSDSalzburg2024.Domain\BSDSalzburg2024.Domain.csproj" />
   <Project Path="BSDSalzburg2024/BSDSalzburg2024.csproj" />
 </Solution>

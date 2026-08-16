@@ -2,100 +2,103 @@
 @using BSDSalzburg2024.Components.Validation
 @using FluentValidation
 
-@inject IMediator mediator
+@inject ISender mediator
 
-<EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="LocationCreateForm">
-    <FluentValidationValidator @ref="this.validator" TModel="CreateLocationCommand" />
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">Title</p>
-            <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
-        </header>
-        <section class="modal-card-body">
-            <div class="field">
-                <label class="label">Id</label>
-                <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.Id" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            @if (this.municipalityOptions != null)
-            {
+@if (this.command != null)
+{
+    <EditForm @ref="this.form" Model="this.command" OnValidSubmit="this.Submit" FormName="LocationCreateForm">
+        <FluentValidationValidator @ref="this.validator" TModel="CreateLocationCommand"/>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Title</p>
+                <button class="delete" aria-label="close" @onclick="() => this.ActiveChanged.InvokeAsync(false)"></button>
+            </header>
+            <section class="modal-card-body">
                 <div class="field">
-                    <label class="label">MunicipalityId</label>
-                    <TemplatedValidationMessage For="() => this.command.MunicipalityId" BaseClass="select">
+                    <label class="label">Id</label>
+                    <TemplatedValidationMessage For="() => this.command.Id" BaseClass="input">
                         <InputTemplate Context="inputClasses">
-                            <div class="@(inputClasses)">
-                                <InputSelect @bind-Value="this.command.MunicipalityId">
-                                    @foreach (var option in this.municipalityOptions)
-                                    {
-                                        <option value="@option.Id">
-                                            @option.Label
-                                        </option>
-                                    }
-                                </InputSelect>
-                            </div>
+                            <InputText class="@(inputClasses)" @bind-Value="this.command.Id"/>
                         </InputTemplate>
                     </TemplatedValidationMessage>
                 </div>
-            }
-            <div class="field">
-                <label class="label">Name</label>
-                <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.Name" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">PostalCode</label>
-                <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <label class="label">Address</label>
-                <TemplatedValidationMessage For="() => this.command.Address" BaseClass="input">
-                    <InputTemplate Context="inputClasses">
-                        <InputText class="@(inputClasses)" @bind-Value="this.command.Address" />
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-            <div class="field">
-                <TemplatedValidationMessage For="() => this.command.Hidden" BaseClass="checkbox">
-                    <InputTemplate Context="inputClasses">
-                        <label class="@(inputClasses)">
-                            <InputCheckbox @bind-Value="this.command.Hidden" />
-                            Hidden
-                        </label>
-                    </InputTemplate>
-                </TemplatedValidationMessage>
-            </div>
-        </section>
-        <footer class="modal-card-foot">
-            <div class="buttons">
-                <button class="button is-success" type="submit">Submit</button>
-            </div>
-        </footer>
-    </div>
-</EditForm>
+                @if (this.municipalityOptions != null)
+                {
+                    <div class="field">
+                        <label class="label">MunicipalityId</label>
+                        <TemplatedValidationMessage For="() => this.command.MunicipalityId" BaseClass="select">
+                            <InputTemplate Context="inputClasses">
+                                <div class="@(inputClasses)">
+                                    <InputSelect @bind-Value="this.command.MunicipalityId">
+                                        @foreach (var option in this.municipalityOptions)
+                                        {
+                                            <option value="@option.Id">
+                                                @option.Label
+                                            </option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                            </InputTemplate>
+                        </TemplatedValidationMessage>
+                    </div>
+                }
+                <div class="field">
+                    <label class="label">Name</label>
+                    <TemplatedValidationMessage For="() => this.command.Name" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <InputText class="@(inputClasses)" @bind-Value="this.command.Name"/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+                <div class="field">
+                    <label class="label">PostalCode</label>
+                    <TemplatedValidationMessage For="() => this.command.PostalCode" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <InputText class="@(inputClasses)" @bind-Value="this.command.PostalCode"/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+                <div class="field">
+                    <label class="label">Address</label>
+                    <TemplatedValidationMessage For="() => this.command.Address" BaseClass="input">
+                        <InputTemplate Context="inputClasses">
+                            <InputText class="@(inputClasses)" @bind-Value="this.command.Address"/>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+                <div class="field">
+                    <TemplatedValidationMessage For="() => this.command.Hidden" BaseClass="checkbox">
+                        <InputTemplate Context="inputClasses">
+                            <label class="@(inputClasses)">
+                                <InputCheckbox @bind-Value="this.command.Hidden"/>
+                                Hidden
+                            </label>
+                        </InputTemplate>
+                    </TemplatedValidationMessage>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <div class="buttons">
+                    <button class="button is-success" type="submit">Submit</button>
+                </div>
+            </footer>
+        </div>
+    </EditForm>
+}
 
 @code {
-    private GetMunicipalityOptionsQuery municipalityOptionsCommand;
-    private CreateLocationCommand command;
-    private IReadOnlyCollection<GetMunicipalityOptionsQueryResultItem> municipalityOptions;
-    private EditForm form;
-    private FluentValidationValidator<CreateLocationCommand> validator;
+    private GetMunicipalityOptionsQuery? municipalityOptionsCommand;
+    private CreateLocationCommand? command;
+    private IReadOnlyCollection<GetMunicipalityOptionsQueryResultItem>? municipalityOptions;
+    private EditForm? form;
+    private FluentValidationValidator<CreateLocationCommand>? validator;
 
     [Parameter]
     public EventCallback<bool> ActiveChanged { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        this.command = new CreateLocationCommand();
+        this.command = new CreateLocationCommand(string.Empty, 0, string.Empty, string.Empty, string.Empty, false);
         this.municipalityOptionsCommand = new GetMunicipalityOptionsQuery();
 
         await this.LoadOptions();

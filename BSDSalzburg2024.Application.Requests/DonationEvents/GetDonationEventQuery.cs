@@ -4,9 +4,6 @@
 
 namespace BSDSalzburg2024.Application.Requests.DonationEvents;
 
-using MediatR;
+using Mediator;
 
-public class GetDonationEventQuery
-    : IRequest<GetDonationEventQueryResult>
-{
-}
+public sealed record class GetDonationEventQuery() : IQuery<GetDonationEventQueryResult>;

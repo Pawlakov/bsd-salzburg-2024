@@ -7,11 +7,12 @@ namespace BSDSalzburg2024.Application.Locations;
 using System.Threading;
 using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
 
 public class UpdateLocationCommandHandler
-    : IRequestHandler<UpdateLocationCommand>
+    : ICommandHandler<UpdateLocationCommand>
 {
     private readonly BsdDatabaseContext context;
 
@@ -20,7 +21,7 @@ public class UpdateLocationCommandHandler
         this.context = context;
     }
 
-    public async Task Handle(UpdateLocationCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateLocationCommand request, CancellationToken cancellationToken)
     {
         var entity = await this.context.Locations.FindAsync([request.Id], cancellationToken: cancellationToken);
 
@@ -31,5 +32,7 @@ public class UpdateLocationCommandHandler
         entity.Hidden = request.Hidden;
 
         await this.context.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

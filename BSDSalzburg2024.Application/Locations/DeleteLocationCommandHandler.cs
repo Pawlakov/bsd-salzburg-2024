@@ -6,12 +6,14 @@ namespace BSDSalzburg2024.Application.Locations;
 
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
 
 public class DeleteLocationCommandHandler
-    : IRequestHandler<DeleteLocationCommand>
+    : ICommandHandler<DeleteLocationCommand>
 {
     private readonly BsdDatabaseContext context;
 
@@ -20,7 +22,7 @@ public class DeleteLocationCommandHandler
         this.context = context;
     }
 
-    public async Task Handle(DeleteLocationCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(DeleteLocationCommand request, CancellationToken cancellationToken)
     {
         var entity = await this.context.Locations.FindAsync([request.Id], cancellationToken: cancellationToken);
         if (entity is not null)
@@ -29,5 +31,7 @@ public class DeleteLocationCommandHandler
 
             await this.context.SaveChangesAsync(cancellationToken);
         }
+
+        return Unit.Value;
     }
 }

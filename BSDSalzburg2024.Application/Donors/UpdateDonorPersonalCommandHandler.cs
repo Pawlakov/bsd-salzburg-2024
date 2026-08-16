@@ -3,13 +3,16 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using BSDSalzburg2024.Application.Requests.Donors;
-using BSDSalzburg2024.Data;
-using MediatR;
+using BSDSalzburg2024.Domain;
+
+using Mediator;
+
 using Microsoft.EntityFrameworkCore;
 
 public class UpdateDonorPersonalCommandHandler
-    : IRequestHandler<UpdateDonorPersonalCommand>
+    : ICommandHandler<UpdateDonorPersonalCommand>
 {
     private readonly BsdDatabaseContext context;
 
@@ -18,18 +21,20 @@ public class UpdateDonorPersonalCommandHandler
         this.context = context;
     }
 
-    public async Task Handle(UpdateDonorPersonalCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateDonorPersonalCommand request, CancellationToken cancellationToken)
     {
         var dateOfBirth = request.DateOfBirth?.Date;
 
         await this.context.Donors
             .Where(x => x.Id == request.Id)
             .ExecuteUpdateAsync(
-                x => x
+            x => x
                 .SetProperty(y => y.FamilyName, request.FamilyName)
                 .SetProperty(y => y.GivenName, request.GivenName)
                 .SetProperty(y => y.DateOfBirth, dateOfBirth)
                 .SetProperty(y => y.Sex, request.Sex),
-                cancellationToken);
+            cancellationToken);
+
+        return Unit.Value;
     }
 }

@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using HostBuilderExtensions=BSDSalzburg2024.Infrastructure.HostBuilders.HostBuilderExtensions;
+
 public static class Program
 {
     public static void Main(string[] args)
@@ -42,7 +44,7 @@ public static class Program
         builder.Services.AddRequests();
         builder.Services.AddDataValidation();
         builder.Services.AddInputValidation();
-        builder.Host.AddDbContextLocal();
+        HostBuilderExtensions.AddDbContextLocal(builder.Host);
 
         var app = builder.Build();
 

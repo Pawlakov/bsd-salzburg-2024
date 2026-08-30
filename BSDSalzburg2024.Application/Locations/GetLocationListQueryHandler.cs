@@ -11,24 +11,22 @@ using System.Threading.Tasks;
 using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Domain;
-
-using Microsoft.EntityFrameworkCore;
+using BSDSalzburg2024.Domain.Entities;
 
 public class GetLocationListQueryHandler
-    : ListQueryHandler<GetLocationListQueryResultItem, string>
+    : ListQueryHandler<GetLocationListQueryResultItem, string, Location>
 {
-    public GetLocationListQueryHandler(BsdDatabaseContext context)
+    public GetLocationListQueryHandler(IBaseRepository<Location, string> context)
         : base(context)
     {
     }
 
-    public override async ValueTask<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
+    public override ValueTask<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
     {
-        var total = await this.Context.Locations
-            .CountAsync(cancellationToken);
+        var total = this.Context.AsQueryable()
+            .Count();
 
-        var entities = await this.Context.Locations
+        var entities = this.Context.AsQueryable()
             .OrderBy(x => x.Name)
             .Skip(request.PageSize * request.PageIndex)
             .Take(request.PageSize)
@@ -42,7 +40,7 @@ public class GetLocationListQueryHandler
                 Municipality = x.Municipality.Name,
                 CanBeDeleted = x.DonationEvents == null || x.DonationEvents.Count == 0,
             })
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         var items = entities
             .Select((entity, index) => new GetLocationListQueryResultItem()
@@ -58,10 +56,12 @@ public class GetLocationListQueryHandler
             })
             .ToList();
 
-        return new ListQueryResult<GetLocationListQueryResultItem, string>
+        var result = new ListQueryResult<GetLocationListQueryResultItem, string>
         {
             Items = items,
             ItemsTotal = total,
         };
+
+        return ValueTask.FromResult(result);
     }
 }

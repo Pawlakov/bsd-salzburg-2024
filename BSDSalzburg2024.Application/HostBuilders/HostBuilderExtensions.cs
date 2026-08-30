@@ -11,10 +11,7 @@ using FluentValidation;
 
 using Mediator;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 public static class HostBuilderExtensions
 {
@@ -24,22 +21,5 @@ public static class HostBuilderExtensions
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
-    }
-
-    /// <summary>
-    /// Configures and adds the DB context to the collection of services.
-    /// </summary>
-    /// <param name="host">Host builder.</param>
-    /// <returns>The same host builder.</returns>
-    public static IHostBuilder AddDbContextLocal(this IHostBuilder host)
-    {
-        host.ConfigureServices((context, services) =>
-        {
-            var connectionString = context.Configuration.GetConnectionString("BSD");
-
-            services.AddDbContext<BsdDatabaseContext>(o => o.UseSqlServer(connectionString));
-        });
-
-        return host;
     }
 }

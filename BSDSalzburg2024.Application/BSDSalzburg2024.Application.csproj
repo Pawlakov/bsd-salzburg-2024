@@ -1,15 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="12.1.1" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.11" />
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="10.0.11" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BSDSalzburg2024.Application.Requests\BSDSalzburg2024.Application.Requests.csproj" />
+    <ProjectReference Include="..\BSDSalzburg2024.Application.Contracts\BSDSalzburg2024.Application.Contracts.csproj" />
     <ProjectReference Include="..\BSDSalzburg2024.Domain\BSDSalzburg2024.Domain.csproj" />
   </ItemGroup>
 

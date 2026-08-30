@@ -10,6 +10,7 @@ using System.Collections.Generic;
 /// DB entity representing a municipality (Gemeinde).
 /// </summary>
 public class Municipality
+    : IKeyedEntity<int>
 {
     /// <summary>
     /// Gets or sets the ID of the municipality assigned according to the offical ID of the municipality.

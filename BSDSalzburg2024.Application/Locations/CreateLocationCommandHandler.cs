@@ -7,6 +7,7 @@ namespace BSDSalzburg2024.Application.Locations;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Locations;
 using BSDSalzburg2024.Domain;
 using BSDSalzburg2024.Domain.Entities;
@@ -16,9 +17,9 @@ using Mediator;
 public class CreateLocationCommandHandler
     : ICommandHandler<CreateLocationCommand, string>
 {
-    private readonly BsdDatabaseContext context;
+    private readonly IBaseRepository<Location, string> context;
 
-    public CreateLocationCommandHandler(BsdDatabaseContext context)
+    public CreateLocationCommandHandler(IBaseRepository<Location, string> context)
     {
         this.context = context;
     }
@@ -35,7 +36,7 @@ public class CreateLocationCommandHandler
             Hidden = request.Hidden,
         };
 
-        this.context.Locations.Add(entity);
+        this.context.Add(entity);
         await this.context.SaveChangesAsync(cancellationToken);
         return entity.Id;
     }

@@ -5,22 +5,26 @@
 namespace BSDSalzburg2024.Application.Municipalities;
 
 using System.Linq;
+
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Municipalities;
 using BSDSalzburg2024.Application.Validation;
 using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
+
 using FluentValidation;
 
 internal class DeleteMunicipalityCommandDataValidator
     : AbstractDataValidator<DeleteMunicipalityCommand>
 {
-    internal DeleteMunicipalityCommandDataValidator(BsdDatabaseContext context)
+    internal DeleteMunicipalityCommandDataValidator(IBaseRepository<Municipality, int> context, IBaseRepository<Location, string> locations)
     {
         this.RuleFor(command => command.Id)
-            .Must(id => context.Municipalities.Where(x => x.Id == id).Any())
+            .Must(id => context.AsQueryable().Any(x => x.Id == id))
             .WithMessage("IdInvalid");
 
         this.RuleFor(command => command.Id)
-            .Must(id => !context.Locations.Where(x => x.MunicipalityId == id).Any())
+            .Must(id => !locations.AsQueryable().Any(x => x.MunicipalityId == id))
             .WithMessage("IdDependentLocations");
     }
 }

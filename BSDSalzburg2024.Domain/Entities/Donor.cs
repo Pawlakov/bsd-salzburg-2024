@@ -10,6 +10,7 @@ using System;
 /// DB entity representing a donor.
 /// </summary>
 public class Donor
+    : IKeyedEntity<int>
 {
     /// <summary>
     /// Gets or sets the ID of the donor.

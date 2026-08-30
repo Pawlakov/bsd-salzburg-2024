@@ -1,10 +1,13 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
     <File Path="stylecop.json" />
   </Folder>
-  <Project Path="BSDSalzburg2024.Application.Requests/BSDSalzburg2024.Application.Requests.csproj" />
+  <Project Path="BSDSalzburg2024.Application.Contracts\BSDSalzburg2024.Application.Contracts.csproj" />
   <Project Path="BSDSalzburg2024.Application/BSDSalzburg2024.Application.csproj" />
   <Project Path="BSDSalzburg2024.Domain\BSDSalzburg2024.Domain.csproj" />
+  <Project Path="BSDSalzburg2024.Infrastructure/BSDSalzburg2024.Infrastructure.csproj" />
   <Project Path="BSDSalzburg2024/BSDSalzburg2024.csproj" />
 </Solution>

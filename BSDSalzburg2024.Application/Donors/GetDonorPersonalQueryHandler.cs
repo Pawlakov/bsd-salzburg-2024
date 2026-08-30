@@ -4,27 +4,26 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Donors;
 using BSDSalzburg2024.Application.Requests.Models;
-using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
 
 using Mediator;
-
-using Microsoft.EntityFrameworkCore;
 
 public class GetDonorPersonalQueryHandler
     : IQueryHandler<GetDonorPersonalQuery, GetDonorPersonalQueryResult>
 {
-    private readonly BsdDatabaseContext context;
+    private readonly IBaseRepository<Donor, int> context;
 
-    public GetDonorPersonalQueryHandler(BsdDatabaseContext context)
+    public GetDonorPersonalQueryHandler(IBaseRepository<Donor, int> context)
     {
         this.context = context;
     }
 
-    public async ValueTask<GetDonorPersonalQueryResult> Handle(GetDonorPersonalQuery request, CancellationToken cancellationToken)
+    public ValueTask<GetDonorPersonalQueryResult> Handle(GetDonorPersonalQuery request, CancellationToken cancellationToken)
     {
-        var entity = await this.context.Donors
+        var entity = this.context.AsQueryable()
             .Where(x => x.Id == request.Id)
             .Select(x => new
             {
@@ -34,26 +33,24 @@ public class GetDonorPersonalQueryHandler
                 x.DateOfBirth,
                 x.Sex,
             })
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefault();
 
-        if (entity == null)
+        var result = new GetDonorPersonalQueryResult
         {
-            return new GetDonorPersonalQueryResult
+            Item = entity switch
             {
-                Item = null,
-            };
-        }
-
-        return new GetDonorPersonalQueryResult
-        {
-            Item = new GetDonorPersonalQueryResultItem()
-            {
-                Id = entity.Id,
-                FamilyName = entity.FamilyName,
-                GivenName = entity.GivenName,
-                DateOfBirth = entity.DateOfBirth,
-                Sex = Sex.GetFromChar(entity.Sex),
+                null => null,
+                not null => new GetDonorPersonalQueryResultItem()
+                {
+                    Id = entity.Id,
+                    FamilyName = entity.FamilyName,
+                    GivenName = entity.GivenName,
+                    DateOfBirth = entity.DateOfBirth,
+                    Sex = Sex.GetFromChar(entity.Sex),
+                },
             },
         };
+
+        return ValueTask.FromResult(result);
     }
 }

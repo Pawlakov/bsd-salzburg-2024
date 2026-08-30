@@ -8,27 +8,26 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Models;
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
 
 using Mediator;
-
-using Microsoft.EntityFrameworkCore;
 
 public class GetMunicipalityQueryHandler
     : IQueryHandler<GetMunicipalityQuery, GetMunicipalityQueryResult>
 {
-    private readonly BsdDatabaseContext context;
+    private readonly IBaseRepository<Municipality, int> context;
 
-    public GetMunicipalityQueryHandler(BsdDatabaseContext context)
+    public GetMunicipalityQueryHandler(IBaseRepository<Municipality, int> context)
     {
         this.context = context;
     }
 
-    public async ValueTask<GetMunicipalityQueryResult> Handle(GetMunicipalityQuery request, CancellationToken cancellationToken)
+    public ValueTask<GetMunicipalityQueryResult> Handle(GetMunicipalityQuery request, CancellationToken cancellationToken)
     {
-        var entity = await this.context.Municipalities
+        var entity = this.context.AsQueryable()
             .Where(x => x.Id == request.Id)
             .Select(x => new
             {
@@ -37,25 +36,23 @@ public class GetMunicipalityQueryHandler
                 x.PostalCode,
                 x.Name,
             })
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefault();
 
-        if (entity == null)
+        var result = new GetMunicipalityQueryResult
         {
-            return new GetMunicipalityQueryResult
+            Item = entity switch
             {
-                Item = null,
-            };
-        }
-
-        return new GetMunicipalityQueryResult
-        {
-            Item = new GetMunicipalityQueryResultItem()
-            {
-                Id = entity.Id,
-                Country = Country.GetFromIso(entity.Country),
-                PostalCode = entity.PostalCode,
-                Name = entity.Name,
+                null => null,
+                _ => new GetMunicipalityQueryResultItem()
+                {
+                    Id = entity.Id,
+                    Country = Country.GetFromIso(entity.Country),
+                    PostalCode = entity.PostalCode,
+                    Name = entity.Name,
+                },
             },
         };
+
+        return ValueTask.FromResult(result);
     }
 }

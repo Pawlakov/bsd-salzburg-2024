@@ -7,7 +7,9 @@ namespace BSDSalzburg2024.Components.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BSDSalzburg2024.Application.Requests.Validation;
+
+using BSDSalzburg2024.Application.Requests.Base;
+
 using FluentValidation;
 using FluentValidation.Internal;
 using FluentValidation.Results;

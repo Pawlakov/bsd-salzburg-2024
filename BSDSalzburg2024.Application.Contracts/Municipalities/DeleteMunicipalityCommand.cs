@@ -1,0 +1,9 @@
+﻿// <copyright file="DeleteMunicipalityCommand.cs" company="Paweł Matusek">
+// Copyright (c) Paweł Matusek. All rights reserved.
+// </copyright>
+
+namespace BSDSalzburg2024.Application.Requests.Municipalities;
+
+using Mediator;
+
+public sealed record class DeleteMunicipalityCommand(int Id) : ICommand;

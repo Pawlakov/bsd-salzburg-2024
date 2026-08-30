@@ -8,26 +8,25 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
 
 using Mediator;
-
-using Microsoft.EntityFrameworkCore;
 
 public class GetLocationQueryHandler
     : IQueryHandler<GetLocationQuery, GetLocationQueryResult>
 {
-    private readonly BsdDatabaseContext context;
+    private readonly IBaseRepository<Location, string> context;
 
-    public GetLocationQueryHandler(BsdDatabaseContext context)
+    public GetLocationQueryHandler(IBaseRepository<Location, string> context)
     {
         this.context = context;
     }
 
-    public async ValueTask<GetLocationQueryResult> Handle(GetLocationQuery request, CancellationToken cancellationToken)
+    public ValueTask<GetLocationQueryResult> Handle(GetLocationQuery request, CancellationToken cancellationToken)
     {
-        var entity = await this.context.Locations
+        var entity = this.context.AsQueryable()
             .Where(x => x.Id == request.Id)
             .Select(x => new
             {
@@ -38,27 +37,25 @@ public class GetLocationQueryHandler
                 x.Address,
                 x.Hidden,
             })
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefault();
 
-        if (entity == null)
+        var result = new GetLocationQueryResult
         {
-            return new GetLocationQueryResult
+            Item = entity switch
             {
-                Item = null,
-            };
-        }
-
-        return new GetLocationQueryResult
-        {
-            Item = new GetLocationQueryResultItem()
-            {
-                Id = entity.Id,
-                MunicipalityId = entity.MunicipalityId,
-                Name = entity.Name,
-                PostalCode = entity.PostalCode,
-                Address = entity.Address,
-                Hidden = entity.Hidden,
+                null => null,
+                not null => new GetLocationQueryResultItem()
+                {
+                    Id = entity.Id,
+                    MunicipalityId = entity.MunicipalityId,
+                    Name = entity.Name,
+                    PostalCode = entity.PostalCode,
+                    Address = entity.Address,
+                    Hidden = entity.Hidden,
+                },
             },
         };
+
+        return ValueTask.FromResult(result);
     }
 }

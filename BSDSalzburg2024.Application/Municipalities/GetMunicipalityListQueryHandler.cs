@@ -12,24 +12,22 @@ using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.Models;
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Domain;
-
-using Microsoft.EntityFrameworkCore;
+using BSDSalzburg2024.Domain.Entities;
 
 public class GetMunicipalityListQueryHandler
-    : ListQueryHandler<GetMunicipalityListQueryResultItem, int>
+    : ListQueryHandler<GetMunicipalityListQueryResultItem, int, Municipality>
 {
-    public GetMunicipalityListQueryHandler(BsdDatabaseContext context)
+    public GetMunicipalityListQueryHandler(IBaseRepository<Municipality, int> context)
         : base(context)
     {
     }
 
-    public override async ValueTask<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(ListQuery<GetMunicipalityListQueryResultItem, int> request, CancellationToken cancellationToken)
+    public override ValueTask<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(ListQuery<GetMunicipalityListQueryResultItem, int> request, CancellationToken cancellationToken)
     {
-        var total = await this.Context.Municipalities
-            .CountAsync(cancellationToken);
+        var total = this.Context.AsQueryable()
+            .Count();
 
-        var entities = await this.Context.Municipalities
+        var entities = this.Context.AsQueryable()
             .OrderBy(x => x.Name)
             .Skip(request.PageSize * request.PageIndex)
             .Take(request.PageSize)
@@ -41,7 +39,7 @@ public class GetMunicipalityListQueryHandler
                 x.Name,
                 CanBeDeleted = x.Locations == null || x.Locations.Count == 0,
             })
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         var items = entities
             .Select((entity, index) => new GetMunicipalityListQueryResultItem()
@@ -55,10 +53,12 @@ public class GetMunicipalityListQueryHandler
             })
             .ToList();
 
-        return new ListQueryResult<GetMunicipalityListQueryResultItem, int>
+        var result = new ListQueryResult<GetMunicipalityListQueryResultItem, int>
         {
             Items = items,
             ItemsTotal = total,
         };
+
+        return ValueTask.FromResult(result);
     }
 }

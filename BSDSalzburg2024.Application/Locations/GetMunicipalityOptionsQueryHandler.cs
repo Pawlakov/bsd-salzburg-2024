@@ -8,33 +8,32 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Locations;
-using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
 
 using Mediator;
-
-using Microsoft.EntityFrameworkCore;
 
 public class GetMunicipalityOptionsQueryHandler
     : IQueryHandler<GetMunicipalityOptionsQuery, GetMunicipalityOptionsQueryResult>
 {
-    private readonly BsdDatabaseContext context;
+    private readonly IBaseRepository<Municipality, int> context;
 
-    public GetMunicipalityOptionsQueryHandler(BsdDatabaseContext context)
+    public GetMunicipalityOptionsQueryHandler(IBaseRepository<Municipality, int> context)
     {
         this.context = context;
     }
 
-    public async ValueTask<GetMunicipalityOptionsQueryResult> Handle(GetMunicipalityOptionsQuery request, CancellationToken cancellationToken)
+    public ValueTask<GetMunicipalityOptionsQueryResult> Handle(GetMunicipalityOptionsQuery request, CancellationToken cancellationToken)
     {
-        var entities = await this.context.Municipalities
+        var entities = this.context.AsQueryable()
             .OrderBy(x => x.Name)
             .Select(x => new
             {
                 x.Id,
                 x.Name,
             })
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         var items = entities
             .Select((entity, index) => new GetMunicipalityOptionsQueryResultItem()
@@ -44,9 +43,11 @@ public class GetMunicipalityOptionsQueryHandler
             })
             .ToList();
 
-        return new GetMunicipalityOptionsQueryResult
+        var result = new GetMunicipalityOptionsQueryResult
         {
             Items = items,
         };
+
+        return ValueTask.FromResult(result);
     }
 }

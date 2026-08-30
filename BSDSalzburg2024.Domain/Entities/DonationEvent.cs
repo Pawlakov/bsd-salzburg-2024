@@ -10,6 +10,7 @@ using System;
 /// DB entity representing a blood donation event.
 /// </summary>
 public class DonationEvent
+    : IKeyedEntity<int>
 {
     /// <summary>
     /// Gets or sets the ID of the donation event.

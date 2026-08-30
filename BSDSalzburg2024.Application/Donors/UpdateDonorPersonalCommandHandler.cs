@@ -4,36 +4,36 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Donors;
-using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
 
 using Mediator;
-
-using Microsoft.EntityFrameworkCore;
 
 public class UpdateDonorPersonalCommandHandler
     : ICommandHandler<UpdateDonorPersonalCommand>
 {
-    private readonly BsdDatabaseContext context;
+    private readonly IBaseRepository<Donor, int> context;
 
-    public UpdateDonorPersonalCommandHandler(BsdDatabaseContext context)
+    public UpdateDonorPersonalCommandHandler(IBaseRepository<Donor, int> context)
     {
         this.context = context;
     }
 
-    public async ValueTask<Unit> Handle(UpdateDonorPersonalCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateDonorPersonalCommand request, CancellationToken cancellationToken = default)
     {
         var dateOfBirth = request.DateOfBirth?.Date;
+        var entity = await this.context.FindAsync(request.Id, cancellationToken);
+        if (entity != null)
+        {
+            entity.FamilyName = request.FamilyName;
+            entity.GivenName = request.GivenName;
+            entity.DateOfBirth = dateOfBirth;
+            entity.Sex = request.Sex;
 
-        await this.context.Donors
-            .Where(x => x.Id == request.Id)
-            .ExecuteUpdateAsync(
-            x => x
-                .SetProperty(y => y.FamilyName, request.FamilyName)
-                .SetProperty(y => y.GivenName, request.GivenName)
-                .SetProperty(y => y.DateOfBirth, dateOfBirth)
-                .SetProperty(y => y.Sex, request.Sex),
-            cancellationToken);
+            this.context.Update(entity);
+            await this.context.SaveChangesAsync(cancellationToken);
+        }
 
         return Unit.Value;
     }

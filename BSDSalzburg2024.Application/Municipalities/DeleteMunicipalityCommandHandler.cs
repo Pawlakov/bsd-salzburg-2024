@@ -6,26 +6,29 @@ namespace BSDSalzburg2024.Application.Municipalities;
 
 using System.Threading;
 using System.Threading.Tasks;
+
+using BSDSalzburg2024.Application.Base;
 using BSDSalzburg2024.Application.Requests.Municipalities;
 using BSDSalzburg2024.Domain;
+using BSDSalzburg2024.Domain.Entities;
 
 using Mediator;
 
 public class DeleteMunicipalityCommandHandler
     : ICommandHandler<DeleteMunicipalityCommand>
 {
-    private readonly BsdDatabaseContext context;
+    private readonly IBaseRepository<Municipality, int> context;
 
-    public DeleteMunicipalityCommandHandler(BsdDatabaseContext context)
+    public DeleteMunicipalityCommandHandler(IBaseRepository<Municipality, int> context)
     {
         this.context = context;
     }
 
     public async ValueTask<Unit> Handle(DeleteMunicipalityCommand request, CancellationToken cancellationToken)
     {
-        var entity = await this.context.Municipalities.FindAsync([request.Id], cancellationToken: cancellationToken);
+        var entity = await this.context.FindAsync(request.Id, cancellationToken: cancellationToken);
 
-        this.context.Municipalities.Remove(entity);
+        this.context.Remove(entity);
 
         await this.context.SaveChangesAsync(cancellationToken);
 

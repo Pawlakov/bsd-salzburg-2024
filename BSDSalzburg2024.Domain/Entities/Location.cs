@@ -10,6 +10,7 @@ using System.Collections.Generic;
 /// DB entity representing a location.
 /// </summary>
 public class Location
+    : IKeyedEntity<string>
 {
     /// <summary>
     /// Gets or sets the ID of the location. Up to 8 characters, chosen by the user.

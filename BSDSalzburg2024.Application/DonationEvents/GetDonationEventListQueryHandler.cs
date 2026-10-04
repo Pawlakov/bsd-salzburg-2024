@@ -13,15 +13,17 @@ using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.DonationEvents;
 using BSDSalzburg2024.Domain.Entities;
 
+using Mediator;
+
 public class GetDonationEventListQueryHandler
-    : ListQueryHandler<GetDonationEventListQueryResultItem, int, DonationEvent>
+    : ListQueryHandler<int, DonationEvent>, IQueryHandler<GetDonationEventListQuery, ListQueryResult<GetDonationEventListQueryResultItem, int>>
 {
     public GetDonationEventListQueryHandler(IBaseRepository<DonationEvent, int> context)
         : base(context)
     {
     }
 
-    public override async ValueTask<ListQueryResult<GetDonationEventListQueryResultItem, int>> Handle(ListQuery<GetDonationEventListQueryResultItem, int> request, CancellationToken cancellationToken)
+    public async ValueTask<ListQueryResult<GetDonationEventListQueryResultItem, int>> Handle(GetDonationEventListQuery request, CancellationToken cancellationToken)
     {
         var total = await this.Context.CountAsync(cancellationToken);
 

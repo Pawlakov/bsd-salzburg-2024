@@ -14,15 +14,17 @@ using BSDSalzburg2024.Application.Requests.Models;
 using BSDSalzburg2024.Application.Requests.Municipalities;
 using BSDSalzburg2024.Domain.Entities;
 
+using Mediator;
+
 public class GetMunicipalityListQueryHandler
-    : ListQueryHandler<GetMunicipalityListQueryResultItem, int, Municipality>
+    : ListQueryHandler<int, Municipality>, IQueryHandler<GetMunicipalityListQuery, ListQueryResult<GetMunicipalityListQueryResultItem, int>>
 {
     public GetMunicipalityListQueryHandler(IBaseRepository<Municipality, int> context)
         : base(context)
     {
     }
 
-    public override ValueTask<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(ListQuery<GetMunicipalityListQueryResultItem, int> request, CancellationToken cancellationToken)
+    public ValueTask<ListQueryResult<GetMunicipalityListQueryResultItem, int>> Handle(GetMunicipalityListQuery request, CancellationToken cancellationToken)
     {
         var total = this.Context.AsQueryable()
             .Count();

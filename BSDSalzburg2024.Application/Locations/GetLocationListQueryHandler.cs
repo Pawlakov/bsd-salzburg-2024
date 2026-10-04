@@ -13,15 +13,17 @@ using BSDSalzburg2024.Application.Requests.Base;
 using BSDSalzburg2024.Application.Requests.Locations;
 using BSDSalzburg2024.Domain.Entities;
 
+using Mediator;
+
 public class GetLocationListQueryHandler
-    : ListQueryHandler<GetLocationListQueryResultItem, string, Location>
+    : ListQueryHandler<string, Location>, IQueryHandler<GetLocationListQuery, ListQueryResult<GetLocationListQueryResultItem, string>>
 {
     public GetLocationListQueryHandler(IBaseRepository<Location, string> context)
         : base(context)
     {
     }
 
-    public override ValueTask<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(ListQuery<GetLocationListQueryResultItem, string> request, CancellationToken cancellationToken)
+    public ValueTask<ListQueryResult<GetLocationListQueryResultItem, string>> Handle(GetLocationListQuery request, CancellationToken cancellationToken)
     {
         var total = this.Context.AsQueryable()
             .Count();

@@ -4,19 +4,10 @@
 
 namespace BSDSalzburg2024.HostBuilders;
 
-using BSDSalzburg2024.Application;
 using BSDSalzburg2024.Application.Municipalities;
 using BSDSalzburg2024.Application.Requests.Municipalities;
-using BSDSalzburg2024.Application.Validation;
 
-using FluentValidation;
-
-using Mediator;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 public static class HostBuilderExtensions
 {

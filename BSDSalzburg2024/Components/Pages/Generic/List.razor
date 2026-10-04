@@ -1,5 +1,6 @@
 ﻿@using BSDSalzburg2024.Application.Requests.Base
 
+@typeparam TListQuery where TListQuery : ListQuery<TListQueryResultItem, TId>, new()
 @typeparam TListQueryResultItem where TListQueryResultItem : IListQueryResultItem<TId>
 @typeparam TId
 
@@ -116,7 +117,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        this.listQuery = new ListQuery<TListQueryResultItem, TId>(0, 10);
+        this.listQuery = new TListQuery()
+        {
+            PageIndex = 0,
+            PageSize = 10,
+        };
 
         await this.LoadList();
         await base.OnInitializedAsync();
